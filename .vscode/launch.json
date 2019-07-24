@@ -1,0 +1,49 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MallAdminApplication<mall-admin>",
+            "request": "launch",
+            "mainClass": "com.macro.mall.MallAdminApplication",
+            "projectName": "mall-admin"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MallDemoApplication<mall-demo>",
+            "request": "launch",
+            "mainClass": "com.macro.mall.MallDemoApplication",
+            "projectName": "mall-demo"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Generator<mall-mbg>",
+            "request": "launch",
+            "mainClass": "com.macro.mall.Generator",
+            "projectName": "mall-mbg"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MallPortalApplication<mall-portal>",
+            "request": "launch",
+            "mainClass": "com.macro.mall.portal.MallPortalApplication",
+            "projectName": "mall-portal"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MallSearchApplication<mall-search>",
+            "request": "launch",
+            "mainClass": "com.macro.mall.search.MallSearchApplication",
+            "projectName": "mall-search"
+        }
+    ]
+}
