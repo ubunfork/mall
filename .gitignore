@@ -9,3 +9,5 @@ target/
 .settings/
 .classpath
 .project
+document/.DS_Store
+.DS_Store
