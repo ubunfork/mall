@@ -1,5 +1,5 @@
 server:
-  port: 8443 #开发环境会开启https
+  port: 15674 #开发环境会开启https
   # ssl:
   #   key-store: keystore.p12
   #   key-alias: tomcat
@@ -8,7 +8,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://120.77.202.156:3306/mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: root
     druid:
