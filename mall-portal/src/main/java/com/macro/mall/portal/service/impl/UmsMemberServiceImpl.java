@@ -10,11 +10,16 @@ import com.macro.mall.model.UmsMemberLevelExample;
 import com.macro.mall.portal.domain.MemberDetails;
 import com.macro.mall.portal.service.RedisService;
 import com.macro.mall.portal.service.UmsMemberService;
+import com.macro.mall.portal.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -23,6 +28,8 @@ import org.springframework.util.StringUtils;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * 会员管理Service实现类
@@ -34,6 +41,10 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     private UmsMemberMapper memberMapper;
     @Autowired
     private UmsMemberLevelMapper memberLevelMapper;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -90,6 +101,65 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         memberMapper.insert(umsMember);
         umsMember.setPassword(null);
         return CommonResult.success(null,"注册成功");
+    }
+    @Override
+    public CommonResult smslogin(String telephone, String authCode) {
+
+        UmsMemberExample example = new UmsMemberExample();
+        example.createCriteria().andPhoneEqualTo(telephone);
+        List<UmsMember> memberList = memberMapper.selectByExample(example);
+        if(CollectionUtils.isEmpty(memberList)){
+            return CommonResult.failed("该账号不存在");
+        }
+        //验证验证码
+        if(!verifyAuthCode(authCode,telephone)){
+            return CommonResult.failed("验证码错误");
+        }
+        
+        UmsMember umsMember = memberList.get(0);
+        umsMember.setPassword(null);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(umsMember.getUsername());
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtTokenUtil.generateToken(userDetails);
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("token", token);
+        dataMap.put("userinfo", umsMember);
+        return CommonResult.success(dataMap, "登陆成功");
+        
+    }
+      /**
+     * 用户名/手机号码登陆
+     * @param telephone 手机号码
+     * @param authCode 验证码
+     * @return
+     */
+    @Override
+    public CommonResult passlogin(String username, String password){
+
+        UmsMemberExample example = new UmsMemberExample();
+        example.createCriteria().andPhoneEqualTo(username);
+        example.or().andUsernameEqualTo(username);
+        
+        List<UmsMember> memberList = memberMapper.selectByExample(example);
+        if(CollectionUtils.isEmpty(memberList)){
+            return CommonResult.failed("该账号不存在");
+        }
+        UmsMember umsMember = memberList.get(0);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(umsMember.getUsername());
+        if(!passwordEncoder.matches(password,userDetails.getPassword())){
+            throw new BadCredentialsException("密码不正确");
+        }
+        umsMember.setPassword(null);
+        
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtTokenUtil.generateToken(userDetails);
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("token", token);
+        dataMap.put("userinfo", umsMember);
+        return CommonResult.success(dataMap, "登陆成功");
+
     }
 
     @Override

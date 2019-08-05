@@ -26,6 +26,24 @@ public interface UmsMemberService {
     CommonResult register(String username, String password, String telephone, String authCode);
 
     /**
+     * 手机号码验证码登陆
+     * @param telephone 手机号码
+     * @param authCode 验证码
+     * @return
+     */
+    CommonResult smslogin(String telephone, String authCode);
+
+    /**
+     * 用户名/手机号码登陆
+     * @param telephone 手机号码
+     * @param authCode 验证码
+     * @return
+     */
+    CommonResult passlogin(String username, String password);
+
+    
+
+    /**
      * 生成验证码
      */
     CommonResult generateAuthCode(String telephone);

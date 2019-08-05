@@ -1,8 +1,11 @@
 package com.macro.mall.portal.controller;
 
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.model.UmsMember;
 import com.macro.mall.portal.service.UmsMemberService;
+
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +33,20 @@ public class UmsMemberController {
                                  @RequestParam String telephone,
                                  @RequestParam String authCode) {
         return memberService.register(username, password, telephone, authCode);
+    }
+
+    @ApiOperation(value = "验证码登录以后返回token")
+    @RequestMapping(value = "/smslogin", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult smslogin(@RequestParam String telephone, @RequestParam String authCode) {
+        return memberService.smslogin(telephone, authCode);
+    }
+
+    @ApiOperation(value = "用户名/手机号密码登录以后返回token")
+    @RequestMapping(value = "/passlogin", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult passlogin(@RequestParam String username, @RequestParam String password) {
+        return memberService.passlogin(username, password);
     }
 
     @ApiOperation("获取验证码")
