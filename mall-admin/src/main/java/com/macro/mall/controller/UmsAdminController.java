@@ -1,5 +1,6 @@
 package com.macro.mall.controller;
 
+import com.macro.mall.aop.NoRepeatSubmit;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.UmsAdminLoginParam;
@@ -98,6 +99,7 @@ public class UmsAdminController {
     }
 
     @ApiOperation("根据用户名或姓名分页获取用户列表")
+    @NoRepeatSubmit(lockTime = 300)
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<UmsAdmin>> list(@RequestParam(value = "name", required = false) String name,
