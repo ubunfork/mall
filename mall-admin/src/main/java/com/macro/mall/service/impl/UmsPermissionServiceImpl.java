@@ -27,6 +27,9 @@ public class UmsPermissionServiceImpl implements UmsPermissionService {
         permission.setStatus(1);
         permission.setCreateTime(new Date());
         permission.setSort(0);
+        if(permission.getPid() == null){
+            permission.setPid(0L);
+        } 
         return permissionMapper.insert(permission);
     }
 
