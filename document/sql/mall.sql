@@ -1361,7 +1361,7 @@ CREATE TABLE `sms_coupon` (
   `receive_count` int(11) DEFAULT NULL COMMENT '领取数量',
   `enable_time` datetime DEFAULT NULL COMMENT '可以领取的日期',
   `code` varchar(64) DEFAULT NULL COMMENT '优惠码',
-  `member_level` int(1) DEFAULT NULL COMMENT '可领取的会员类型：0->无限时',
+  `member_level` int(1) DEFAULT NULL COMMENT '可领取的会员类型：0->无限制',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='优惠卷表';
 

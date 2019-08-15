@@ -104,4 +104,5 @@ public class EsProductController {
         EsProductRelatedInfo productRelatedInfo = esProductService.searchRelatedInfo(keyword);
         return CommonResult.success(productRelatedInfo);
     }
+
 }
