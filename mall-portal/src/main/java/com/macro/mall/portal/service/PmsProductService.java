@@ -1,5 +1,4 @@
 package com.macro.mall.portal.service;
-
 import com.macro.mall.portal.dao.PmsProductResult;
 
 /**

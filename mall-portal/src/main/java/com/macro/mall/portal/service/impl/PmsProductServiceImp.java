@@ -15,6 +15,7 @@ public class PmsProductServiceImp implements PmsProductService {
 
     @Override
     public PmsProductResult productInfo(Long id) {
-        return productDao.productInfo(id);
+        PmsProductResult temdata = productDao.productInfo(id);
+        return temdata;
     }
 }
