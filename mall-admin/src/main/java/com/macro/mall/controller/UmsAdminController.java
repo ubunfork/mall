@@ -99,9 +99,9 @@ public class UmsAdminController {
     }
 
     @ApiOperation("根据用户名或姓名分页获取用户列表")
-    @NoRepeatSubmit(lockTime = 300)
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
+    // @NoRepeatSubmit(lockTime = 15)
     public CommonResult<CommonPage<UmsAdmin>> list(@RequestParam(value = "name", required = false) String name,
                                                    @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {

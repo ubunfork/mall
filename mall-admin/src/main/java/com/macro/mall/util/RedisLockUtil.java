@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
-
-import java.util.Collections;
-
+import com.macro.mall.service.RedisService;
 /**
  * Redis 分布式锁实现
  * 如有疑问可参考 @see <a href="https://www.cnblogs.com/linjiqin/p/8003838.html">Redis分布式锁的正确实现方式</a>
@@ -28,6 +25,9 @@ public class RedisLockUtil {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    @Autowired
+    private RedisService redisService;
+
     /**
      * 该加锁方法仅针对单实例 Redis 可实现分布式加锁
      * 对于 Redis 集群则无法使用
@@ -41,12 +41,11 @@ public class RedisLockUtil {
      */
     public boolean tryLock(String lockKey, String clientId, long seconds) {
         return redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
-            Jedis jedis = (Jedis) redisConnection.getNativeConnection();
-            String result = jedis.set(lockKey, clientId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, seconds);
-            if (LOCK_SUCCESS.equals(result)) {
-                return true;
-            }
-            return false;
+            
+            redisService.set(lockKey,clientId);
+            redisService.expire(lockKey,seconds);
+            return true;
+            
         });
     }
 
@@ -59,13 +58,9 @@ public class RedisLockUtil {
      */
     public boolean releaseLock(String lockKey, String clientId) {
         return redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
-            Jedis jedis = (Jedis) redisConnection.getNativeConnection();
-            Object result = jedis.eval(RELEASE_LOCK_SCRIPT, Collections.singletonList(lockKey),
-                    Collections.singletonList(clientId));
-            if (RELEASE_SUCCESS.equals(result)) {
-                return true;
-            }
-            return false;
+            String realclientId = redisService.get(lockKey);
+            
+            return clientId.equals(realclientId);
         });
     }
 }

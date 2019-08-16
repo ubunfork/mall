@@ -205,7 +205,8 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
     @Override
     public List<UmsRole> getRoleList(Long adminId) {
-        return adminRoleRelationDao.getRoleList(adminId);
+        List<UmsRole> roles = adminRoleRelationDao.getRoleList(adminId);
+        return roles;
     }
 
     @Override

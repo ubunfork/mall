@@ -5,7 +5,6 @@ import java.util.UUID;
 import com.macro.mall.common.api.CommonResult;
 import javax.servlet.http.HttpServletRequest;
 import com.macro.mall.util.RedisLockUtil;
-import com.macro.mall.util.RequestUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -14,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Aspect
 @Component
@@ -31,8 +32,8 @@ public class RepeatSubmitAspect {
     @Around("pointCut(noRepeatSubmit)")
     public Object around(ProceedingJoinPoint pjp, NoRepeatSubmit noRepeatSubmit) throws Throwable {
         int lockSeconds = noRepeatSubmit.lockTime();
-
-        HttpServletRequest request = RequestUtils.getRequest();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
         Assert.notNull(request, "request can not null");
 
         // 此处可以用token或者JSessionId
@@ -56,6 +57,7 @@ public class RepeatSubmitAspect {
                     // 解锁
                     redisLock.releaseLock(key, clientId);
                     LOGGER.info("releaseLock success, key = [{}], clientId = [{}]", key, clientId);
+                
                 }
     
                 return result;
