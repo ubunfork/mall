@@ -9,6 +9,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.macro.mall.portal.service.PmsProductService;
+import com.macro.mall.model.PmsProduct;
+
 /**
  * 商品管理Controller
  * Created by macro on 2018/4/26.
@@ -25,7 +27,7 @@ public class PmsProductController {
    @RequestMapping(value = "/productInfo/{id}", method = RequestMethod.GET)
    @ResponseBody
    public CommonResult<PmsProductResult> productInfo(@PathVariable Long id) {
-       PmsProductResult productResult = pmsProductService.productInfo(id);
+    PmsProductResult productResult = pmsProductService.productInfo(id);
        return CommonResult.success(productResult);
    }
 }
