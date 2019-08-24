@@ -310,7 +310,7 @@ CREATE TABLE `oms_cart_item` (
   `member_nickname` varchar(500) DEFAULT NULL COMMENT '会员昵称',
   `create_date` datetime DEFAULT NULL COMMENT '创建时间',
   `modify_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `delete_status` int(1) DEFAULT '0' COMMENT '是否删除',
+  `delete_status` int(1) DEFAULT '1' COMMENT '是否删除',
   `product_category_id` bigint(20) DEFAULT NULL COMMENT '商品分类',
   `product_brand` varchar(200) DEFAULT NULL,
   `product_sn` varchar(200) DEFAULT NULL,
