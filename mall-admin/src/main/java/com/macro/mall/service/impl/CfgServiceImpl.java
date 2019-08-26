@@ -1,6 +1,7 @@
 package com.macro.mall.service.impl;
 
 import com.macro.mall.dao.CfgDao;
+import com.macro.mall.dto.CfgSourceParam;
 import com.macro.mall.mapper.CfgSourceMapper;
 import com.macro.mall.mapper.CfgTypeMapper;
 import com.macro.mall.mapper.CfgTypeSourceMapper;
@@ -9,7 +10,6 @@ import com.macro.mall.model.CfgType;
 import com.macro.mall.model.CfgTypeExample;
 import com.macro.mall.model.CfgTypeSource;
 import com.macro.mall.service.CfgService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,4 +55,9 @@ public class CfgServiceImpl implements CfgService {
         cfgTypeSource.setModifyTime(new Date());
         return  cfgTypeSourceMapper.insert(cfgTypeSource);
     }
+    @Override
+    public List<CfgSource> getsourcebytype(CfgSourceParam cfgSourceParam){
+        return  cfgDao.selectsource(cfgSourceParam);
+    }
+
 }

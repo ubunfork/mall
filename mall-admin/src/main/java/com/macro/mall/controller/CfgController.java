@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 
 import io.swagger.annotations.Api;
-
+import com.macro.mall.dto.CfgSourceParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,6 +70,15 @@ public class CfgController {
             commonResult = CommonResult.failed();
         }
         return commonResult;
+    }
+
+
+    @ApiOperation("根据配置分类获取配置资源")
+    @RequestMapping(value = "/getsourcebytype", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<CfgSource>> getsourcebytype(@RequestBody CfgSourceParam cfgSourceParam , BindingResult result) {
+        List<CfgSource > cfgSource = cfgService.getsourcebytype(cfgSourceParam);
+        return CommonResult.success(cfgSource);
     }
 
 }
