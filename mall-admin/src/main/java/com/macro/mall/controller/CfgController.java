@@ -76,9 +76,11 @@ public class CfgController {
     @ApiOperation("根据配置分类获取配置资源")
     @RequestMapping(value = "/getsourcebytype", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<CfgSource>> getsourcebytype(@RequestBody CfgSourceParam cfgSourceParam , BindingResult result) {
+    public CommonResult<List<CfgSource>> getsourcebytype(CfgSourceParam cfgSourceParam , BindingResult result) {
+        CommonResult commonResult;
         List<CfgSource > cfgSource = cfgService.getsourcebytype(cfgSourceParam);
-        return CommonResult.success(cfgSource);
+        commonResult = CommonResult.success(cfgSource);
+        return commonResult;
     }
 
 }

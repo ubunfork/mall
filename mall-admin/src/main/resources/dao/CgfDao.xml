@@ -7,13 +7,13 @@
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
 
-  <select id="selectsource">
+  <select id="selectsource" resultMap="com.macro.mall.mapper.CfgSourceMapper.BaseResultMap">
     select cs.*
     from 
     cfg_type_source cts
     left join cfg_source cs on cs.id = cts.sourceid
     left JOIN  cfg_type ct on ct.id = cts.typeid
-    where cts.typeid = queryParam.typeid 
+    where cts.typeid = #{queryParam.typeid} 
     and (cs.verstion like concat("%",#{queryParam.verstion},"%"))
     and (cs.platform like concat("%",#{queryParam.platform},"%"))
   </select>
