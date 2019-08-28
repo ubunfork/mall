@@ -9,6 +9,7 @@ import com.macro.mall.model.CfgSource;
 import com.macro.mall.model.CfgType;
 import com.macro.mall.model.CfgTypeExample;
 import com.macro.mall.model.CfgTypeSource;
+import com.macro.mall.model.CfgTypeSourceExample;
 import com.macro.mall.service.CfgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,9 @@ public class CfgServiceImpl implements CfgService {
     private CfgTypeSourceMapper  cfgTypeSourceMapper;
     @Autowired
     private CfgDao cfgDao;
+
+    @Autowired
+    private CfgTypeSourceMapper CfgTypeSourceMapper;
 
     @Override
     public List<CfgType> listAllType() {
@@ -58,6 +62,21 @@ public class CfgServiceImpl implements CfgService {
     @Override
     public List<CfgSource> getsourcebytype(CfgSourceParam cfgSourceParam){
         return  cfgDao.selectsource(cfgSourceParam);
+    }
+
+    @Override
+    public int deletetype(Long id){
+ 
+        CfgTypeSourceExample example = new CfgTypeSourceExample();
+        CfgTypeSourceExample.Criteria criteria = example.createCriteria();
+        criteria.andTypeidEqualTo(id);
+        List<CfgTypeSource> typesourctlist= CfgTypeSourceMapper.selectByExample(example);
+        for (CfgTypeSource typesourct : typesourctlist) {
+            cfgSourceMapper.deleteByPrimaryKey(typesourct.getSourceid());
+            cfgTypeSourceMapper.deleteByPrimaryKey(typesourct.getId());
+        }
+        int rcount = cfgTypeMapper.deleteByPrimaryKey(id.intValue());
+        return rcount;
     }
 
 }

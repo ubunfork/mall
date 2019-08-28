@@ -15,6 +15,8 @@ public interface CfgService {
     int createType(CfgType cfgType);
 
     int addsource(Long id, CfgSource cfgSource);
-
+    int deletetype(Long id);
     List<CfgSource> getsourcebytype(CfgSourceParam cfgSourceParam);
+
+
 }

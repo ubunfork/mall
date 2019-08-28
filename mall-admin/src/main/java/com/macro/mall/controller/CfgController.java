@@ -56,6 +56,16 @@ public class CfgController {
     }
 
 
+    @ApiOperation("删除配置分类")
+    @RequestMapping(value = "/deletetype/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult deletetype(@PathVariable("id") Long id) {
+        int count = cfgService.deletetype(id);
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
 
     @ApiOperation(value = "给配置分类添加分类资源")
     @RequestMapping(value = "/addsource/{id}", method = RequestMethod.POST)
