@@ -14,8 +14,12 @@
     left join cfg_source cs on cs.id = cts.sourceid
     left JOIN  cfg_type ct on ct.id = cts.typeid
     where cts.typeid = #{queryParam.typeid} 
-    and (cs.verstion like concat("%",#{queryParam.verstion},"%"))
-    and (cs.platform like concat("%",#{queryParam.platform},"%"))
+    <if test="queryParam.verstion!=null and queryParam.verstion!=''">
+        and (cs.verstion like concat("%",#{queryParam.verstion},"%"))
+    </if>
+    <if test="queryParam.platform!=null and queryParam.platform!=''">
+        and (cs.platform like concat("%",#{queryParam.platform},"%"))
+    </if>
   </select>
   
 </mapper>

@@ -23,7 +23,7 @@ CREATE TABLE `cfg_source` (
   `name` varchar(64) DEFAULT NULL COMMENT '标题',
   `value` varchar(200) DEFAULT NULL COMMENT '值',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  `verstion` varchar(64) DEFAULT NULL COMMENT '版本',
+  `verstion` varchar(10) DEFAULT NULL COMMENT '版本',
   `platform` int(1) DEFAULT NULL COMMENT '平台：1->ios 2->安卓 3->webapp', 
   `icon` varchar(200) DEFAULT NULL COMMENT '图标',
   PRIMARY KEY (`id`)
@@ -44,3 +44,18 @@ CREATE TABLE `cfg_type_source` (
 
 
 -- ------------未执行----------------
+
+-- ----------------------------
+-- Table structure for cfg_type_source
+-- ----------------------------
+DROP TABLE IF EXISTS `cfg_verlog`;
+CREATE TABLE `cfg_verlog` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `verstion` varchar(10) DEFAULT NULL COMMENT '版本',
+  `platform` int(1) DEFAULT NULL COMMENT '平台：1->ios 2->安卓 3->webapp', 
+  `remark` text DEFAULT NULL COMMENT '描述',
+  `status` int(1) DEFAULT NULL COMMENT '状态 0->待上传 1->待上架 2->已上架 3->已下架', 
+  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='版本上架记录表';
