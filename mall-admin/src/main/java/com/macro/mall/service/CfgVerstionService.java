@@ -12,5 +12,12 @@ import com.macro.mall.model.CfgVerlog;
 public interface CfgVerstionService {
 
     List<CfgVerlog> list();
-    int create(CfgVerlog cfgType);
+
+    int create(CfgVerlog cfgVerlog);
+
+    int update(CfgVerlog cfgVerlog);
+
+    int delete(Long id);
+
+    List<Integer> listplatform();
 }

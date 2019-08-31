@@ -41,7 +41,7 @@ public class CfgVerlogController {
     }
 
 
-    @ApiOperation(value = "添加配置分类")
+    @ApiOperation(value = "添加版本")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     // @PreAuthorize("hasAuthority('cfg:type:create')")
@@ -54,5 +54,41 @@ public class CfgVerlogController {
             commonResult = CommonResult.failed();
         }
         return commonResult;
+    }
+
+    @ApiOperation(value = "更新版本信息")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    // @PreAuthorize("hasAuthority('cfg:type:create')")
+    public CommonResult update(@PathVariable Long id, @RequestBody CfgVerlog cfgVerlog,  BindingResult bindingResult) {
+       
+        int count = cfgVerstionService.update(cfgVerlog);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
+    @ApiOperation(value = "删除版本记录")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    // @PreAuthorize("hasAuthority('cfg:type:create')")
+    public CommonResult delete(@PathVariable Long id) {
+      
+        int count = cfgVerstionService.delete(id);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
+    @ApiOperation("获取所有版本信息平台列表")
+    @RequestMapping(value = "/listplatform", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<Integer>> listplatform() {
+        List<Integer> platformlList = cfgVerstionService.listplatform();
+        return CommonResult.success(platformlList);
     }
 }
