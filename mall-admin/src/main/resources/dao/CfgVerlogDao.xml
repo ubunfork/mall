@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.dao.CfgVerlogDao">
+
+
+  <select id="selectverlogplatform">
+    select `platform` from `cfg_verlog` group by `platform`;
+  </select>
+
+    <select id="selectverlogverstion" resultMap="com.macro.mall.mapper.CfgSourceMapper.BaseResultMap">
+    select `verstion` from `cfg_verlog` group by `verstion`;
+  </select>
+  
+</mapper>

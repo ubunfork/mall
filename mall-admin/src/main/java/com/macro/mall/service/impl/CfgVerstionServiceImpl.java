@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.macro.mall.mapper.CfgVerlogMapper;
 import com.macro.mall.model.CfgVerlog;
 import com.macro.mall.model.CfgVerlogExample;
-
+import com.macro.mall.dao.CfgVerlogDao;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,6 +19,10 @@ import java.util.List;
 public class CfgVerstionServiceImpl implements CfgVerstionService {
     @Autowired
     private CfgVerlogMapper cfgVerlogMapper;
+
+    @Autowired
+    private CfgVerlogDao cfgVerlogDao;
+
     @Override
     public List<CfgVerlog> list() {
 
@@ -42,8 +46,8 @@ public class CfgVerstionServiceImpl implements CfgVerstionService {
     
     @Override 
     public List<Integer> listplatform(){
-        List<Integer> list = Arrays.asList(1,2,4);
-        return  list;
+    
+        return cfgVerlogDao.selectverlogplatform();
     }
  
 }

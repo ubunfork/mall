@@ -16,21 +16,15 @@ public interface CfgVerlogMapper {
 
     int insertSelective(CfgVerlog record);
 
-    List<CfgVerlog> selectByExampleWithBLOBs(CfgVerlogExample example);
-
     List<CfgVerlog> selectByExample(CfgVerlogExample example);
 
     CfgVerlog selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") CfgVerlog record, @Param("example") CfgVerlogExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") CfgVerlog record, @Param("example") CfgVerlogExample example);
-
     int updateByExample(@Param("record") CfgVerlog record, @Param("example") CfgVerlogExample example);
 
     int updateByPrimaryKeySelective(CfgVerlog record);
-
-    int updateByPrimaryKeyWithBLOBs(CfgVerlog record);
 
     int updateByPrimaryKey(CfgVerlog record);
 }

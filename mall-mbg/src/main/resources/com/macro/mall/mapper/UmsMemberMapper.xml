@@ -21,9 +21,6 @@
     <result column="growth" jdbcType="INTEGER" property="growth" />
     <result column="luckey_count" jdbcType="INTEGER" property="luckeyCount" />
     <result column="history_integration" jdbcType="INTEGER" property="historyIntegration" />
-    <result column="depth" jdbcType="INTEGER" property="depth" />
-    <result column="pid" jdbcType="BIGINT" property="pid" />
-    <result column="reccode" jdbcType="VARCHAR" property="reccode" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -86,7 +83,7 @@
   <sql id="Base_Column_List">
     id, member_level_id, username, password, nickname, phone, status, create_time, icon, 
     gender, birthday, city, job, personalized_signature, source_type, integration, growth, 
-    luckey_count, history_integration, depth, pid, reccode
+    luckey_count, history_integration
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.UmsMemberExample" resultMap="BaseResultMap">
     select
@@ -127,15 +124,13 @@
       create_time, icon, gender, 
       birthday, city, job, personalized_signature, 
       source_type, integration, growth, 
-      luckey_count, history_integration, depth, 
-      pid, reccode)
+      luckey_count, history_integration)
     values (#{memberLevelId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{nickname,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{icon,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
       #{birthday,jdbcType=DATE}, #{city,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{personalizedSignature,jdbcType=VARCHAR}, 
       #{sourceType,jdbcType=INTEGER}, #{integration,jdbcType=INTEGER}, #{growth,jdbcType=INTEGER}, 
-      #{luckeyCount,jdbcType=INTEGER}, #{historyIntegration,jdbcType=INTEGER}, #{depth,jdbcType=INTEGER}, 
-      #{pid,jdbcType=BIGINT}, #{reccode,jdbcType=VARCHAR})
+      #{luckeyCount,jdbcType=INTEGER}, #{historyIntegration,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.UmsMember">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -197,15 +192,6 @@
       <if test="historyIntegration != null">
         history_integration,
       </if>
-      <if test="depth != null">
-        depth,
-      </if>
-      <if test="pid != null">
-        pid,
-      </if>
-      <if test="reccode != null">
-        reccode,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="memberLevelId != null">
@@ -261,15 +247,6 @@
       </if>
       <if test="historyIntegration != null">
         #{historyIntegration,jdbcType=INTEGER},
-      </if>
-      <if test="depth != null">
-        #{depth,jdbcType=INTEGER},
-      </if>
-      <if test="pid != null">
-        #{pid,jdbcType=BIGINT},
-      </if>
-      <if test="reccode != null">
-        #{reccode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -339,15 +316,6 @@
       <if test="record.historyIntegration != null">
         history_integration = #{record.historyIntegration,jdbcType=INTEGER},
       </if>
-      <if test="record.depth != null">
-        depth = #{record.depth,jdbcType=INTEGER},
-      </if>
-      <if test="record.pid != null">
-        pid = #{record.pid,jdbcType=BIGINT},
-      </if>
-      <if test="record.reccode != null">
-        reccode = #{record.reccode,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -373,10 +341,7 @@
       integration = #{record.integration,jdbcType=INTEGER},
       growth = #{record.growth,jdbcType=INTEGER},
       luckey_count = #{record.luckeyCount,jdbcType=INTEGER},
-      history_integration = #{record.historyIntegration,jdbcType=INTEGER},
-      depth = #{record.depth,jdbcType=INTEGER},
-      pid = #{record.pid,jdbcType=BIGINT},
-      reccode = #{record.reccode,jdbcType=VARCHAR}
+      history_integration = #{record.historyIntegration,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -438,15 +403,6 @@
       <if test="historyIntegration != null">
         history_integration = #{historyIntegration,jdbcType=INTEGER},
       </if>
-      <if test="depth != null">
-        depth = #{depth,jdbcType=INTEGER},
-      </if>
-      <if test="pid != null">
-        pid = #{pid,jdbcType=BIGINT},
-      </if>
-      <if test="reccode != null">
-        reccode = #{reccode,jdbcType=VARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -469,10 +425,7 @@
       integration = #{integration,jdbcType=INTEGER},
       growth = #{growth,jdbcType=INTEGER},
       luckey_count = #{luckeyCount,jdbcType=INTEGER},
-      history_integration = #{historyIntegration,jdbcType=INTEGER},
-      depth = #{depth,jdbcType=INTEGER},
-      pid = #{pid,jdbcType=BIGINT},
-      reccode = #{reccode,jdbcType=VARCHAR}
+      history_integration = #{historyIntegration,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

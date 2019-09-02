@@ -13,6 +13,9 @@ public class CfgVerlog implements Serializable {
     @ApiModelProperty(value = "平台：1->ios 2->安卓 3->webapp")
     private Integer platform;
 
+    @ApiModelProperty(value = "描述")
+    private String remark;
+
     @ApiModelProperty(value = "状态 0->待上传 1->待上架 2->已上架 3->已下架")
     private Integer status;
 
@@ -21,9 +24,6 @@ public class CfgVerlog implements Serializable {
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
-
-    @ApiModelProperty(value = "描述")
-    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -51,6 +51,14 @@ public class CfgVerlog implements Serializable {
         this.platform = platform;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Integer getStatus() {
         return status;
     }
@@ -75,14 +83,6 @@ public class CfgVerlog implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -92,10 +92,10 @@ public class CfgVerlog implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", verstion=").append(verstion);
         sb.append(", platform=").append(platform);
+        sb.append(", remark=").append(remark);
         sb.append(", status=").append(status);
         sb.append(", modifyTime=").append(modifyTime);
         sb.append(", createTime=").append(createTime);
-        sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

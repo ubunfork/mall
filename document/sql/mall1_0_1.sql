@@ -53,7 +53,7 @@ CREATE TABLE `cfg_verlog` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `verstion` varchar(10) DEFAULT NULL COMMENT '版本',
   `platform` int(1) DEFAULT NULL COMMENT '平台：1->ios 2->安卓 3->webapp', 
-  `remark` text DEFAULT NULL COMMENT '描述',
+  `remark` varchar(500) DEFAULT NULL COMMENT '描述',
   `status` int(1) DEFAULT NULL COMMENT '状态 0->待上传 1->待上架 2->已上架 3->已下架', 
   `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',

@@ -5,12 +5,10 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="verstion" jdbcType="VARCHAR" property="verstion" />
     <result column="platform" jdbcType="INTEGER" property="platform" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.CfgVerlog">
-    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,27 +69,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, verstion, platform, status, modify_time, create_time
+    id, verstion, platform, remark, status, modify_time, create_time
   </sql>
-  <sql id="Blob_Column_List">
-    remark
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.CfgVerlogExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cfg_verlog
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="com.macro.mall.model.CfgVerlogExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -106,11 +85,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from cfg_verlog
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -128,11 +105,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cfg_verlog (verstion, platform, status, 
-      modify_time, create_time, remark
+    insert into cfg_verlog (verstion, platform, remark, 
+      status, modify_time, create_time
       )
-    values (#{verstion,jdbcType=VARCHAR}, #{platform,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{modifyTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=LONGVARCHAR}
+    values (#{verstion,jdbcType=VARCHAR}, #{platform,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.CfgVerlog">
@@ -147,6 +124,9 @@
       <if test="platform != null">
         platform,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
       <if test="status != null">
         status,
       </if>
@@ -156,9 +136,6 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="remark != null">
-        remark,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="verstion != null">
@@ -166,6 +143,9 @@
       </if>
       <if test="platform != null">
         #{platform,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -175,9 +155,6 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -199,6 +176,9 @@
       <if test="record.platform != null">
         platform = #{record.platform,jdbcType=INTEGER},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
       </if>
@@ -208,23 +188,7 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update cfg_verlog
-    set id = #{record.id,jdbcType=BIGINT},
-      verstion = #{record.verstion,jdbcType=VARCHAR},
-      platform = #{record.platform,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=INTEGER},
-      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      remark = #{record.remark,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -234,6 +198,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       verstion = #{record.verstion,jdbcType=VARCHAR},
       platform = #{record.platform,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
       modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
@@ -250,6 +215,9 @@
       <if test="platform != null">
         platform = #{platform,jdbcType=INTEGER},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
@@ -259,26 +227,14 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.CfgVerlog">
-    update cfg_verlog
-    set verstion = #{verstion,jdbcType=VARCHAR},
-      platform = #{platform,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      remark = #{remark,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.CfgVerlog">
     update cfg_verlog
     set verstion = #{verstion,jdbcType=VARCHAR},
       platform = #{platform,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}

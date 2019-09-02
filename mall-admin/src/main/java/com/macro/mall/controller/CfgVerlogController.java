@@ -1,6 +1,5 @@
 package com.macro.mall.controller;
 
-import java.util.List;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.CfgVerlog;
 import com.macro.mall.service.CfgVerstionService;
@@ -21,6 +20,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
+import java.util.List;
 /**
  * app配置管理Controller
  * Created by macro on 2018/6/1.
@@ -47,6 +48,8 @@ public class CfgVerlogController {
     // @PreAuthorize("hasAuthority('cfg:type:create')")
     public CommonResult create(@Validated @RequestBody CfgVerlog cfgType, BindingResult result) {
         CommonResult commonResult;
+        cfgType.setCreateTime(new Date());
+        cfgType.setModifyTime(new Date());
         int count = cfgVerstionService.create(cfgType);
         if (count == 1) {
             commonResult = CommonResult.success(count);
