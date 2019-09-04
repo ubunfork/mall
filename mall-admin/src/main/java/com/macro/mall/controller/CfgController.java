@@ -33,20 +33,36 @@ public class CfgController {
     private CfgService cfgService;
 
     @ApiOperation("获取所有配置分类")
-    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/listtype", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<CfgType>> listAll() {
+    public CommonResult<List<CfgType>> listtype() {
         List<CfgType> cfgTypeList = cfgService.listAllType();
         return CommonResult.success(cfgTypeList);
     }
 
     @ApiOperation(value = "添加配置分类")
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/createtype", method = RequestMethod.POST)
     @ResponseBody
     // @PreAuthorize("hasAuthority('cfg:type:create')")
-    public CommonResult create(@Validated @RequestBody CfgType cfgType, BindingResult result) {
+    public CommonResult createtype(@Validated @RequestBody CfgType cfgType, BindingResult result) {
         CommonResult commonResult;
         int count = cfgService.createType(cfgType);
+        if (count == 1) {
+            commonResult = CommonResult.success(count);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
+    }
+
+    @ApiOperation(value = "修改配置分类")
+    @RequestMapping(value = "/updatetype/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    // @PreAuthorize("hasAuthority('cfg:type:create')")
+    public CommonResult updatetype(@PathVariable("id") Integer id, @Validated @RequestBody CfgType cfgType, BindingResult result) {
+        CommonResult commonResult;
+       
+        int count = cfgService.updateType(id, cfgType);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -68,12 +84,42 @@ public class CfgController {
     }
 
     @ApiOperation(value = "给配置分类添加分类资源")
-    @RequestMapping(value = "/addsource/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/createsource/{typeid}", method = RequestMethod.POST)
     @ResponseBody
     // @PreAuthorize("hasAuthority('cfg:type:addsource')")
-    public CommonResult create(@PathVariable("id") Long id, @Validated @RequestBody CfgSource cfgSource, BindingResult result) {
+    public CommonResult createsource(@PathVariable("typeid") Long typeid, @Validated @RequestBody CfgSource cfgSource, BindingResult result) {
         CommonResult commonResult;
-        int count = cfgService.addsource(id, cfgSource);
+        int count = cfgService.addsource(typeid, cfgSource);
+        if (count == 1) {
+            commonResult = CommonResult.success(count);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
+    }
+
+    @ApiOperation(value = "更新配置资源")
+    @RequestMapping(value = "/updatesource/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    // @PreAuthorize("hasAuthority('cfg:type:addsource')")
+    public CommonResult updatesource(@PathVariable("id") Long id, @Validated @RequestBody CfgSource cfgSource, BindingResult result) {
+        CommonResult commonResult;
+        int count = cfgService.updatesource(id,cfgSource);
+        if (count == 1) {
+            commonResult = CommonResult.success(count);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
+    }
+
+    @ApiOperation(value = "删除配置资源")
+    @RequestMapping(value = "/deletesource/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    // @PreAuthorize("hasAuthority('cfg:type:addsource')")
+    public CommonResult deletesource(@PathVariable("id") Long id) {
+        CommonResult commonResult;
+        int count = cfgService.deletesource(id);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.dao.CfgDao">
-
-  <insert id="inserttype" parameterType="com.macro.mall.model.CfgType">
-    insert into cfg_type (id, name, remark)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
-  </insert>
+<mapper namespace="com.macro.mall.portal.dao.CfgDao">
 
   <select id="selectsource" resultMap="com.macro.mall.mapper.CfgSourceMapper.BaseResultMap">
     select cs.*

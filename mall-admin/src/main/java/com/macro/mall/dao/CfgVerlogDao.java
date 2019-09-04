@@ -2,10 +2,12 @@ package com.macro.mall.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 
 public interface CfgVerlogDao{
     
-    List<Integer> selectverlogplatform();
+    List<String> selectverlogplatform();
 
-    List<String> selectverlogverstion();
+    List<String> selectverlogverstion(@Param("platform") String platform);
 }

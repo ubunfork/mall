@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/product/**"//商品详情
                 )
                 .permitAll()
-                .antMatchers("/member/**","/returnApply/**")// 测试时开启
+                .antMatchers("/**")//测试时全部运行访问
                 .permitAll()
                 .anyRequest()// 除上面外的所有请求全部需要鉴权认证
                 .authenticated()

@@ -18,8 +18,8 @@ public class CfgSource implements Serializable {
     @ApiModelProperty(value = "版本")
     private String verstion;
 
-    @ApiModelProperty(value = "平台：1->ios 2->安卓 3->webapp")
-    private Integer platform;
+    @ApiModelProperty(value = "平台")
+    private String platform;
 
     @ApiModelProperty(value = "图标")
     private String icon;
@@ -66,11 +66,11 @@ public class CfgSource implements Serializable {
         this.verstion = verstion;
     }
 
-    public Integer getPlatform() {
+    public String getPlatform() {
         return platform;
     }
 
-    public void setPlatform(Integer platform) {
+    public void setPlatform(String platform) {
         this.platform = platform;
     }
 

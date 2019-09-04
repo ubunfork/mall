@@ -3,12 +3,14 @@
 <mapper namespace="com.macro.mall.dao.CfgVerlogDao">
 
 
-  <select id="selectverlogplatform">
+  <select id="selectverlogplatform" resultType="Map">
     select `platform` from `cfg_verlog` group by `platform`;
   </select>
 
-    <select id="selectverlogverstion" resultMap="com.macro.mall.mapper.CfgSourceMapper.BaseResultMap">
-    select `verstion` from `cfg_verlog` group by `verstion`;
+    <select id="selectverlogverstion" resultType="Map">
+    select `verstion` from `cfg_verlog` 
+    where `platform`=#{platform}
+    group by `verstion`;
   </select>
   
 </mapper>

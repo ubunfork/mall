@@ -44,6 +44,25 @@ public class CfgServiceImpl implements CfgService {
     public int createType(CfgType cfgType){
         return cfgDao.inserttype(cfgType);
     }
+    @Override
+    public int updateType(Integer id, CfgType cfgType){
+        cfgType.setId(id);
+        return cfgTypeMapper.updateByPrimaryKeySelective(cfgType);
+    }
+    @Override
+    public int deletetype(Long id){
+ 
+        CfgTypeSourceExample example = new CfgTypeSourceExample();
+        CfgTypeSourceExample.Criteria criteria = example.createCriteria();
+        criteria.andTypeidEqualTo(id);
+        List<CfgTypeSource> typesourctlist= CfgTypeSourceMapper.selectByExample(example);
+        for (CfgTypeSource typesourct : typesourctlist) {
+            cfgSourceMapper.deleteByPrimaryKey(typesourct.getSourceid());
+            cfgTypeSourceMapper.deleteByPrimaryKey(typesourct.getId());
+        }
+        int rcount = cfgTypeMapper.deleteByPrimaryKey(id.intValue());
+        return rcount;
+    }
 
     @Override
     public int addsource(Long id, CfgSource cfgSource){
@@ -60,23 +79,16 @@ public class CfgServiceImpl implements CfgService {
         return  cfgTypeSourceMapper.insert(cfgTypeSource);
     }
     @Override
+    public  int updatesource(Long id, CfgSource cfgSource){
+        cfgSource.setId(id);
+        return cfgSourceMapper.updateByPrimaryKey(cfgSource);
+    }
+    @Override
+    public int deletesource(Long id){
+        return cfgSourceMapper.deleteByPrimaryKey(id);
+    }
+    @Override
     public List<CfgSource> getsourcebytype(CfgSourceParam cfgSourceParam){
         return  cfgDao.selectsource(cfgSourceParam);
     }
-
-    @Override
-    public int deletetype(Long id){
- 
-        CfgTypeSourceExample example = new CfgTypeSourceExample();
-        CfgTypeSourceExample.Criteria criteria = example.createCriteria();
-        criteria.andTypeidEqualTo(id);
-        List<CfgTypeSource> typesourctlist= CfgTypeSourceMapper.selectByExample(example);
-        for (CfgTypeSource typesourct : typesourctlist) {
-            cfgSourceMapper.deleteByPrimaryKey(typesourct.getSourceid());
-            cfgTypeSourceMapper.deleteByPrimaryKey(typesourct.getId());
-        }
-        int rcount = cfgTypeMapper.deleteByPrimaryKey(id.intValue());
-        return rcount;
-    }
-
 }

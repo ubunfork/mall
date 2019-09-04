@@ -41,13 +41,21 @@ public class CfgVerstionServiceImpl implements CfgVerstionService {
 
     @Override
     public int delete(Long id) {
+        
         return cfgVerlogMapper.deleteByPrimaryKey(id);
     }
     
     @Override 
-    public List<Integer> listplatform(){
-    
-        return cfgVerlogDao.selectverlogplatform();
+    public List<String> listplatform(){
+       
+        return  cfgVerlogDao.selectverlogplatform();
     }
+    
+    @Override
+    public List<String> listverstion(String platfrom){
+
+        return  cfgVerlogDao.selectverlogverstion(platfrom);
+    }
+    
  
 }

@@ -7,7 +7,7 @@
     <result column="value" jdbcType="VARCHAR" property="value" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="verstion" jdbcType="VARCHAR" property="verstion" />
-    <result column="platform" jdbcType="INTEGER" property="platform" />
+    <result column="platform" jdbcType="VARCHAR" property="platform" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -109,7 +109,7 @@
       verstion, platform, icon
       )
     values (#{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{verstion,jdbcType=VARCHAR}, #{platform,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}
+      #{verstion,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.CfgSource">
@@ -151,7 +151,7 @@
         #{verstion,jdbcType=VARCHAR},
       </if>
       <if test="platform != null">
-        #{platform,jdbcType=INTEGER},
+        #{platform,jdbcType=VARCHAR},
       </if>
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
@@ -183,7 +183,7 @@
         verstion = #{record.verstion,jdbcType=VARCHAR},
       </if>
       <if test="record.platform != null">
-        platform = #{record.platform,jdbcType=INTEGER},
+        platform = #{record.platform,jdbcType=VARCHAR},
       </if>
       <if test="record.icon != null">
         icon = #{record.icon,jdbcType=VARCHAR},
@@ -200,7 +200,7 @@
       value = #{record.value,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       verstion = #{record.verstion,jdbcType=VARCHAR},
-      platform = #{record.platform,jdbcType=INTEGER},
+      platform = #{record.platform,jdbcType=VARCHAR},
       icon = #{record.icon,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -222,7 +222,7 @@
         verstion = #{verstion,jdbcType=VARCHAR},
       </if>
       <if test="platform != null">
-        platform = #{platform,jdbcType=INTEGER},
+        platform = #{platform,jdbcType=VARCHAR},
       </if>
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
@@ -236,7 +236,7 @@
       value = #{value,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       verstion = #{verstion,jdbcType=VARCHAR},
-      platform = #{platform,jdbcType=INTEGER},
+      platform = #{platform,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>

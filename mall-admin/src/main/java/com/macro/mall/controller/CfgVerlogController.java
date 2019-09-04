@@ -90,8 +90,16 @@ public class CfgVerlogController {
     @ApiOperation("获取所有版本信息平台列表")
     @RequestMapping(value = "/listplatform", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<Integer>> listplatform() {
-        List<Integer> platformlList = cfgVerstionService.listplatform();
+    public CommonResult<List<String>> listplatform() {
+        List<String> platformlList = cfgVerstionService.listplatform();
+        return CommonResult.success(platformlList);
+    }
+
+    @ApiOperation("获取所有版本信息列表")
+    @RequestMapping(value = "/listverstion", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<String>> listverstion(String platfrom) {
+        List<String> platformlList = cfgVerstionService.listverstion(platfrom);
         return CommonResult.success(platformlList);
     }
 }

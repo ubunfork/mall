@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.macro.mall.model.CfgVerlog">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="verstion" jdbcType="VARCHAR" property="verstion" />
-    <result column="platform" jdbcType="INTEGER" property="platform" />
+    <result column="platform" jdbcType="VARCHAR" property="platform" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
@@ -108,7 +108,7 @@
     insert into cfg_verlog (verstion, platform, remark, 
       status, modify_time, create_time
       )
-    values (#{verstion,jdbcType=VARCHAR}, #{platform,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+    values (#{verstion,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -142,7 +142,7 @@
         #{verstion,jdbcType=VARCHAR},
       </if>
       <if test="platform != null">
-        #{platform,jdbcType=INTEGER},
+        #{platform,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -174,7 +174,7 @@
         verstion = #{record.verstion,jdbcType=VARCHAR},
       </if>
       <if test="record.platform != null">
-        platform = #{record.platform,jdbcType=INTEGER},
+        platform = #{record.platform,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -197,7 +197,7 @@
     update cfg_verlog
     set id = #{record.id,jdbcType=BIGINT},
       verstion = #{record.verstion,jdbcType=VARCHAR},
-      platform = #{record.platform,jdbcType=INTEGER},
+      platform = #{record.platform,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
       modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
@@ -213,7 +213,7 @@
         verstion = #{verstion,jdbcType=VARCHAR},
       </if>
       <if test="platform != null">
-        platform = #{platform,jdbcType=INTEGER},
+        platform = #{platform,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -233,7 +233,7 @@
   <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.CfgVerlog">
     update cfg_verlog
     set verstion = #{verstion,jdbcType=VARCHAR},
-      platform = #{platform,jdbcType=INTEGER},
+      platform = #{platform,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},

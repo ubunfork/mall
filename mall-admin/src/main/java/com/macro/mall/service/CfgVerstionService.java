@@ -19,5 +19,7 @@ public interface CfgVerstionService {
 
     int delete(Long id);
 
-    List<Integer> listplatform();
+    List<String> listplatform();
+
+    List<String> listverstion(String platfrom);
 }

@@ -13,9 +13,13 @@ public interface CfgService {
     List<CfgType> listAllType();
 
     int createType(CfgType cfgType);
-
-    int addsource(Long id, CfgSource cfgSource);
+    int updateType(Integer id, CfgType cfgType);
     int deletetype(Long id);
+    
+    int addsource(Long typeid, CfgSource cfgSource);
+    int updatesource(Long id, CfgSource cfgSource);
+    int deletesource(Long id);
+    
     List<CfgSource> getsourcebytype(CfgSourceParam cfgSourceParam);
 
 
