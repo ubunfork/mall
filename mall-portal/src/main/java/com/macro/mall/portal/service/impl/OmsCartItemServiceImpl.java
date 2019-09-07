@@ -4,12 +4,16 @@ import com.macro.mall.mapper.OmsCartItemMapper;
 import com.macro.mall.model.OmsCartItem;
 import com.macro.mall.model.OmsCartItemExample;
 import com.macro.mall.model.UmsMember;
+import com.macro.mall.portal.dao.OmsCartItemDao;
 import com.macro.mall.portal.dao.PortalProductDao;
 import com.macro.mall.portal.domain.CartProduct;
 import com.macro.mall.portal.domain.CartPromotionItem;
+import com.macro.mall.portal.domain.OmsCartResult;
 import com.macro.mall.portal.service.OmsCartItemService;
 import com.macro.mall.portal.service.OmsPromotionService;
 import com.macro.mall.portal.service.UmsMemberService;
+
+import org.aspectj.weaver.ast.Literal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -33,6 +37,9 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
     private OmsPromotionService promotionService;
     @Autowired
     private UmsMemberService memberService;
+
+    @Autowired
+    private OmsCartItemDao omsCartItemDao;
 
     @Override
     public int add(OmsCartItem cartItem) {
@@ -81,6 +88,11 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
         OmsCartItemExample example = new OmsCartItemExample();
         example.createCriteria().andDeleteStatusEqualTo(0).andMemberIdEqualTo(memberId);
         return cartItemMapper.selectByExample(example);
+    }
+
+    @Override
+    public List <OmsCartResult> carlist(Long memberId){
+        return omsCartItemDao.getOmsCartItemDto(memberId);
     }
 
     @Override

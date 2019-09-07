@@ -4,6 +4,7 @@ import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.OmsCartItem;
 import com.macro.mall.portal.domain.CartProduct;
 import com.macro.mall.portal.domain.CartPromotionItem;
+import com.macro.mall.portal.domain.OmsCartResult;
 import com.macro.mall.portal.service.OmsCartItemService;
 import com.macro.mall.portal.service.UmsMemberService;
 import io.swagger.annotations.Api;
@@ -44,6 +45,15 @@ public class OmsCartItemController {
     public CommonResult<List<OmsCartItem>> list() {
         List<OmsCartItem> cartItemList = cartItemService.list(memberService.getCurrentMember().getId());
         return CommonResult.success(cartItemList);
+    }
+
+    @ApiOperation("获取某个会员的购物车列表")
+    @RequestMapping(value = "/list/product", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<OmsCartResult>> listProduct() {
+        // List<OmsCartItem> cartItemList = cartItemService.list(memberService.getCurrentMember().getId());
+        List <OmsCartResult> omsCartResult = cartItemService.carlist(memberService.getCurrentMember().getId());
+        return CommonResult.success(omsCartResult);
     }
 
     @ApiOperation("获取某个会员的购物车列表,包括促销信息")

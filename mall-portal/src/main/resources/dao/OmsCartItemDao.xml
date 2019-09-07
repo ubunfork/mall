@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.portal.dao.OmsCartItemDao">
+
+<resultMap id="getOmsCaritemDto" type="com.macro.mall.portal.domain.OmsCartResult"
+               extends="com.macro.mall.mapper.OmsCartItemMapper.BaseResultMap">
+    <association property="pmsProduct" resultMap="com.macro.mall.mapper.PmsProductMapper.BaseResultMap" columnPrefix="pro_">
+        </association>
+    <association property="pmsSkuStock" resultMap="com.macro.mall.mapper.PmsSkuStockMapper.BaseResultMap" columnPrefix="sku_">
+        </association>
+</resultMap>
+
+<select id="getOmsCartItemDto" resultMap="getOmsCaritemDto">
+SELECT car.id, car.product_id, car.product_sku_id, car.quantity,
+    pro.name pro_name,
+    pro.pic pro_pic,
+    pro.unit pro_unit,
+    pro.sub_title pro_subTitle,
+    pro.price pro_price,
+
+    sku.id sku_id,
+    sku.price sku_price,
+    sku.stock sku_stock,
+    sku.pic sku_pic,
+    sku.sp1 sku_sp1,
+    sku.sp2 sku_sp2,
+    sku.sp3 sku_sp3
+
+FROM `oms_cart_item` car 
+LEFT JOIN `pms_product` pro ON car.`product_id` = pro.id
+LEFT JOIN `pms_sku_stock` sku ON car.`product_id` = sku.`product_id` and car.`product_sku_id` = sku.id
+WHERE car.`member_id` = #{memberid} ;
+</select>
+ 
+  
+</mapper>
