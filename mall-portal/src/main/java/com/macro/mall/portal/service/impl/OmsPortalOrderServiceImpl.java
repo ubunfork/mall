@@ -58,6 +58,48 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     @Autowired
     private CancelOrderSender cancelOrderSender;
 
+    @Autowired OmsOrderConfimMapper omsOrderConfimMapper; 
+
+    @Override
+    public Integer confirmOrder(OmsOrderConfim omsOrderConfim){
+
+        return omsOrderConfimMapper.insert(omsOrderConfim);
+    }
+    @Override
+    public ConfirmOrderResult getConfirmOrderInfo(Long confimid){
+        UmsMember currentMember = memberService.getCurrentMember();
+        OmsOrderConfim omsOrderConfim= omsOrderConfimMapper.selectByPrimaryKey(confimid);
+        ConfirmOrderResult result = new ConfirmOrderResult();
+        if(omsOrderConfim.getType()==1){
+            //购物车购买的
+            ArrayList<Long> carids = new ArrayList<Long>(); 
+            for (String carid : omsOrderConfim.getRemark().split(",")) {
+                carids.add(Long.parseLong(carid));
+            }
+            List<CartPromotionItem> cartPromotionItemList = cartItemService.listPromotionbyids(carids);
+            result.setCartPromotionItemList(cartPromotionItemList);
+            //计算总金额、活动优惠、应付金额
+            ConfirmOrderResult.CalcAmount calcAmount = calcCartAmount(cartPromotionItemList);
+            result.setCalcAmount(calcAmount);
+            //获取用户可用优惠券列表
+            List<SmsCouponHistoryDetail> couponHistoryDetailList = memberCouponService.listCart(cartPromotionItemList, 1);
+            result.setCouponHistoryDetailList(couponHistoryDetailList);
+        }else if(omsOrderConfim.getType()==0){
+            //商品详情购买的
+        }
+        //获取用户收货地址列表
+        List<UmsMemberReceiveAddress> memberReceiveAddressList = memberReceiveAddressService.list();
+        result.setMemberReceiveAddressList(memberReceiveAddressList);
+    
+        //获取用户积分
+        result.setMemberIntegration(currentMember.getIntegration());
+        //获取积分使用规则
+        UmsIntegrationConsumeSetting integrationConsumeSetting = integrationConsumeSettingMapper.selectByPrimaryKey(1L);
+        result.setIntegrationConsumeSetting(integrationConsumeSetting);
+
+        return result;
+    }
+
     @Override
     public ConfirmOrderResult generateConfirmOrder() {
         ConfirmOrderResult result = new ConfirmOrderResult();

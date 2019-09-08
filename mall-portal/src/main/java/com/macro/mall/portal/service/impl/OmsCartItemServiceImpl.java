@@ -106,6 +106,19 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
     }
 
     @Override
+    public List<CartPromotionItem> listPromotionbyids(List<Long> ids){
+      
+        OmsCartItemExample example = new OmsCartItemExample();
+        example.createCriteria().andDeleteStatusEqualTo(0).andIdIn(ids);
+        List<OmsCartItem> cartItemList = cartItemMapper.selectByExample(example);
+        List<CartPromotionItem> cartPromotionItemList = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(cartItemList)){
+            cartPromotionItemList = promotionService.calcCartPromotion(cartItemList);
+        }
+        return cartPromotionItemList;
+    }
+
+    @Override
     public int updateQuantity(Long id, Long memberId, Integer quantity) {
         OmsCartItem cartItem = new OmsCartItem();
         cartItem.setQuantity(quantity);

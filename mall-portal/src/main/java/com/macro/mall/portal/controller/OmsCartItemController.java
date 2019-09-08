@@ -39,7 +39,7 @@ public class OmsCartItemController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("获取某个会员的购物车列表")
+    @ApiOperation("获取某个会员的购物车列表--已废弃")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<OmsCartItem>> list() {

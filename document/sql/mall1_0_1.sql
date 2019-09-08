@@ -59,3 +59,17 @@ CREATE TABLE `cfg_verlog` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='版本上架记录表';
+
+-- ----------------------------
+-- Table structure for cfg_type_source
+-- ----------------------------
+DROP TABLE IF EXISTS `oms_order_confim`;
+CREATE TABLE `oms_order_confim` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type` int(1) DEFAULT NULL COMMENT '状态 0->商品详情购买 1->购物车购买',
+  `remark` varchar(1000) DEFAULT NULL COMMENT '下单列表","分割 商品详情是商品id+skuid 购物车是购物车id',
+  `status` int(1) DEFAULT NULL COMMENT '状态 0->等待下单 1->已下单 2->超时删除', 
+  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='确认订单零时记录表';
