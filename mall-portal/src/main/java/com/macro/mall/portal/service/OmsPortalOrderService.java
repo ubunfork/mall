@@ -36,6 +36,12 @@ public interface OmsPortalOrderService {
     CommonResult generateOrder(OrderParam orderParam);
 
     /**
+     * 根据提交确认信息生成支付订单
+     */
+    @Transactional
+    CommonResult generatePayOrder(OrderParam orderParam);
+
+    /**
      * 支付成功后的回调
      */
     @Transactional

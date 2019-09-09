@@ -5,14 +5,15 @@ package com.macro.mall.portal.domain;
  * Created by macro on 2018/8/30.
  */
 public class OrderParam {
+    //确认信息id
+    private Long confirmid;
     //收货地址id
     private Long memberReceiveAddressId;
     //优惠券id
     private Long couponId;
     //使用的积分数
     private Integer useIntegration;
-    //支付方式
-    private Integer payType;
+   
 
     public Long getMemberReceiveAddressId() {
         return memberReceiveAddressId;
@@ -29,13 +30,18 @@ public class OrderParam {
     public void setCouponId(Long couponId) {
         this.couponId = couponId;
     }
-
-    public Integer getPayType() {
-        return payType;
+    /**
+     * @param confirmid the confirmid to set
+     */
+    public void setConfirmid(Long confirmid) {
+        this.confirmid = confirmid;
     }
 
-    public void setPayType(Integer payType) {
-        this.payType = payType;
+    /**
+     * @return the confirmid
+     */
+    public Long getConfirmid() {
+        return confirmid;
     }
 
     public Integer getUseIntegration() {

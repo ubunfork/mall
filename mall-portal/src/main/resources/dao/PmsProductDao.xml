@@ -13,11 +13,12 @@
         </collection>
         <collection property="productAttributeValueList" columnPrefix="attribute_" resultMap="com.macro.mall.mapper.PmsProductAttributeValueMapper.BaseResultMap">
         </collection>
-        <!-- <collection property="subjectProductRelationList" column="{productId=id}" select="selectSubjectProductRelationByProductId"/>
-        <collection property="prefrenceAreaProductRelationList" column="{productId=id}" select="selectPrefrenceAreaProductRelationByProductId"/> -->
-
     </resultMap>
 
+    <resultMap type="com.macro.mall.portal.domain.ProductItem" id="productitem" extends="com.macro.mall.mapper.PmsSkuStockMapper.BaseResultMap">
+    <association property="product" resultMap="com.macro.mall.mapper.PmsProductMapper.BaseResultMap" columnPrefix="pro_">
+        </association>
+    </resultMap>
     <select id="productInfo" resultMap="updateInfoMap">
         SELECT *,
             pc.parent_id cateParentId,
@@ -41,6 +42,45 @@
     <select id="selectPrefrenceAreaProductRelationByProductId" resultMap="com.macro.mall.mapper.CmsPrefrenceAreaProductRelationMapper.BaseResultMap">
         select * from cms_prefrence_area_product_relation where product_id=#{productId}
     </select>
+
+<select id="getproductitem" resultMap="productitem">
+SELECT sku.*,
+pro.id pro_id,
+pro.brand_id pro_brand_id,
+pro.product_category_id pro_product_category_id,
+pro.feight_template_id pro_feight_template_id,
+pro.product_attribute_category_id pro_product_attribute_category_id,
+pro.name pro_name,
+pro.pic pro_pic,
+pro.publish_status pro_publish_status,
+pro.new_status pro_new_status,
+pro.sale pro_sale,
+pro.gift_growth pro_gift_growth,
+pro.gift_point pro_gift_point,
+pro.use_point_limit pro_se_point_limit,
+pro.sub_title pro_sub_title,
+pro.description pro_description,
+pro.unit pro_unit,
+pro.weight pro_weight,
+pro.preview_status pro_preview_status,
+pro.service_ids pro_service_ids,
+pro.album_pics pro_album_pics,
+pro.detail_title pro_detail_title,
+pro.detail_desc pro_detail_desc,
+pro.detail_html pro_detail_html,
+pro.detail_mobile_html pro_detail_mobile_html,
+pro.promotion_start_time pro_promotion_start_time,
+pro.promotion_end_time pro_promotion_end_time,
+pro.promotion_per_limit pro_promotion_per_limit,
+pro.promotion_type pro_romotion_type,
+pro.brand_name pro_brand_name,
+pro.product_category_name pro_product_category_name,
+pro.price pro_price
+FROM `pms_sku_stock` sku
+LEFT JOIN `pms_product` pro ON pro.id= sku.`product_id`
+WHERE pro.id=#{productid} and sku.id = #{skuid};
+</select>
+  
 
 </mapper>
 

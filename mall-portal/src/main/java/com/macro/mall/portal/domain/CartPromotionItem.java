@@ -19,6 +19,11 @@ public class CartPromotionItem extends OmsCartItem{
     private Integer integration;
     //购买商品赠送成长值
     private Integer growth;
+
+    //稍后处理
+    private BigDecimal price;
+    private Long productCategoryId;
+
     public String getPromotionMessage() {
         return promotionMessage;
     }
@@ -57,5 +62,33 @@ public class CartPromotionItem extends OmsCartItem{
 
     public void setGrowth(Integer growth) {
         this.growth = growth;
+    }
+
+    /**
+     * @param price the price to set
+     */
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    /**
+     * @return the price
+     */
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    /**
+     * @param productCategoryId the productCategoryId to set
+     */
+    public void setProductCategoryId(Long productCategoryId) {
+        this.productCategoryId = productCategoryId;
+    }
+
+    /**
+     * @return the productCategoryId
+     */
+    public Long getProductCategoryId() {
+        return productCategoryId;
     }
 }

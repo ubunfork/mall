@@ -70,12 +70,37 @@ public class OmsPortalOrderController {
     }
 
 
-    @ApiOperation("根据购物车信息生成订单")
+    @ApiOperation("根据购物车信息生成订单--已废弃v1.0.1")
     @RequestMapping(value = "/generateOrder",method = RequestMethod.POST)
     @ResponseBody
     public Object generateOrder(@RequestBody OrderParam orderParam){
         return portalOrderService.generateOrder(orderParam);
     }
+
+    @ApiOperation("根据确认信息生成支付订单")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "confirmId", value = "确认信息id", required = true, paramType = "query", dataType = "Long"),		
+        @ApiImplicitParam(name = "addressId",value = "收货地址id", required = true, paramType = "query", dataType = "Long"),
+        @ApiImplicitParam(name = "couponId",value = "优惠券id", required = false, paramType = "query", dataType = "Long"),
+        @ApiImplicitParam(name = "useIntegration",value = "使用的积分数", required = true, paramType = "query", dataType = "Int")	
+    })
+    @RequestMapping(value = "/generatePayOrder",method = RequestMethod.POST)
+    @ResponseBody
+    public Object generatePayOrder(
+        @RequestParam(value = "confirmId") Long confirmId,
+        @RequestParam(value = "addressId" ,required = false) Long addressId,
+        @RequestParam(value = "couponId") Long couponId,
+        @RequestParam(value = "useIntegration") Integer useIntegration
+    ){
+        OrderParam orderParam = new OrderParam();
+        orderParam.setConfirmid(confirmId);
+        orderParam.setMemberReceiveAddressId(addressId);
+        orderParam.setCouponId(couponId);
+        orderParam.setUseIntegration(useIntegration);
+        return portalOrderService.generatePayOrder(orderParam);
+    }
+
+
     @ApiOperation("支付成功的回调")
     @RequestMapping(value = "/paySuccess",method = RequestMethod.POST)
     @ResponseBody

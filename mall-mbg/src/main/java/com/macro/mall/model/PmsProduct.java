@@ -44,11 +44,6 @@ public class PmsProduct implements Serializable {
     @ApiModelProperty(value = "销量")
     private Integer sale;
 
-    private BigDecimal price;
-
-    @ApiModelProperty(value = "促销价格")
-    private BigDecimal promotionPrice;
-
     @ApiModelProperty(value = "赠送的成长值")
     private Integer giftGrowth;
 
@@ -60,15 +55,6 @@ public class PmsProduct implements Serializable {
 
     @ApiModelProperty(value = "副标题")
     private String subTitle;
-
-    @ApiModelProperty(value = "市场价")
-    private BigDecimal originalPrice;
-
-    @ApiModelProperty(value = "库存")
-    private Integer stock;
-
-    @ApiModelProperty(value = "库存预警值")
-    private Integer lowStock;
 
     @ApiModelProperty(value = "单位")
     private String unit;
@@ -108,6 +94,9 @@ public class PmsProduct implements Serializable {
 
     @ApiModelProperty(value = "商品分类名称")
     private String productCategoryName;
+
+    @ApiModelProperty(value = "商品销售价格区间")
+    private String price;
 
     @ApiModelProperty(value = "商品描述")
     private String description;
@@ -242,22 +231,6 @@ public class PmsProduct implements Serializable {
         this.sale = sale;
     }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getPromotionPrice() {
-        return promotionPrice;
-    }
-
-    public void setPromotionPrice(BigDecimal promotionPrice) {
-        this.promotionPrice = promotionPrice;
-    }
-
     public Integer getGiftGrowth() {
         return giftGrowth;
     }
@@ -288,30 +261,6 @@ public class PmsProduct implements Serializable {
 
     public void setSubTitle(String subTitle) {
         this.subTitle = subTitle;
-    }
-
-    public BigDecimal getOriginalPrice() {
-        return originalPrice;
-    }
-
-    public void setOriginalPrice(BigDecimal originalPrice) {
-        this.originalPrice = originalPrice;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Integer getLowStock() {
-        return lowStock;
-    }
-
-    public void setLowStock(Integer lowStock) {
-        this.lowStock = lowStock;
     }
 
     public String getUnit() {
@@ -426,6 +375,14 @@ public class PmsProduct implements Serializable {
         this.productCategoryName = productCategoryName;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -479,15 +436,10 @@ public class PmsProduct implements Serializable {
         sb.append(", verifyStatus=").append(verifyStatus);
         sb.append(", sort=").append(sort);
         sb.append(", sale=").append(sale);
-        sb.append(", price=").append(price);
-        sb.append(", promotionPrice=").append(promotionPrice);
         sb.append(", giftGrowth=").append(giftGrowth);
         sb.append(", giftPoint=").append(giftPoint);
         sb.append(", usePointLimit=").append(usePointLimit);
         sb.append(", subTitle=").append(subTitle);
-        sb.append(", originalPrice=").append(originalPrice);
-        sb.append(", stock=").append(stock);
-        sb.append(", lowStock=").append(lowStock);
         sb.append(", unit=").append(unit);
         sb.append(", weight=").append(weight);
         sb.append(", previewStatus=").append(previewStatus);
@@ -502,6 +454,7 @@ public class PmsProduct implements Serializable {
         sb.append(", promotionType=").append(promotionType);
         sb.append(", brandName=").append(brandName);
         sb.append(", productCategoryName=").append(productCategoryName);
+        sb.append(", price=").append(price);
         sb.append(", description=").append(description);
         sb.append(", detailDesc=").append(detailDesc);
         sb.append(", detailHtml=").append(detailHtml);

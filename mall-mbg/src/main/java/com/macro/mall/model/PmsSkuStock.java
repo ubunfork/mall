@@ -39,6 +39,9 @@ public class PmsSkuStock implements Serializable {
     @ApiModelProperty(value = "锁定库存")
     private Integer lockStock;
 
+    @ApiModelProperty(value = "市场价格")
+    private BigDecimal originalPrice;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -145,6 +148,14 @@ public class PmsSkuStock implements Serializable {
         this.lockStock = lockStock;
     }
 
+    public BigDecimal getOriginalPrice() {
+        return originalPrice;
+    }
+
+    public void setOriginalPrice(BigDecimal originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -164,6 +175,7 @@ public class PmsSkuStock implements Serializable {
         sb.append(", sale=").append(sale);
         sb.append(", promotionPrice=").append(promotionPrice);
         sb.append(", lockStock=").append(lockStock);
+        sb.append(", originalPrice=").append(originalPrice);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

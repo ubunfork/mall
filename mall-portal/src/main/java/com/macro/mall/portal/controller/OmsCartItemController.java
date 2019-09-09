@@ -39,7 +39,7 @@ public class OmsCartItemController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("获取某个会员的购物车列表--已废弃")
+    @ApiOperation("获取某个会员的购物车列表--已废弃v1.0.1")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<OmsCartItem>> list() {
@@ -51,7 +51,6 @@ public class OmsCartItemController {
     @RequestMapping(value = "/list/product", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<OmsCartResult>> listProduct() {
-        // List<OmsCartItem> cartItemList = cartItemService.list(memberService.getCurrentMember().getId());
         List <OmsCartResult> omsCartResult = cartItemService.carlist(memberService.getCurrentMember().getId());
         return CommonResult.success(omsCartResult);
     }

@@ -32,6 +32,13 @@ public interface UmsMemberReceiveAddressService {
      */
     List<UmsMemberReceiveAddress> list();
 
+
+    /**
+     * 返回用户默认地址
+     * @return
+     */
+    UmsMemberReceiveAddress defual();
+
     /**
      * 获取地址详情
      * @param id 地址id

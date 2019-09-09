@@ -73,3 +73,17 @@ CREATE TABLE `oms_order_confim` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='确认订单零时记录表';
+
+ALTER TABLE pms_product drop column `promotion_price`,drop column `original_price`;
+ALTER TABLE pms_product drop column `stock`,drop column `low_stock`;
+ALTER TABLE pms_product drop column `price`;
+ALTER table pms_product add `price` varchar(100) COMMENT '商品销售价格区间';
+
+ALTER table pms_sku_stock add `original_price` decimal(10,2) COMMENT '市场价格'; 
+
+ALTER TABLE oms_cart_item drop column `price`,drop column `sp1`,drop column `sp2`;
+ALTER TABLE oms_cart_item drop column `sp3`,drop column `member_nickname`,drop column `product_sub_title`;
+ALTER TABLE oms_cart_item drop column `product_category_id`,drop column `product_brand`;
+ALTER TABLE oms_cart_item drop column `product_sn`,drop column `product_attr`;
+ALTER TABLE oms_cart_item drop column `product_pic`,drop column `product_name`;
+ALTER TABLE oms_cart_item drop column `product_sku_code`;

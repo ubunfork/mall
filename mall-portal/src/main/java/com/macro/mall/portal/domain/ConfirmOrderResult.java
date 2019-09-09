@@ -13,8 +13,9 @@ import java.util.List;
 public class ConfirmOrderResult {
     //包含优惠信息的购物车信息
     private List<CartPromotionItem> cartPromotionItemList;
-    //用户收货地址列表
-    private List<UmsMemberReceiveAddress> memberReceiveAddressList;
+    private List<ProductItem> productItemlist;
+    // 用户默认收获地址
+    private UmsMemberReceiveAddress defualAddress;
     //用户可用优惠券列表
     private List<SmsCouponHistoryDetail> couponHistoryDetailList;
     //积分使用规则
@@ -31,13 +32,18 @@ public class ConfirmOrderResult {
     public void setCartPromotionItemList(List<CartPromotionItem> cartPromotionItemList) {
         this.cartPromotionItemList = cartPromotionItemList;
     }
-
-    public List<UmsMemberReceiveAddress> getMemberReceiveAddressList() {
-        return memberReceiveAddressList;
+    /**
+     * @return the productItemlist
+     */
+    public List<ProductItem> getProductItemlist() {
+        return productItemlist;
     }
 
-    public void setMemberReceiveAddressList(List<UmsMemberReceiveAddress> memberReceiveAddressList) {
-        this.memberReceiveAddressList = memberReceiveAddressList;
+    /**
+     * @param productItemlist the productItemlist to set
+     */
+    public void setProductItemlist(List<ProductItem> productItemlist) {
+        this.productItemlist = productItemlist;
     }
 
     public List<SmsCouponHistoryDetail> getCouponHistoryDetailList() {
@@ -113,5 +119,17 @@ public class ConfirmOrderResult {
         public void setPayAmount(BigDecimal payAmount) {
             this.payAmount = payAmount;
         }
+    }
+    /**
+     * @param defualAddress the defualAddress to set
+     */
+    public void setDefualAddress(UmsMemberReceiveAddress defualAddress) {
+        this.defualAddress = defualAddress;
+    }
+    /**
+     * @return the defualAddress
+     */
+    public UmsMemberReceiveAddress getDefualAddress() {
+        return defualAddress;
     }
 }
