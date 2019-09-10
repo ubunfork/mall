@@ -29,8 +29,9 @@ public class UmsMemberController {
     public CommonResult register(@RequestParam String username,
                                  @RequestParam String password,
                                  @RequestParam String telephone,
-                                 @RequestParam String authCode) {
-        return memberService.register(username, password, telephone, authCode);
+                                 @RequestParam String authCode,
+                                 @RequestParam (value = "reccode", required = false) String reccode) {
+        return memberService.register(username, password, telephone, authCode, reccode);
     }
 
     @ApiOperation(value = "验证码登录以后返回token")

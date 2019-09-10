@@ -23,7 +23,7 @@ public interface UmsMemberService {
      * 用户注册
      */
     @Transactional
-    CommonResult register(String username, String password, String telephone, String authCode);
+    CommonResult register(String username, String password, String telephone, String authCode, String reccode);
 
     /**
      * 手机号码验证码登陆

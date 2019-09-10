@@ -11,6 +11,9 @@ import com.macro.mall.portal.domain.MemberDetails;
 import com.macro.mall.portal.service.RedisService;
 import com.macro.mall.portal.service.UmsMemberService;
 import com.macro.mall.portal.util.JwtTokenUtil;
+import com.macro.mall.portal.util.ShareCodeUtil;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -71,7 +74,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
-    public CommonResult register(String username, String password, String telephone, String authCode) {
+    public CommonResult register(String username, String password, String telephone, String authCode,String reccode) {
         //验证验证码
         if(!verifyAuthCode(authCode,telephone)){
             return CommonResult.failed("验证码错误");
@@ -84,6 +87,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         if (!CollectionUtils.isEmpty(umsMembers)) {
             return CommonResult.failed("该用户已经存在");
         }
+        
         //没有该用户进行添加操作
         UmsMember umsMember = new UmsMember();
         umsMember.setUsername(username);
@@ -91,6 +95,15 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         umsMember.setPassword(passwordEncoder.encode(password));
         umsMember.setCreateTime(new Date());
         umsMember.setStatus(1);
+        umsMember.setDepth(0);
+        //设置邀请用户
+        if(reccode != null){
+            UmsMember pumsMember = memberMapper.selectByPrimaryKey(ShareCodeUtil.codeToId(reccode));
+            if(pumsMember != null){
+                umsMember.setPid(pumsMember.getId());
+                umsMember.setDepth(pumsMember.getDepth()+1);
+            }
+        }
         //获取默认会员等级并设置
         UmsMemberLevelExample levelExample = new UmsMemberLevelExample();
         levelExample.createCriteria().andDefaultStatusEqualTo(1);
@@ -99,6 +112,9 @@ public class UmsMemberServiceImpl implements UmsMemberService {
             umsMember.setMemberLevelId(memberLevelList.get(0).getId());
         }
         memberMapper.insert(umsMember);
+        umsMember.setReccode(ShareCodeUtil.toSerialCode(umsMember.getId()));
+        memberMapper.updateByPrimaryKey(umsMember);
+
         umsMember.setPassword(null);
         return CommonResult.success(null,"注册成功");
     }

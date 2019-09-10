@@ -26,5 +26,8 @@ public class OrderTimeOutCancelTask {
     private void cancelTimeOutOrder(){
         CommonResult result = portalOrderService.cancelTimeOutOrder();
         LOGGER.info("取消订单，并根据sku编号释放锁定库存:{}",result);
+        Integer count = portalOrderService.deleteConfirmOrder();
+        LOGGER.info("删除确认订单条数:{}",count);
+        
     }
 }
