@@ -21,6 +21,9 @@ public class OmsOrderSetting implements Serializable {
     @ApiModelProperty(value = "订单完成后自动好评时间（天）")
     private Integer commentOvertime;
 
+    @ApiModelProperty(value = "确认订单取消时间")
+    private Integer confimOvertime;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -71,6 +74,14 @@ public class OmsOrderSetting implements Serializable {
         this.commentOvertime = commentOvertime;
     }
 
+    public Integer getConfimOvertime() {
+        return confimOvertime;
+    }
+
+    public void setConfimOvertime(Integer confimOvertime) {
+        this.confimOvertime = confimOvertime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -83,6 +94,7 @@ public class OmsOrderSetting implements Serializable {
         sb.append(", confirmOvertime=").append(confirmOvertime);
         sb.append(", finishOvertime=").append(finishOvertime);
         sb.append(", commentOvertime=").append(commentOvertime);
+        sb.append(", confimOvertime=").append(confimOvertime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

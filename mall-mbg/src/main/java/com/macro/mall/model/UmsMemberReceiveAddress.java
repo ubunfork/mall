@@ -13,7 +13,7 @@ public class UmsMemberReceiveAddress implements Serializable {
 
     private String phoneNumber;
 
-    @ApiModelProperty(value = "是否为默认 0->正常 1->默认选中")
+    @ApiModelProperty(value = "是否为默认")
     private Integer defaultStatus;
 
     @ApiModelProperty(value = "邮政编码")

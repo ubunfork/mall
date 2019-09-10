@@ -197,7 +197,8 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     public UmsMember getCurrentMember() {
         SecurityContext ctx = SecurityContextHolder.getContext();
         Authentication auth = ctx.getAuthentication();
-        MemberDetails memberDetails = (MemberDetails) auth.getPrincipal();
+        Object object = auth.getPrincipal();
+        MemberDetails memberDetails = (MemberDetails) object;
         return memberDetails.getUmsMember();
     }
 

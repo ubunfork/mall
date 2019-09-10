@@ -92,6 +92,9 @@ public class OmsPortalOrderController {
         @RequestParam(value = "couponId") Long couponId,
         @RequestParam(value = "useIntegration") Integer useIntegration
     ){
+        if(addressId == null || addressId == 0){
+            return CommonResult.failed("请选择收货地址");
+        }
         OrderParam orderParam = new OrderParam();
         orderParam.setConfirmid(confirmId);
         orderParam.setMemberReceiveAddressId(addressId);
@@ -120,6 +123,14 @@ public class OmsPortalOrderController {
     @ResponseBody
     public CommonResult cancelOrder(Long orderId){
         portalOrderService.sendDelayMessageCancelOrder(orderId);
+        return CommonResult.success(null);
+    }
+
+    @ApiOperation("删除超时确认订单")
+    @RequestMapping(value = "/deleteConfimorder", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult deleteConfimorder(){
+        int count = portalOrderService.deleteConfirmOrder();
         return CommonResult.success(null);
     }
 }

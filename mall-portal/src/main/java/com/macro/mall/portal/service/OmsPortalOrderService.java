@@ -30,6 +30,11 @@ public interface OmsPortalOrderService {
     ConfirmOrderResult generateConfirmOrder();
 
     /**
+     * 删除确认订单单信息
+     */
+    Integer deleteConfirmOrder();
+
+    /**
      * 根据提交信息生成订单
      */
     @Transactional

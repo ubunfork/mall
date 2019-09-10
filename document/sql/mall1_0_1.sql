@@ -87,3 +87,6 @@ ALTER TABLE oms_cart_item drop column `product_category_id`,drop column `product
 ALTER TABLE oms_cart_item drop column `product_sn`,drop column `product_attr`;
 ALTER TABLE oms_cart_item drop column `product_pic`,drop column `product_name`;
 ALTER TABLE oms_cart_item drop column `product_sku_code`;
+
+ALTER table oms_order_setting add `confim_overtime` int(11) COMMENT '确认订单取消时间';
+UPDATE oms_order_setting set `confim_overtime`=1 where id=1;

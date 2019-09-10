@@ -142,6 +142,21 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         result.setCalcAmount(calcAmount);
         return result;
     }
+
+    @Override
+    public Integer deleteConfirmOrder(){
+        OmsOrderSetting orderSetting = orderSettingMapper.selectByPrimaryKey(1L);
+        Date date =new Date(); //取时间 
+        Calendar  calendar = new GregorianCalendar(); 
+        calendar.setTime(date);
+        Integer overtime = 0-orderSetting.getConfimOvertime(); 
+        calendar.add(calendar.DATE,overtime); //把日期往前一天,整数  往后推,负数往前移动 
+        date=calendar.getTime(); //这个时间就是日期往后推一天的结果 
+        OmsOrderConfimExample example = new OmsOrderConfimExample();
+        example.createCriteria().andCreateTimeLessThan(date);
+        return omsOrderConfimMapper.deleteByExample(example);
+        
+    }
     @Override
     public CommonResult generatePayOrder(OrderParam orderParam){
         UmsMember currentMember = memberService.getCurrentMember();
@@ -176,7 +191,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
             orderItem.setProductSkuId(productItem.getId());
             orderItem.setPromotionAmount(productItem.getReduceAmount());
             orderItem.setPromotionName(productItem.getPromotionMessage());
-
+            orderItem.setProductPrice(productItem.getPrice());
             PmsProduct pmsProduct = pmsProductMapper.selectByPrimaryKey(productItem.getProductId());
             
             orderItem.setGiftIntegration(pmsProduct.getGiftPoint());
@@ -203,7 +218,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
                 handleCouponAmount(orderItemList, couponHistoryDetail);
             }
             //判断是否使用积分
-            if (orderParam.getUseIntegration() == null) {
+            if (orderParam.getUseIntegration() == null || orderParam.getUseIntegration() == 0) {
                 //不使用积分
                 for (OmsOrderItem orderItem : orderItemList) {
                     orderItem.setIntegrationAmount(new BigDecimal(0));
@@ -536,7 +551,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         Long increment = redisService.increment(key, 1);
         sb.append(date);
         sb.append(String.format("%02d", order.getSourceType()));
-        sb.append(String.format("%02d", order.getPayType()));
+        // sb.append(String.format("%02d", order.getPayType()));
         String incrementStr = increment.toString();
         if (incrementStr.length() <= 6) {
             sb.append(String.format("%06d", increment));
@@ -825,7 +840,9 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     private BigDecimal calcTotalAmount(List<OmsOrderItem> orderItemList) {
         BigDecimal totalAmount = new BigDecimal("0");
         for (OmsOrderItem item : orderItemList) {
-            totalAmount = totalAmount.add(item.getProductPrice().multiply(new BigDecimal(item.getProductQuantity())));
+            BigDecimal quan =  new BigDecimal(item.getProductQuantity());
+            
+            totalAmount = totalAmount.add(item.getProductPrice().multiply(quan));
         }
         return totalAmount;
     }

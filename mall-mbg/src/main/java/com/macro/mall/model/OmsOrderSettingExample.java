@@ -463,6 +463,66 @@ public class OmsOrderSettingExample {
             addCriterion("comment_overtime not between", value1, value2, "commentOvertime");
             return (Criteria) this;
         }
+
+        public Criteria andConfimOvertimeIsNull() {
+            addCriterion("confim_overtime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfimOvertimeIsNotNull() {
+            addCriterion("confim_overtime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfimOvertimeEqualTo(Integer value) {
+            addCriterion("confim_overtime =", value, "confimOvertime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfimOvertimeNotEqualTo(Integer value) {
+            addCriterion("confim_overtime <>", value, "confimOvertime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfimOvertimeGreaterThan(Integer value) {
+            addCriterion("confim_overtime >", value, "confimOvertime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfimOvertimeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("confim_overtime >=", value, "confimOvertime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfimOvertimeLessThan(Integer value) {
+            addCriterion("confim_overtime <", value, "confimOvertime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfimOvertimeLessThanOrEqualTo(Integer value) {
+            addCriterion("confim_overtime <=", value, "confimOvertime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfimOvertimeIn(List<Integer> values) {
+            addCriterion("confim_overtime in", values, "confimOvertime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfimOvertimeNotIn(List<Integer> values) {
+            addCriterion("confim_overtime not in", values, "confimOvertime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfimOvertimeBetween(Integer value1, Integer value2) {
+            addCriterion("confim_overtime between", value1, value2, "confimOvertime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfimOvertimeNotBetween(Integer value1, Integer value2) {
+            addCriterion("confim_overtime not between", value1, value2, "confimOvertime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

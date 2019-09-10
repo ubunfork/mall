@@ -35,7 +35,7 @@ SELECT
 FROM `pms_sku_stock` sku
 LEFT JOIN `oms_cart_item` car ON car.`product_id` = sku.`product_id` and car.`product_sku_id` = sku.id
 LEFT JOIN `pms_product` pro ON car.`product_id` = pro.id
-WHERE car.`member_id` = #{memberid} ;
+WHERE car.`member_id` = #{memberid} and car.`delete_status`=0;
 </select>
  
   
