@@ -74,13 +74,21 @@ CREATE TABLE `oms_order_confim` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='确认订单零时记录表';
 
+-- ----------------------------
+-- 删除商品的库存属性，修改价格属性为价格区间
+-- ----------------------------
 ALTER TABLE pms_product drop column `promotion_price`,drop column `original_price`;
 ALTER TABLE pms_product drop column `stock`,drop column `low_stock`;
 ALTER TABLE pms_product drop column `price`;
 ALTER table pms_product add `price` varchar(100) COMMENT '商品销售价格区间';
-
+-- ----------------------------
+-- 给sku添加市场价格，作为原价显示
+-- ----------------------------
 ALTER table pms_sku_stock add `original_price` decimal(10,2) COMMENT '市场价格'; 
 
+-- ----------------------------
+-- 删除购物车多余属性
+-- ----------------------------
 ALTER TABLE oms_cart_item drop column `price`,drop column `sp1`,drop column `sp2`;
 ALTER TABLE oms_cart_item drop column `sp3`,drop column `member_nickname`,drop column `product_sub_title`;
 ALTER TABLE oms_cart_item drop column `product_category_id`,drop column `product_brand`;
@@ -88,5 +96,21 @@ ALTER TABLE oms_cart_item drop column `product_sn`,drop column `product_attr`;
 ALTER TABLE oms_cart_item drop column `product_pic`,drop column `product_name`;
 ALTER TABLE oms_cart_item drop column `product_sku_code`;
 
+-- ----------------------------
+-- 订单设置添加确认订单数据删除事件设置
+-- ----------------------------
 ALTER table oms_order_setting add `confim_overtime` int(11) COMMENT '确认订单取消时间';
 UPDATE oms_order_setting set `confim_overtime`=1 where id=1;
+
+-- ----------------------------
+-- 添加服务器设置
+-- ----------------------------
+DROP TABLE IF EXISTS `cfg_service`;
+CREATE TABLE `cfg_service` (
+  `id` int(4) NOT NULL,
+  `name` varchar(64) DEFAULT NULL COMMENT '标题',
+  `value` varchar(200) DEFAULT NULL COMMENT '设置值',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务器设置';
+
+INSERT INTO `cfg_service` VALUES ('1001', '是否发送验证码0->发送 -1->不发送', '0');

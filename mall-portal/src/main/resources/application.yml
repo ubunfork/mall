@@ -22,6 +22,7 @@ redis:
     prefix:
       authCode: "portal:authCode:"
       orderId: "portal:orderId:"
+      isSendAuthCode: false #是否发送验证码
     expire:
       authCode: 90 # 验证码超期时间
 
