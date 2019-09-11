@@ -102,4 +102,10 @@ public class CfgServiceImpl implements CfgServices {
         CfgServiceExample example = new CfgServiceExample();
         return cfgServiceMapper.selectByExample(example);
     }
+
+    @Override
+    public int updateservice(Integer id, CfgService cfgService){
+        cfgService.setId(id);
+        return cfgServiceMapper.updateByPrimaryKey(cfgService);
+    }
 }

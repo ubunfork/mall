@@ -24,4 +24,6 @@ public interface CfgServices {
     List<CfgSource> getsourcebytype(CfgSourceParam cfgSourceParam);
 
     List<CfgService> listservice();
+
+    int updateservice(Integer id, CfgService cfgService);
 }

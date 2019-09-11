@@ -149,4 +149,19 @@ public class CfgController {
         return commonResult;
     }
 
+    @ApiOperation(value = "更新服务器配置")
+    @RequestMapping(value = "/updateServiceSetting/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    // @PreAuthorize("hasAuthority('cfg:type:addsource')")
+    public CommonResult updateServiceSetting(@PathVariable("id") Integer id, @Validated @RequestBody CfgService cfgService, BindingResult result) {
+        CommonResult commonResult;
+        int count = cfgServices.updateservice(id, cfgService);
+        if (count == 1) {
+            commonResult = CommonResult.success(count);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
+    }
+
 }
