@@ -2,11 +2,11 @@ package com.macro.mall.controller;
 
 import java.util.List;
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.model.CfgService;
 import com.macro.mall.model.CfgSource;
 import com.macro.mall.model.CfgType;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.macro.mall.service.CfgService;
+import com.macro.mall.service.CfgServices;
 /**
  * app配置管理Controller
  * Created by macro on 2018/6/1.
@@ -30,13 +30,13 @@ import com.macro.mall.service.CfgService;
 @RequestMapping("/config")
 public class CfgController {
     @Autowired
-    private CfgService cfgService;
+    private CfgServices cfgServices;
 
     @ApiOperation("获取所有配置分类")
     @RequestMapping(value = "/listtype", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<CfgType>> listtype() {
-        List<CfgType> cfgTypeList = cfgService.listAllType();
+        List<CfgType> cfgTypeList = cfgServices.listAllType();
         return CommonResult.success(cfgTypeList);
     }
 
@@ -46,7 +46,7 @@ public class CfgController {
     // @PreAuthorize("hasAuthority('cfg:type:create')")
     public CommonResult createtype(@Validated @RequestBody CfgType cfgType, BindingResult result) {
         CommonResult commonResult;
-        int count = cfgService.createType(cfgType);
+        int count = cfgServices.createType(cfgType);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -62,7 +62,7 @@ public class CfgController {
     public CommonResult updatetype(@PathVariable("id") Integer id, @Validated @RequestBody CfgType cfgType, BindingResult result) {
         CommonResult commonResult;
        
-        int count = cfgService.updateType(id, cfgType);
+        int count = cfgServices.updateType(id, cfgType);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -76,7 +76,7 @@ public class CfgController {
     @RequestMapping(value = "/deletetype/{id}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult deletetype(@PathVariable("id") Long id) {
-        int count = cfgService.deletetype(id);
+        int count = cfgServices.deletetype(id);
         if (count > 0) {
             return CommonResult.success(count);
         }
@@ -89,7 +89,7 @@ public class CfgController {
     // @PreAuthorize("hasAuthority('cfg:type:addsource')")
     public CommonResult createsource(@PathVariable("typeid") Long typeid, @Validated @RequestBody CfgSource cfgSource, BindingResult result) {
         CommonResult commonResult;
-        int count = cfgService.addsource(typeid, cfgSource);
+        int count = cfgServices.addsource(typeid, cfgSource);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -104,7 +104,7 @@ public class CfgController {
     // @PreAuthorize("hasAuthority('cfg:type:addsource')")
     public CommonResult updatesource(@PathVariable("id") Long id, @Validated @RequestBody CfgSource cfgSource, BindingResult result) {
         CommonResult commonResult;
-        int count = cfgService.updatesource(id,cfgSource);
+        int count = cfgServices.updatesource(id,cfgSource);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -119,7 +119,7 @@ public class CfgController {
     // @PreAuthorize("hasAuthority('cfg:type:addsource')")
     public CommonResult deletesource(@PathVariable("id") Long id) {
         CommonResult commonResult;
-        int count = cfgService.deletesource(id);
+        int count = cfgServices.deletesource(id);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -134,7 +134,17 @@ public class CfgController {
     @ResponseBody
     public CommonResult<List<CfgSource>> getsourcebytype(CfgSourceParam cfgSourceParam , BindingResult result) {
         CommonResult commonResult;
-        List<CfgSource > cfgSource = cfgService.getsourcebytype(cfgSourceParam);
+        List<CfgSource > cfgSource = cfgServices.getsourcebytype(cfgSourceParam);
+        commonResult = CommonResult.success(cfgSource);
+        return commonResult;
+    }
+
+    @ApiOperation("获取服务器配置")
+    @RequestMapping(value = "/getserviec", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<CfgService>> getserviec(BindingResult result) {
+        CommonResult commonResult;
+        List<CfgService > cfgSource = cfgServices.listservice();
         commonResult = CommonResult.success(cfgSource);
         return commonResult;
     }

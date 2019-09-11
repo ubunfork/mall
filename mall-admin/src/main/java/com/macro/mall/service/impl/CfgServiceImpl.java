@@ -2,15 +2,18 @@ package com.macro.mall.service.impl;
 
 import com.macro.mall.dao.CfgDao;
 import com.macro.mall.dto.CfgSourceParam;
+import com.macro.mall.mapper.CfgServiceMapper;
 import com.macro.mall.mapper.CfgSourceMapper;
 import com.macro.mall.mapper.CfgTypeMapper;
 import com.macro.mall.mapper.CfgTypeSourceMapper;
+import com.macro.mall.model.CfgServiceExample;
 import com.macro.mall.model.CfgSource;
 import com.macro.mall.model.CfgType;
 import com.macro.mall.model.CfgTypeExample;
 import com.macro.mall.model.CfgTypeSource;
 import com.macro.mall.model.CfgTypeSourceExample;
-import com.macro.mall.service.CfgService;
+import com.macro.mall.service.CfgServices;
+import com.macro.mall.model.CfgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +24,7 @@ import java.util.List;
  * Created by macro on 2018/6/1.
  */
 @Service
-public class CfgServiceImpl implements CfgService {
+public class CfgServiceImpl implements CfgServices {
     @Autowired
     private CfgTypeMapper cfgTypeMapper;
     @Autowired
@@ -30,6 +33,8 @@ public class CfgServiceImpl implements CfgService {
     private CfgTypeSourceMapper  cfgTypeSourceMapper;
     @Autowired
     private CfgDao cfgDao;
+    @Autowired
+    private CfgServiceMapper cfgServiceMapper;
 
     @Autowired
     private CfgTypeSourceMapper CfgTypeSourceMapper;
@@ -90,5 +95,11 @@ public class CfgServiceImpl implements CfgService {
     @Override
     public List<CfgSource> getsourcebytype(CfgSourceParam cfgSourceParam){
         return  cfgDao.selectsource(cfgSourceParam);
+    }
+    // 获取服务器配置表
+    @Override
+    public List<CfgService> listservice(){
+        CfgServiceExample example = new CfgServiceExample();
+        return cfgServiceMapper.selectByExample(example);
     }
 }
