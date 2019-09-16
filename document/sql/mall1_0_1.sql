@@ -113,3 +113,6 @@ CREATE TABLE `cfg_service` (
   `maybe` varchar(1000) DEFAULT NULL COMMENT '可选json参数[{key:value}]，如果为空则为string',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务器设置';
+
+
+INSERT INTO `cfg_service` VALUES (1001, '是否发送验证码', '0', '{"发送":0,"不发送":1}');

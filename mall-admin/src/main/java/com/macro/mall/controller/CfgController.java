@@ -142,7 +142,7 @@ public class CfgController {
     @ApiOperation("获取服务器配置")
     @RequestMapping(value = "/getserviec", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<CfgService>> getserviec(BindingResult result) {
+    public CommonResult<List<CfgService>> getserviec() {
         CommonResult commonResult;
         List<CfgService > cfgSource = cfgServices.listservice();
         commonResult = CommonResult.success(cfgSource);
