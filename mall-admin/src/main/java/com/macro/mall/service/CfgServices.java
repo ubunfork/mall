@@ -1,5 +1,6 @@
 package com.macro.mall.service;
 
+import com.macro.mall.model.CfgService;
 import com.macro.mall.model.CfgSource;
 import com.macro.mall.model.CfgType;
 import com.macro.mall.dto.CfgSourceParam;
@@ -8,7 +9,7 @@ import java.util.List;
  * app配置Service
  * Created by macro on 2018/6/1.
  */
-public interface CfgService {
+public interface CfgServices {
 
     List<CfgType> listAllType();
 
@@ -22,5 +23,7 @@ public interface CfgService {
     
     List<CfgSource> getsourcebytype(CfgSourceParam cfgSourceParam);
 
+    List<CfgService> listservice();
 
+    int updateservice(Integer id, CfgService cfgService);
 }

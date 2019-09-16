@@ -1,8 +1,10 @@
 package com.macro.mall.portal.service.impl;
 
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.mapper.CfgServiceMapper;
 import com.macro.mall.mapper.UmsMemberLevelMapper;
 import com.macro.mall.mapper.UmsMemberMapper;
+import com.macro.mall.model.CfgService;
 import com.macro.mall.model.UmsMember;
 import com.macro.mall.model.UmsMemberExample;
 import com.macro.mall.model.UmsMemberLevel;
@@ -28,6 +30,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import com.aliyuncs.CommonRequest;
+import com.aliyuncs.CommonResponse;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.IAcsClient;
+import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.exceptions.ServerException;
+import com.aliyuncs.http.MethodType;
+import com.aliyuncs.profile.DefaultProfile;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -52,10 +63,15 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private CfgServiceMapper cfgServiceMapper;
     @Value("${redis.key.prefix.authCode}")
     private String REDIS_KEY_PREFIX_AUTH_CODE;
     @Value("${redis.key.expire.authCode}")
     private Long AUTH_CODE_EXPIRE_SECONDS;
+    
+    
+    
 
     @Override
     public UmsMember getByUsername(String username) {
@@ -180,15 +196,26 @@ public class UmsMemberServiceImpl implements UmsMemberService {
 
     @Override
     public CommonResult generateAuthCode(String telephone) {
+        String autocode = "123456";
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for(int i=0;i<6;i++){
             sb.append(random.nextInt(10));
         }
+        autocode = sb.toString();
         //验证码绑定手机号并存储到redis
-        redisService.set(REDIS_KEY_PREFIX_AUTH_CODE+telephone,sb.toString());
+        String keystr =  REDIS_KEY_PREFIX_AUTH_CODE+telephone;
+        redisService.set(keystr,autocode);
         redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE+telephone,AUTH_CODE_EXPIRE_SECONDS);
-        return CommonResult.success(sb.toString(),"获取验证码成功");
+
+        CfgService cfgService = cfgServiceMapper.selectByPrimaryKey(1001);
+        if(cfgService.getValue().equals("0") ){
+            sendAuthCode(sb.toString(),telephone);
+            return CommonResult.success(null,"获取验证码成功");
+        }else{
+            return CommonResult.success(autocode,"获取验证码成功");
+        }
+        
     }
 
     @Override
@@ -233,6 +260,34 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         }
         String realAuthCode = redisService.get(REDIS_KEY_PREFIX_AUTH_CODE + telephone);
         return authCode.equals(realAuthCode);
+    }
+
+    //通过阿里云发送验证码
+    private void sendAuthCode(String authCode, String telephone){
+       
+        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAIJySUFKQ7gSkr", "BNlEqO5ej8ymx8CknWvQPPq3mNWbZI");
+        IAcsClient client = new DefaultAcsClient(profile);
+
+        CommonRequest request = new CommonRequest();
+        request.setMethod(MethodType.POST);
+        request.setDomain("dysmsapi.aliyuncs.com");
+        request.setVersion("2017-05-25");
+        request.setAction("SendSms");
+        request.putQueryParameter("RegionId", "cn-hangzhou");
+        request.putQueryParameter("PhoneNumbers", telephone);
+        request.putQueryParameter("SignName", "瑞鑫科技");
+        request.putQueryParameter("TemplateCode", "SMS_154589476");
+        request.putQueryParameter("TemplateParam", "{\"code\":\""+authCode+"\"}");
+        request.putQueryParameter("SmsUpExtendCode", authCode);
+        try {
+            CommonResponse response = client.getCommonResponse(request);
+            System.out.println(response.getData());
+        } catch (ServerException e) {
+            e.printStackTrace();
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+       
     }
 
 }
