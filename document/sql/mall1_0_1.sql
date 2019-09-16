@@ -90,3 +90,15 @@ ALTER TABLE oms_cart_item drop column `product_sku_code`;
 
 ALTER table oms_order_setting add `confim_overtime` int(11) COMMENT '确认订单取消时间';
 UPDATE oms_order_setting set `confim_overtime`=1 where id=1;
+
+-- ----------------------------
+-- 服务器配置表
+-- ----------------------------
+DROP TABLE IF EXISTS `cfg_service`;
+CREATE TABLE `cfg_service` (
+  `id` int(4) NOT NULL,
+  `name` varchar(64) DEFAULT NULL COMMENT '标题',
+  `value` varchar(200) DEFAULT NULL COMMENT '设置值',
+  `maybe` varchar(1000) DEFAULT NULL COMMENT '可选json参数[{key:value}]，如果为空则为string',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务器设置';

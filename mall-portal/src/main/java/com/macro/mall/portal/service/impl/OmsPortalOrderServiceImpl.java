@@ -292,6 +292,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
             order.setGrowth(calcGiftGrowth(orderItemList));
             //生成订单号
             order.setOrderSn(generateOrderSn(order));
+            order.setModifyTime(new Date());
             // TODO: 2018/9/3 bill_*,delivery_*
             //插入order表和order_item表
             orderMapper.insert(order);
