@@ -98,6 +98,9 @@ public class PmsProduct implements Serializable {
     @ApiModelProperty(value = "商品销售价格区间")
     private String price;
 
+    @ApiModelProperty(value = "商品拥有者(卖家id)")
+    private Long ownerid;
+
     @ApiModelProperty(value = "商品描述")
     private String description;
 
@@ -383,6 +386,14 @@ public class PmsProduct implements Serializable {
         this.price = price;
     }
 
+    public Long getOwnerid() {
+        return ownerid;
+    }
+
+    public void setOwnerid(Long ownerid) {
+        this.ownerid = ownerid;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -455,6 +466,7 @@ public class PmsProduct implements Serializable {
         sb.append(", brandName=").append(brandName);
         sb.append(", productCategoryName=").append(productCategoryName);
         sb.append(", price=").append(price);
+        sb.append(", ownerid=").append(ownerid);
         sb.append(", description=").append(description);
         sb.append(", detailDesc=").append(detailDesc);
         sb.append(", detailHtml=").append(detailHtml);
