@@ -118,3 +118,33 @@ CREATE TABLE `cfg_service` (
 INSERT INTO `cfg_service` VALUES (1001, '是否发送验证码', '0', '{"发送":0,"不发送":1}');
 
 ALTER table pms_product add `ownerId` bigint(20) NOT NULL  COMMENT '商品拥有者(卖家id)';
+
+-- ----------------------------
+-- 自提点表
+-- ----------------------------
+DROP TABLE IF EXISTS `pms_station`;
+CREATE TABLE `pms_station` (
+`id` bigint(20) NOT NULL AUTO_INCREMENT,
+`status` int(1) DEFAULT '0' COMMENT '0->等待审核 1->审核通过 2->审核失败',
+`member_id` bigint(20) DEFAULT NULL COMMENT '会员id',
+`name` varchar(100) DEFAULT NULL COMMENT '自提点名称',
+`phone_number` varchar(64) DEFAULT NULL COMMENT '电话号码',
+`province` varchar(100) DEFAULT NULL COMMENT '省份/直辖市',
+`city` varchar(100) DEFAULT NULL COMMENT '城市',
+`region` varchar(100) DEFAULT NULL COMMENT '区',
+`detail_address` varchar(128) DEFAULT NULL COMMENT '详细地址(街道)',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品自提点表';
+
+
+DROP TABLE IF EXISTS `sys_vertify_record`;
+CREATE TABLE `sys_vertify_record` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ver_id` varchar(64) DEFAULT NULL COMMENT '审核人id',
+  `def_id` bigint(20) DEFAULT NULL COMMENT '审核对应的订单id',
+  `type` bigint(20) DEFAULT NULL COMMENT '审核对应类型 1->自提点申请',
+  `status` int(1) DEFAULT NULL COMMENT  '对应的审核状态',
+  `detail` varchar(255) DEFAULT NULL COMMENT '反馈详情',
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='审核记录';
