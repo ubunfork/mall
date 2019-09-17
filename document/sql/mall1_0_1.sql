@@ -116,3 +116,5 @@ CREATE TABLE `cfg_service` (
 
 
 INSERT INTO `cfg_service` VALUES (1001, '是否发送验证码', '0', '{"发送":0,"不发送":1}');
+
+ALTER table pms_product add `ownerId` bigint(20) NOT NULL  COMMENT '商品拥有者(卖家id)';
