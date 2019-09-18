@@ -2,6 +2,7 @@ package com.macro.mall.controller;
 
 import com.macro.mall.bo.AdminUserDetails;
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.mapper.SysVertifyRecordMapper;
 import com.macro.mall.model.PmsStation;
 import com.macro.mall.model.SysVertifyRecord;
 import com.macro.mall.service.PmsStationServices;
@@ -29,6 +30,9 @@ public class PmsStationController {
     @Autowired
     private UmsAdminService umsAdminService;
 
+    @Autowired
+    private SysVertifyRecordMapper sysVertifyRecordMapper;
+
     // 根据条件获取自提点记录 状态 ，地址（模糊搜索）
     @ApiOperation("根据条件获取自提点记录 状态 ，地址（模糊搜索）")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -48,7 +52,7 @@ public class PmsStationController {
     public CommonResult update(
         @PathVariable Long id, 
         @RequestParam(value = "status") Integer status,
-        @RequestParam(value = "status") String detail
+        @RequestParam(value = "detail") String detail
         ){
         PmsStation pmsStation = new PmsStation();
         pmsStation.setId(id);
@@ -62,8 +66,9 @@ public class PmsStationController {
             sysVertifyRecord.setDefId(pmsStation.getId());
             sysVertifyRecord.setStatus(pmsStation.getStatus());
             sysVertifyRecord.setDetail(detail);
-            sysVertifyRecord.setType(1L);
+            sysVertifyRecord.setType(1);
             sysVertifyRecord.setVerId(umsPermission.getUserid());
+            sysVertifyRecordMapper.insert(sysVertifyRecord);
             return CommonResult.success(count);
         } else {
             return CommonResult.failed();

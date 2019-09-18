@@ -175,62 +175,52 @@ public class SysVertifyRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andVerIdEqualTo(String value) {
+        public Criteria andVerIdEqualTo(Long value) {
             addCriterion("ver_id =", value, "verId");
             return (Criteria) this;
         }
 
-        public Criteria andVerIdNotEqualTo(String value) {
+        public Criteria andVerIdNotEqualTo(Long value) {
             addCriterion("ver_id <>", value, "verId");
             return (Criteria) this;
         }
 
-        public Criteria andVerIdGreaterThan(String value) {
+        public Criteria andVerIdGreaterThan(Long value) {
             addCriterion("ver_id >", value, "verId");
             return (Criteria) this;
         }
 
-        public Criteria andVerIdGreaterThanOrEqualTo(String value) {
+        public Criteria andVerIdGreaterThanOrEqualTo(Long value) {
             addCriterion("ver_id >=", value, "verId");
             return (Criteria) this;
         }
 
-        public Criteria andVerIdLessThan(String value) {
+        public Criteria andVerIdLessThan(Long value) {
             addCriterion("ver_id <", value, "verId");
             return (Criteria) this;
         }
 
-        public Criteria andVerIdLessThanOrEqualTo(String value) {
+        public Criteria andVerIdLessThanOrEqualTo(Long value) {
             addCriterion("ver_id <=", value, "verId");
             return (Criteria) this;
         }
 
-        public Criteria andVerIdLike(String value) {
-            addCriterion("ver_id like", value, "verId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVerIdNotLike(String value) {
-            addCriterion("ver_id not like", value, "verId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVerIdIn(List<String> values) {
+        public Criteria andVerIdIn(List<Long> values) {
             addCriterion("ver_id in", values, "verId");
             return (Criteria) this;
         }
 
-        public Criteria andVerIdNotIn(List<String> values) {
+        public Criteria andVerIdNotIn(List<Long> values) {
             addCriterion("ver_id not in", values, "verId");
             return (Criteria) this;
         }
 
-        public Criteria andVerIdBetween(String value1, String value2) {
+        public Criteria andVerIdBetween(Long value1, Long value2) {
             addCriterion("ver_id between", value1, value2, "verId");
             return (Criteria) this;
         }
 
-        public Criteria andVerIdNotBetween(String value1, String value2) {
+        public Criteria andVerIdNotBetween(Long value1, Long value2) {
             addCriterion("ver_id not between", value1, value2, "verId");
             return (Criteria) this;
         }
@@ -305,52 +295,52 @@ public class SysVertifyRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeEqualTo(Long value) {
+        public Criteria andTypeEqualTo(Integer value) {
             addCriterion("type =", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotEqualTo(Long value) {
+        public Criteria andTypeNotEqualTo(Integer value) {
             addCriterion("type <>", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThan(Long value) {
+        public Criteria andTypeGreaterThan(Integer value) {
             addCriterion("type >", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThanOrEqualTo(Long value) {
+        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
             addCriterion("type >=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThan(Long value) {
+        public Criteria andTypeLessThan(Integer value) {
             addCriterion("type <", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThanOrEqualTo(Long value) {
+        public Criteria andTypeLessThanOrEqualTo(Integer value) {
             addCriterion("type <=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIn(List<Long> values) {
+        public Criteria andTypeIn(List<Integer> values) {
             addCriterion("type in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotIn(List<Long> values) {
+        public Criteria andTypeNotIn(List<Integer> values) {
             addCriterion("type not in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeBetween(Long value1, Long value2) {
+        public Criteria andTypeBetween(Integer value1, Integer value2) {
             addCriterion("type between", value1, value2, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotBetween(Long value1, Long value2) {
+        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }

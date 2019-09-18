@@ -3,9 +3,9 @@
 <mapper namespace="com.macro.mall.mapper.SysVertifyRecordMapper">
   <resultMap id="BaseResultMap" type="com.macro.mall.model.SysVertifyRecord">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="ver_id" jdbcType="VARCHAR" property="verId" />
+    <result column="ver_id" jdbcType="BIGINT" property="verId" />
     <result column="def_id" jdbcType="BIGINT" property="defId" />
-    <result column="type" jdbcType="BIGINT" property="type" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="detail" jdbcType="VARCHAR" property="detail" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -108,7 +108,7 @@
     insert into sys_vertify_record (ver_id, def_id, type, 
       status, detail, create_time
       )
-    values (#{verId,jdbcType=VARCHAR}, #{defId,jdbcType=BIGINT}, #{type,jdbcType=BIGINT}, 
+    values (#{verId,jdbcType=BIGINT}, #{defId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, 
       #{status,jdbcType=INTEGER}, #{detail,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -139,13 +139,13 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="verId != null">
-        #{verId,jdbcType=VARCHAR},
+        #{verId,jdbcType=BIGINT},
       </if>
       <if test="defId != null">
         #{defId,jdbcType=BIGINT},
       </if>
       <if test="type != null">
-        #{type,jdbcType=BIGINT},
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -171,13 +171,13 @@
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.verId != null">
-        ver_id = #{record.verId,jdbcType=VARCHAR},
+        ver_id = #{record.verId,jdbcType=BIGINT},
       </if>
       <if test="record.defId != null">
         def_id = #{record.defId,jdbcType=BIGINT},
       </if>
       <if test="record.type != null">
-        type = #{record.type,jdbcType=BIGINT},
+        type = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
@@ -196,9 +196,9 @@
   <update id="updateByExample" parameterType="map">
     update sys_vertify_record
     set id = #{record.id,jdbcType=BIGINT},
-      ver_id = #{record.verId,jdbcType=VARCHAR},
+      ver_id = #{record.verId,jdbcType=BIGINT},
       def_id = #{record.defId,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=INTEGER},
       status = #{record.status,jdbcType=INTEGER},
       detail = #{record.detail,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
@@ -210,13 +210,13 @@
     update sys_vertify_record
     <set>
       <if test="verId != null">
-        ver_id = #{verId,jdbcType=VARCHAR},
+        ver_id = #{verId,jdbcType=BIGINT},
       </if>
       <if test="defId != null">
         def_id = #{defId,jdbcType=BIGINT},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=BIGINT},
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -232,9 +232,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.SysVertifyRecord">
     update sys_vertify_record
-    set ver_id = #{verId,jdbcType=VARCHAR},
+    set ver_id = #{verId,jdbcType=BIGINT},
       def_id = #{defId,jdbcType=BIGINT},
-      type = #{type,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       detail = #{detail,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}

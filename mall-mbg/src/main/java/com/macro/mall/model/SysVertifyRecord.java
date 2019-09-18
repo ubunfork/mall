@@ -8,13 +8,13 @@ public class SysVertifyRecord implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "审核人id")
-    private String verId;
+    private Long verId;
 
     @ApiModelProperty(value = "审核对应的订单id")
     private Long defId;
 
     @ApiModelProperty(value = "审核对应类型 1->自提点申请")
-    private Long type;
+    private Integer type;
 
     @ApiModelProperty(value = "对应的审核状态")
     private Integer status;
@@ -34,11 +34,11 @@ public class SysVertifyRecord implements Serializable {
         this.id = id;
     }
 
-    public String getVerId() {
+    public Long getVerId() {
         return verId;
     }
 
-    public void setVerId(String verId) {
+    public void setVerId(Long verId) {
         this.verId = verId;
     }
 
@@ -50,11 +50,11 @@ public class SysVertifyRecord implements Serializable {
         this.defId = defId;
     }
 
-    public Long getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Long type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
