@@ -17,10 +17,19 @@ import java.util.stream.Collectors;
 public class AdminUserDetails implements UserDetails {
     private UmsAdmin umsAdmin;
     private List<UmsPermission> permissionList;
+
+    /**
+     * @return the userid
+     */
+    public Long getUserid() {
+        return this.umsAdmin.getId();
+    }
+
     public AdminUserDetails(UmsAdmin umsAdmin,List<UmsPermission> permissionList) {
         this.umsAdmin = umsAdmin;
         this.permissionList = permissionList;
     }
+  
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

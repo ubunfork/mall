@@ -1,5 +1,6 @@
 package com.macro.mall.service;
 
+import com.macro.mall.bo.AdminUserDetails;
 import com.macro.mall.dto.UmsAdminParam;
 import com.macro.mall.model.UmsAdmin;
 import com.macro.mall.model.UmsPermission;
@@ -82,5 +83,5 @@ public interface UmsAdminService {
     /**
      * 获取当前登陆用户
      */
-    UmsPermission getCurrentMember() ;
+    AdminUserDetails getCurrentMember() ;
 }

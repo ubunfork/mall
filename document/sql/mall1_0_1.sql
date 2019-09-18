@@ -140,9 +140,9 @@ PRIMARY KEY (`id`)
 DROP TABLE IF EXISTS `sys_vertify_record`;
 CREATE TABLE `sys_vertify_record` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `ver_id` varchar(64) DEFAULT NULL COMMENT '审核人id',
+  `ver_id` bigint(20) DEFAULT NULL COMMENT '审核人id',
   `def_id` bigint(20) DEFAULT NULL COMMENT '审核对应的订单id',
-  `type` bigint(20) DEFAULT NULL COMMENT '审核对应类型 1->自提点申请',
+  `type` int(3) DEFAULT NULL COMMENT '审核对应类型 1->自提点申请',
   `status` int(1) DEFAULT NULL COMMENT  '对应的审核状态',
   `detail` varchar(255) DEFAULT NULL COMMENT '反馈详情',
   `create_time` datetime DEFAULT NULL,

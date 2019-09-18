@@ -1,6 +1,7 @@
 package com.macro.mall.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.macro.mall.bo.AdminUserDetails;
 import com.macro.mall.dao.UmsAdminPermissionRelationDao;
 import com.macro.mall.dao.UmsAdminRoleRelationDao;
 import com.macro.mall.dto.UmsAdminParam;
@@ -254,11 +255,11 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     }
 
     @Override
-    public UmsPermission getCurrentMember() {
+    public AdminUserDetails getCurrentMember() {
         SecurityContext ctx = SecurityContextHolder.getContext();
         Authentication auth = ctx.getAuthentication();
         Object object = auth.getPrincipal();
-        UmsPermission memberDetails = (UmsPermission) object;
+        AdminUserDetails memberDetails = (AdminUserDetails) object;
         return memberDetails;
     }
 }
