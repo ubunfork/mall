@@ -73,7 +73,7 @@ public class PmsStationController {
         return CommonResult.failed();
     }
     // 查询自提点信息
-    @ApiOperation("根据商品id获取商品编辑信息")
+    @ApiOperation("查询自提点信息")
     @RequestMapping(value = "/getStation", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<PmsStation> getStation() {
@@ -86,5 +86,22 @@ public class PmsStationController {
             PmsStation pmsStation = list.get(0);
             return CommonResult.success(pmsStation);
         }
+    }
+
+    /**
+     * 添加自提点订单
+     */
+    // 申请成为自提点
+    @ApiOperation("申请/修改自提点")
+    @RequestMapping(value = "/createorder", method = RequestMethod.POST)
+    @ApiImplicitParams({ @ApiImplicitParam(name = "orderid", value = "订单号", paramType = "query", dataType = "Integer") })
+    @ResponseBody
+    public CommonResult createorder(@RequestParam(value = "orderid") Integer name) {
+        int count = 0;
+        
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
     }
 }

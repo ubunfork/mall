@@ -2,6 +2,7 @@ package com.macro.mall.controller;
 
 import com.macro.mall.bo.AdminUserDetails;
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.mapper.PmsStationMapper;
 import com.macro.mall.mapper.SysVertifyRecordMapper;
 import com.macro.mall.model.PmsStation;
 import com.macro.mall.model.SysVertifyRecord;
@@ -31,6 +32,9 @@ public class PmsStationController {
     private UmsAdminService umsAdminService;
 
     @Autowired
+    private PmsStationMapper PmsStationMapper;
+
+    @Autowired
     private SysVertifyRecordMapper sysVertifyRecordMapper;
 
     // 根据条件获取自提点记录 状态 ，地址（模糊搜索）
@@ -51,11 +55,13 @@ public class PmsStationController {
     @ResponseBody
     public CommonResult update(
         @PathVariable Long id, 
-        @RequestParam(value = "status") Integer status,
-        @RequestParam(value = "detail") String detail
+        @RequestParam Integer status,
+        @RequestParam String detail
         ){
-        PmsStation pmsStation = new PmsStation();
-        pmsStation.setId(id);
+        PmsStation pmsStation = PmsStationMapper.selectByPrimaryKey(id);
+        if(pmsStation == null){
+            return CommonResult.failed();
+        }
         pmsStation.setStatus(status);
         int count = pmsStationServices.update(pmsStation);
         if (count > 0) {
@@ -73,6 +79,17 @@ public class PmsStationController {
         } else {
             return CommonResult.failed();
         }
+    }
+    //获取自提点审核记录
+
+    @ApiOperation("根据条件获取自提点记录 状态 ，地址（模糊搜索）")
+    @RequestMapping(value = "/history", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SysVertifyRecord>> history(
+        @RequestParam(value = "stationId",required = false) Long stationId
+    ){
+        List<SysVertifyRecord> stationlist = pmsStationServices.history(stationId);
+        return CommonResult.success(stationlist);
     }
 
 }

@@ -148,3 +148,33 @@ CREATE TABLE `sys_vertify_record` (
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='审核记录';
+
+
+-- ----------------------------
+-- 物流订单
+-- ----------------------------
+DROP TABLE IF EXISTS `oms_logistics`;
+CREATE TABLE `oms_logistics` (
+`id` bigint(20) NOT NULL AUTO_INCREMENT,
+`logisticsNum` varchar(64) DEFAULT NULL COMMENT '物流单号',
+`orderid` bigint(20) DEFAULT NULL COMMENT '订单id',
+`logisticsCom` varchar(64) DEFAULT NULL COMMENT '物流公司',
+`price` decimal(10,2) DEFAULT NULL COMMENT '物流价格',
+`payer` varchar(100) DEFAULT NULL COMMENT '付款人',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='物流订单表';
+
+-- ----------------------------
+-- 自提点订单
+-- ----------------------------
+DROP TABLE IF EXISTS `oms_station`;
+CREATE TABLE `oms_station` (
+`id` bigint(20) NOT NULL AUTO_INCREMENT,
+`stationid` bigint(20) DEFAULT NULL COMMENT '自提点id',
+`status` int(1) DEFAULT '0' COMMENT ' 1->配送中 2->待取货 3->已取货 4->已结算',
+`logisticsid` bigint(20) DEFAULT NULL COMMENT '物流id',
+`orderid` bigint(20) DEFAULT NULL COMMENT '订单id',
+`price` decimal(10,2) DEFAULT NULL COMMENT '自提点价格',
+`payer` varchar(100) DEFAULT NULL COMMENT '付款人',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='自提点订单表';
