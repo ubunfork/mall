@@ -6,7 +6,7 @@ ALTER TABLE pms_product drop column `promotion_price`,drop column `original_pric
 ALTER TABLE pms_product drop column `stock`,drop column `low_stock`;
 ALTER TABLE pms_product drop column `price`;
 ALTER table pms_product add `price` varchar(100);
-ALTER table pms_product add `price` varchar(100);
+
 
 > 后台取消设置商品库存与价格相关逻辑
 > sku表添加市场价

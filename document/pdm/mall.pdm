@@ -17112,7 +17112,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <o:Column Id="o1016">
 <a:ObjectID>A82B7A85-9A20-438A-B428-5252675D21E5</a:ObjectID>
 <a:Name>flash_promotion_price</a:Name>
-<a:Code>flash_promotion_price</a:Code>
+<a:Code>flash_</a:Code>
 <a:CreationDate>1542179066</a:CreationDate>
 <a:Creator>zhenghong</a:Creator>
 <a:ModificationDate>1542179497</a:ModificationDate>

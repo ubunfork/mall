@@ -20,9 +20,17 @@ public class CmsSubjectServiceImpl implements CmsSubjectService {
     @Autowired
     private CmsSubjectMapper subjectMapper;
 
+    /**
+     * 创建专题
+     */
+    @Override
+    public int create(CmsSubject cmsSubject){
+        return subjectMapper.insert(cmsSubject);
+    }
+    
     @Override
     public List<CmsSubject> listAll() {
-        return subjectMapper.selectByExample(new CmsSubjectExample());
+        return subjectMapper.selectByExampleWithBLOBs(new CmsSubjectExample());
     }
 
     @Override
@@ -34,5 +42,9 @@ public class CmsSubjectServiceImpl implements CmsSubjectService {
             criteria.andTitleLike("%" + keyword + "%");
         }
         return subjectMapper.selectByExample(example);
+    }
+    @Override
+    public int updata(CmsSubject cmsSubject){
+        return subjectMapper.updateByPrimaryKeyWithBLOBs(cmsSubject);
     }
 }

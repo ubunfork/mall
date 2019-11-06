@@ -9,6 +9,11 @@ import java.util.List;
  * Created by macro on 2018/6/1.
  */
 public interface CmsSubjectService {
+
+    /**
+     * 创建专题
+     */
+    int create(CmsSubject cmsSubject);
     /**
      * 查询所有专题
      */
@@ -18,4 +23,9 @@ public interface CmsSubjectService {
      * 分页查询专题
      */
     List<CmsSubject> list(String keyword, Integer pageNum, Integer pageSize);
+
+    /**
+     * 更新专题内容
+     */
+    int updata(CmsSubject cmsSubject);
 }
