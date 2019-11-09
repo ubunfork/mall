@@ -2,10 +2,13 @@ package com.macro.mall.portal.controller;
 
 import java.util.List;
 
+import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.PmsStationMapper;
+import com.macro.mall.model.OmsStation;
 import com.macro.mall.model.PmsStation;
 import com.macro.mall.model.PmsStationExample;
+import com.macro.mall.portal.service.OmsStationService;
 import com.macro.mall.portal.service.UmsMemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +24,16 @@ import io.swagger.annotations.ApiOperation;
  * 自提点Controller Created by macro on 2018/4/26.
  */
 @Controller
-@Api(tags = "PmsStationController", description = "商品管理")
+@Api(tags = "PmsStationController", description = "自提点管理")
 @RequestMapping("station")
 public class PmsStationController {
     @Autowired
     PmsStationMapper pmsStationMapper;
     @Autowired
     private UmsMemberService memberService;
+
+    @Autowired
+    private OmsStationService omsStationService;
 
     // 申请成为自提点
     @ApiOperation("申请/修改自提点")
@@ -91,17 +97,24 @@ public class PmsStationController {
     /**
      * 添加自提点订单
      */
-    // 申请成为自提点
-    @ApiOperation("申请/修改自提点")
+    @ApiOperation("添加自提点订单")
     @RequestMapping(value = "/createorder", method = RequestMethod.POST)
-    @ApiImplicitParams({ @ApiImplicitParam(name = "orderid", value = "订单号", paramType = "query", dataType = "Integer") })
+    @ApiImplicitParams({ @ApiImplicitParam(name = "orderid", value = "订单号", paramType = "query", dataType = "Long") })
     @ResponseBody
-    public CommonResult createorder(@RequestParam(value = "orderid") Integer name) {
-        int count = 0;
-        
-        if (count > 0) {
-            return CommonResult.success(count);
-        }
-        return CommonResult.failed();
+    public CommonResult createorder(@RequestParam(value = "orderid") Long orderid) {
+        return omsStationService.create(orderid);
+    }
+
+    /**
+     * 查询自提点用户的自提点订单
+     */
+    @ApiOperation("查询自提点用户的自提点订单")
+    @RequestMapping(value = "/orderlist", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<OmsStation>> orderlist(@RequestParam(value = "status", defaultValue = "0") Integer status,
+                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+
+        return omsStationService.orderlist(status,pageNum, pageSize);
     }
 }

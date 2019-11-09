@@ -8,7 +8,13 @@ import com.macro.mall.common.api.CommonResult;
  */
 public interface OmsStationService {
    /**
-    * 创建自提点叮当
+    * 创建自提点订单
     */
     CommonResult create(long orderid);
+
+    /**
+     * 查询自提点用户的自提点订单
+     */
+    CommonResult orderlist(int status, int pageNum,int pageSize);
+
 }
