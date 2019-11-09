@@ -32,6 +32,10 @@ public class OmsCartItemController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult add(@RequestBody OmsCartItem cartItem) {
+        
+        if(cartItem.getQuantity() == null){
+            cartItem.setQuantity(1);
+        }
         int count = cartItemService.add(cartItem);
         if (count > 0) {
             return CommonResult.success(count);
