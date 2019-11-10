@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.portal.dao.PmsCommentDao">
+<resultMap type="com.macro.mall.portal.dao.PmsCommentResult" id="selectcomment" extends="com.macro.mall.mapper.PmsCommentMapper.ResultMapWithBLOBs">						
+        <result column="cateParentId" jdbcType="BIGINT" property="cateParentId" />
+        <collection property="replayList" columnPrefix="replay_" resultMap="com.macro.mall.mapper.PmsCommentReplayMapper.BaseResultMap">
+        </collection>
+        
+ </resultMap>
+    <select id="selectCommentAndReplay" resultMap="selectcomment">
+        SELECT c.id, c.member_nick_name, c.star, c.product_attribute, c.content,c.create_time ,
+        r.content replay_content, r.member_nick_name replay_member_nick_name,r.member_icon replay_member_icon,r.create_time replay_create_time
+        FROM
+            pms_comment c
+            LEFT JOIN pms_comment_replay r ON r.comment_id = c.id
+        WHERE
+            c.product_id = #{parductId}
+        ORDER BY
+            c.create_time DESC
+    </select>
+  
+</mapper>

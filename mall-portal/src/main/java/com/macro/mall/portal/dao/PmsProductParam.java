@@ -24,6 +24,8 @@ public class PmsProductParam extends PmsProduct{
     private List<CmsSubjectProductRelation> subjectProductRelationList;
     @ApiModelProperty("优选专区和商品的关系")
     private List<CmsPrefrenceAreaProductRelation> prefrenceAreaProductRelationList;
+   
+
 
     public List<PmsProductLadder> getProductLadderList() {
         return productLadderList;
