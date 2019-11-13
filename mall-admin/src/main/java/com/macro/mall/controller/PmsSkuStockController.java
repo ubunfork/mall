@@ -1,6 +1,7 @@
 package com.macro.mall.controller;
 
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.dto.PmsSkuStockParam;
 import com.macro.mall.model.PmsSkuStock;
 import com.macro.mall.service.PmsSkuStockService;
 import io.swagger.annotations.Api;
@@ -35,6 +36,18 @@ public class PmsSkuStockController {
     @ResponseBody
     public CommonResult update(@PathVariable Long pid,@RequestBody List<PmsSkuStock> skuStockList){
         int count = skuStockService.update(pid,skuStockList);
+        if(count>0){
+            return CommonResult.success(count);
+        }else{
+            return CommonResult.failed();
+        }
+    }
+
+    @ApiOperation("给商品添加SKU信息")
+    @RequestMapping(value ="/create",method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult create(@RequestBody PmsSkuStockParam skuStockParam){
+        int count = skuStockService.create(skuStockParam);
         if(count>0){
             return CommonResult.success(count);
         }else{

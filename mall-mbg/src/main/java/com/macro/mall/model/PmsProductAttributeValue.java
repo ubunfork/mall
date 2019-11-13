@@ -13,6 +13,9 @@ public class PmsProductAttributeValue implements Serializable {
     @ApiModelProperty(value = "手动添加规格或参数的值，参数单值，规格有多个时以逗号隔开")
     private String value;
 
+    @ApiModelProperty(value = "skuid")
+    private Long skuid;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -47,6 +50,14 @@ public class PmsProductAttributeValue implements Serializable {
         this.value = value;
     }
 
+    public Long getSkuid() {
+        return skuid;
+    }
+
+    public void setSkuid(Long skuid) {
+        this.skuid = skuid;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -57,6 +68,7 @@ public class PmsProductAttributeValue implements Serializable {
         sb.append(", productId=").append(productId);
         sb.append(", productAttributeId=").append(productAttributeId);
         sb.append(", value=").append(value);
+        sb.append(", skuid=").append(skuid);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

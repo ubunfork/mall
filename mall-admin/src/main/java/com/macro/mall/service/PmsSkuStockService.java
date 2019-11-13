@@ -1,5 +1,6 @@
 package com.macro.mall.service;
 
+import com.macro.mall.dto.PmsSkuStockParam;
 import com.macro.mall.model.PmsSkuStock;
 
 import java.util.List;
@@ -18,4 +19,9 @@ public interface PmsSkuStockService {
      * 批量更新商品库存信息
      */
     int update(Long pid, List<PmsSkuStock> skuStockList);
+
+    /**
+     * 给商品添加sku信息
+     */
+    int create(PmsSkuStockParam skuitem);
 }

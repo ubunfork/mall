@@ -178,3 +178,6 @@ CREATE TABLE `oms_station` (
 `payer` varchar(100) DEFAULT NULL COMMENT '付款人',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='自提点订单表';
+
+
+ALTER table pms_product_attribute_value add `skuid` bigint(20) NOT NULL  COMMENT 'skuid';

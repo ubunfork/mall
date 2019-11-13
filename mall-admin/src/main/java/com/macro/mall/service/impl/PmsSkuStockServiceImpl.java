@@ -1,7 +1,10 @@
 package com.macro.mall.service.impl;
 
 import com.macro.mall.dao.PmsSkuStockDao;
+import com.macro.mall.dto.PmsSkuStockParam;
+import com.macro.mall.mapper.PmsProductAttributeValueMapper;
 import com.macro.mall.mapper.PmsSkuStockMapper;
+import com.macro.mall.model.PmsProductAttributeValue;
 import com.macro.mall.model.PmsSkuStock;
 import com.macro.mall.model.PmsSkuStockExample;
 import com.macro.mall.service.PmsSkuStockService;
@@ -21,6 +24,24 @@ public class PmsSkuStockServiceImpl implements PmsSkuStockService {
     private PmsSkuStockMapper skuStockMapper;
     @Autowired
     private PmsSkuStockDao skuStockDao;
+    @Autowired
+    private PmsProductAttributeValueMapper attributeValueMapper;
+
+    @Override
+    public int create(PmsSkuStockParam skuitem){
+        int result = 0;
+        result = skuStockMapper.insert(skuitem);
+        if(result ==1 ){
+         
+            for (PmsProductAttributeValue attvalue : skuitem.getAttributlvaluelist()) {
+                result = attributeValueMapper.insert(attvalue);
+                if(result !=1 ){
+                    break;
+                }
+            }
+        }
+        return 1;
+    }
 
     @Override
     public List<PmsSkuStock> getList(Long pid, String keyword) {

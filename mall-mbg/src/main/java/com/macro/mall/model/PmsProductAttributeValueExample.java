@@ -353,6 +353,66 @@ public class PmsProductAttributeValueExample {
             addCriterion("value not between", value1, value2, "value");
             return (Criteria) this;
         }
+
+        public Criteria andSkuidIsNull() {
+            addCriterion("skuid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidIsNotNull() {
+            addCriterion("skuid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidEqualTo(Long value) {
+            addCriterion("skuid =", value, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidNotEqualTo(Long value) {
+            addCriterion("skuid <>", value, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidGreaterThan(Long value) {
+            addCriterion("skuid >", value, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidGreaterThanOrEqualTo(Long value) {
+            addCriterion("skuid >=", value, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidLessThan(Long value) {
+            addCriterion("skuid <", value, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidLessThanOrEqualTo(Long value) {
+            addCriterion("skuid <=", value, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidIn(List<Long> values) {
+            addCriterion("skuid in", values, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidNotIn(List<Long> values) {
+            addCriterion("skuid not in", values, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidBetween(Long value1, Long value2) {
+            addCriterion("skuid between", value1, value2, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidNotBetween(Long value1, Long value2) {
+            addCriterion("skuid not between", value1, value2, "skuid");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
