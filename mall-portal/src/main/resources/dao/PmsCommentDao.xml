@@ -8,7 +8,7 @@
         
  </resultMap>
     <select id="selectCommentAndReplay" resultMap="selectcomment">
-        SELECT c.id, c.member_nick_name, c.star, c.product_attribute, c.content,c.create_time ,
+        SELECT c.id, c.member_nick_name, c.star, c.product_attribute, c.content,c.create_time ,c.member_icon,
         r.content replay_content, r.member_nick_name replay_member_nick_name,r.member_icon replay_member_icon,r.create_time replay_create_time
         FROM
             pms_comment c

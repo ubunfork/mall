@@ -32,7 +32,7 @@ public class CmsSubjectController {
     private CmsSubjectService subjectService;
 
 
-    @ApiOperation(value = "添加版本")
+    @ApiOperation(value = "添加话题")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     // @PreAuthorize("hasAuthority('cfg:type:create')")
@@ -74,6 +74,21 @@ public class CmsSubjectController {
         CommonResult commonResult;
         cmsSubject.setId(id);
         int count = subjectService.updata(cmsSubject);
+        if (count == 1) {
+            commonResult = CommonResult.success(count);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
+    }
+
+    @ApiOperation(value = "删除专题")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult delete(@PathVariable Long id) {
+        CommonResult commonResult;
+       
+        int count = subjectService.delete(id);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

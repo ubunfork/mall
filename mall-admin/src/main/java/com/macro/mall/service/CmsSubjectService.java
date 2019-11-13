@@ -28,4 +28,9 @@ public interface CmsSubjectService {
      * 更新专题内容
      */
     int updata(CmsSubject cmsSubject);
+
+    /**
+     * 删除专题
+     */
+    int delete(Long id);
 }

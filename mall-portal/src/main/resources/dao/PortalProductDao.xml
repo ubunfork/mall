@@ -25,7 +25,6 @@
             p.price price,
             p.pic pic,
             p.product_attribute_category_id productAttributeCategoryId,
-            p.stock stock,
             pa.id attr_id,
             pa.`name` attr_name,
             ps.id sku_id,

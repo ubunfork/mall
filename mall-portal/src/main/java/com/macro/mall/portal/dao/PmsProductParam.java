@@ -1,6 +1,8 @@
 package com.macro.mall.portal.dao;
 
 import com.macro.mall.model.*;
+import com.macro.mall.portal.domain.PmsProductAttributeItem;
+
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
@@ -18,8 +20,7 @@ public class PmsProductParam extends PmsProduct{
     private List<PmsMemberPrice> memberPriceList;
     @ApiModelProperty("商品的sku库存信息")
     private List<PmsSkuStock> skuStockList;
-    @ApiModelProperty("商品参数及自定义规格属性")
-    private List<PmsProductAttributeValue> productAttributeValueList;
+
     @ApiModelProperty("专题和商品关系")
     private List<CmsSubjectProductRelation> subjectProductRelationList;
     @ApiModelProperty("优选专区和商品的关系")
@@ -59,13 +60,6 @@ public class PmsProductParam extends PmsProduct{
         this.skuStockList = skuStockList;
     }
 
-    public List<PmsProductAttributeValue> getProductAttributeValueList() {
-        return productAttributeValueList;
-    }
-
-    public void setProductAttributeValueList(List<PmsProductAttributeValue> productAttributeValueList) {
-        this.productAttributeValueList = productAttributeValueList;
-    }
 
     public List<CmsSubjectProductRelation> getSubjectProductRelationList() {
         return subjectProductRelationList;

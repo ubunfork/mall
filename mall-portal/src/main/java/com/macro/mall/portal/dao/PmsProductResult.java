@@ -2,6 +2,8 @@ package com.macro.mall.portal.dao;
 
 import java.util.List;
 
+import com.macro.mall.portal.domain.PmsProductAttributeItem;
+
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -12,6 +14,9 @@ public class PmsProductResult extends PmsProductParam{
 
     @ApiModelProperty("评价数据")
     private List<PmsCommentResult> commentList;
+
+    @ApiModelProperty("商品参数及自定义规格属性")
+    private List<PmsProductAttributeItem> attributeList;
 
     //商品所选分类的父id
     private Long cateParentId;
@@ -35,5 +40,17 @@ public class PmsProductResult extends PmsProductParam{
      */
     public void setCommentList(List<PmsCommentResult> commentList) {
         this.commentList = commentList;
+    }
+    /**
+     * @param attributeList the attributeList to set
+     */
+    public void setAttributeList(List<PmsProductAttributeItem> attributeList) {
+        this.attributeList = attributeList;
+    }
+    /**
+     * @return the attributeList
+     */
+    public List<PmsProductAttributeItem> getAttributeList() {
+        return attributeList;
     }
 }

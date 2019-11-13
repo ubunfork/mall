@@ -41,10 +41,17 @@ public class CmsSubjectServiceImpl implements CmsSubjectService {
         if (!StringUtils.isEmpty(keyword)) {
             criteria.andTitleLike("%" + keyword + "%");
         }
-        return subjectMapper.selectByExample(example);
+        return subjectMapper.selectByExampleWithBLOBs(example);
     }
     @Override
     public int updata(CmsSubject cmsSubject){
         return subjectMapper.updateByPrimaryKeyWithBLOBs(cmsSubject);
+    }
+    /**
+     * 删除专题
+     */
+    @Override
+    public int delete(Long id){
+        return subjectMapper.deleteByPrimaryKey(id);
     }
 }
