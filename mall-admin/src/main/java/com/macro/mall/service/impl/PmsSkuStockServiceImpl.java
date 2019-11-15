@@ -1,5 +1,6 @@
 package com.macro.mall.service.impl;
 
+import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dao.PmsSkuStockDao;
 import com.macro.mall.dto.PmsSkuStockParam;
 import com.macro.mall.mapper.PmsProductAttributeValueMapper;
@@ -27,21 +28,41 @@ public class PmsSkuStockServiceImpl implements PmsSkuStockService {
     @Autowired
     private PmsProductAttributeValueMapper attributeValueMapper;
 
+    /**
+     * 给商品添加sku
+     */
     @Override
-    public int create(PmsSkuStockParam skuitem){
+    public CommonResult create(PmsSkuStockParam skuitem){
+        if(skuitem.getProductId() == null){
+            return CommonResult.failed("产品id不能为空");
+        }
         int result = 0;
         result = skuStockMapper.insert(skuitem);
         if(result ==1 ){
-         
             for (PmsProductAttributeValue attvalue : skuitem.getAttributlvaluelist()) {
+                //
+                attvalue.setSkuid(skuitem.getId());
                 result = attributeValueMapper.insert(attvalue);
                 if(result !=1 ){
-                    break;
+                    return CommonResult.failed("系统错误");
                 }
             }
+            return CommonResult.success(result);
+        }else{
+            return CommonResult.failed("系统错误");
         }
-        return 1;
+       
     }
+
+
+    /**
+     * 根据商品id获取商品sku列表
+     */
+    @Override
+    public List<PmsSkuStockParam> skuList(Long proid){
+        return skuStockDao.selectSkulist(proid);
+    }
+
 
     @Override
     public List<PmsSkuStock> getList(Long pid, String keyword) {

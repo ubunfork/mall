@@ -47,11 +47,17 @@ public class PmsSkuStockController {
     @RequestMapping(value ="/create",method = RequestMethod.POST)
     @ResponseBody
     public CommonResult create(@RequestBody PmsSkuStockParam skuStockParam){
-        int count = skuStockService.create(skuStockParam);
-        if(count>0){
-            return CommonResult.success(count);
-        }else{
-            return CommonResult.failed();
-        }
+        return skuStockService.create(skuStockParam);
+       
     }
+
+    @ApiOperation("根据商品id获取商品sku列表")
+    @RequestMapping(value = "list/{pid}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<PmsSkuStockParam>> skuList(@PathVariable Long pid) {
+        List<PmsSkuStockParam> skuStockList = skuStockService.skuList(pid);
+        return CommonResult.success(skuStockList);
+    }
+
+
 }

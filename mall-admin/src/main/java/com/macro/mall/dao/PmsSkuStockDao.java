@@ -1,5 +1,6 @@
 package com.macro.mall.dao;
 
+import com.macro.mall.dto.PmsSkuStockParam;
 import com.macro.mall.model.PmsSkuStock;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,4 +20,9 @@ public interface PmsSkuStockDao {
      * 批量插入或替换操作
      */
     int replaceList(@Param("list")List<PmsSkuStock> skuStockList);
+
+    /**
+     * 查询商品sku列表
+     */
+    List<PmsSkuStockParam> selectSkulist(@Param("productId") Long productId);
 }

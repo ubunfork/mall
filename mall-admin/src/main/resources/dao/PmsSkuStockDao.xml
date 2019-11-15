@@ -34,4 +34,21 @@
             )
         </foreach>
     </insert>
+
+
+<!-- 根据商品id查询对应的sku列表 -->
+
+   <resultMap id="pmsSkuStockParam" type="com.macro.mall.dto.PmsSkuStockParam" extends="com.macro.mall.mapper.PmsSkuStockMapper.BaseResultMap">
+        <collection property="attributlvaluelist" columnPrefix="att_" resultMap="com.macro.mall.mapper.PmsProductAttributeValueMapper.BaseResultMap">
+        </collection>
+    </resultMap>
+    <select id="selectSkulist" resultMap="pmsSkuStockParam">
+SELECT s.*,
+a.product_attribute_id att_id,
+a.value att_value
+FROM pms_sku_stock s
+LEFT JOIN pms_product_attribute_value a ON a.skuid=s.id
+WHERE s.product_id = #{productId} and a.product_id = #{productId}
+
+    </select>
 </mapper>
