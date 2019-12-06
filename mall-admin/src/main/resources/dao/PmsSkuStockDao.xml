@@ -44,7 +44,8 @@
     </resultMap>
     <select id="selectSkulist" resultMap="pmsSkuStockParam">
 SELECT s.*,
-a.product_attribute_id att_id,
+a.id att_id,
+a.product_attribute_id att_product_attribute_id,
 a.value att_value
 FROM pms_sku_stock s
 LEFT JOIN pms_product_attribute_value a ON a.skuid=s.id
