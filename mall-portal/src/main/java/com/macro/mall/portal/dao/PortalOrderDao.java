@@ -17,6 +17,15 @@ public interface PortalOrderDao {
     OmsOrderDetail getDetail(@Param("orderId") Long orderId);
 
     /**
+     * 根据状态获取订单列表
+     */
+    List<OmsOrderDetail> getOrdersbyStatus(@Param("status") Integer status,
+     @Param("memberId") Long memberId,
+     @Param("offset") Integer pageNum,
+     @Param("limit") Integer pageSize
+     );
+
+    /**
      * 修改 pms_sku_stock表的锁定库存及真实库存
      */
     int updateSkuStock(@Param("itemList") List<OmsOrderItem> orderItemList);

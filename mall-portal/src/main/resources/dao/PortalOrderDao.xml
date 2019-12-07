@@ -7,6 +7,8 @@
                     resultMap="com.macro.mall.mapper.OmsOrderItemMapper.BaseResultMap">
         </collection>
     </resultMap>
+
+
     <select id="getDetail" resultMap="orderDetailMap">
         SELECT
             o.id,
@@ -14,6 +16,18 @@
             o.coupon_id,
             o.integration,
             o.member_id,
+            o.pay_amount,
+            o.receiver_name,
+            o.receiver_phone,
+            o.receiver_province,
+            o.receiver_city,
+            o.receiver_region,
+            o.receiver_detail_address,
+            o.create_time,
+            o.payment_time,
+            o.delivery_time,
+            o.receive_time,
+            o.status,
             ot.id ot_id,
             ot.product_name ot_product_name,
             ot.product_sku_id ot_product_sku_id,
@@ -25,6 +39,39 @@
         WHERE
             o.id = #{orderId}
     </select>
+        <select id="getOrdersbyStatus" resultMap="orderDetailMap">
+        SELECT
+            o.id,
+            o.order_sn,
+            o.coupon_id,
+            o.integration,
+            o.member_id,
+            o.pay_amount,
+            o.receiver_name,
+            o.receiver_phone,
+            o.receiver_province,
+            o.receiver_city,
+            o.receiver_region,
+            o.receiver_detail_address,
+            o.create_time,
+            o.payment_time,
+            o.delivery_time,
+            o.receive_time,
+            o.status,
+            ot.id ot_id,
+            ot.product_name ot_product_name,
+            ot.product_sku_id ot_product_sku_id,
+            ot.product_sku_code ot_product_sku_code,
+            ot.product_quantity ot_product_quantity
+        FROM
+            (select * from oms_order tem 
+            WHERE tem.status = 4 AND tem.member_id = 1
+            ORDER BY tem.modify_time 
+            LIMIT #{offset}, #{limit})  o
+            LEFT JOIN oms_order_item ot ON o.id = ot.order_id
+    </select>
+
+    
 
     <select id="getTimeOutOrders" resultMap="orderDetailMap">
         SELECT
@@ -66,6 +113,7 @@
             #{item.productSkuId}
         </foreach>
     </update>
+
     <update id="updateOrderStatus">
         update oms_order
         set status=#{status}
@@ -74,6 +122,7 @@
             #{id}
         </foreach>
     </update>
+
     <update id="releaseSkuStockLock">
         UPDATE pms_sku_stock
         SET

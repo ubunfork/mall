@@ -559,29 +559,19 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     }
 
     @Override
-    public List<OmsOrder> orderList(Integer status, Integer pageNum, Integer pageSize) {
+    public List<OmsOrderDetail> orderList(Integer status, Integer pageNum, Integer pageSize) {
         // 根据状态获取用户订单列表
         UmsMember currentMember = memberService.getCurrentMember();
-        PageHelper.startPage(pageNum, pageSize);
-        OmsOrderExample example = new OmsOrderExample();
-        if (status >= 0) {
-            example.createCriteria().andMemberIdEqualTo(currentMember.getId()).andStatusEqualTo(status);
-        } else {
-            example.createCriteria().andMemberIdEqualTo(currentMember.getId());
-        }
-
-        return orderMapper.selectByExample(example);
+        return portalOrderDao.getOrdersbyStatus(status,currentMember.getId(), (pageNum-1)*pageSize, pageSize);
 
     }
 
     @Override
-    public OmsOrder orderinfo(Long orderId){
+    public OmsOrderDetail orderinfo(Long orderId){
         // 根据订单id获取订单详情
         UmsMember currentMember = memberService.getCurrentMember();
-        OmsOrderExample example = new OmsOrderExample();
-        example.createCriteria().andMemberIdEqualTo(currentMember.getId()).andIdEqualTo(orderId);
-        List<OmsOrder> results =  orderMapper.selectByExample(example);
-        return results.get(0);
+        OmsOrderDetail orderDetail = portalOrderDao.getDetail(orderId);
+        return orderDetail;
     }
 
     /**

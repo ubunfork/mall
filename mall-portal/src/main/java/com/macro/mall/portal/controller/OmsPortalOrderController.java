@@ -6,6 +6,7 @@ import java.util.List;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.OmsOrderConfim;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
+import com.macro.mall.portal.domain.OmsOrderDetail;
 import com.macro.mall.portal.domain.OrderParam;
 import com.macro.mall.model.OmsOrder;
 import com.macro.mall.portal.service.OmsPortalOrderService;
@@ -133,14 +134,14 @@ public class OmsPortalOrderController {
      */
     @ApiOperation("分页获取商品购买订单列表")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "status", value = "订单状态：-1 全部 0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单", required = true, paramType = "query", dataType = "Int"), })
+        @ApiImplicitParam(name = "status", value = "订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单", required = true, paramType = "query", dataType = "Int"), })
     @RequestMapping(value = "/orderlist", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<OmsOrder>> orderlist(@RequestParam Integer status,
+    public CommonResult<List<OmsOrderDetail>> orderlist(@RequestParam Integer status,
             @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
 
-        List<OmsOrder> commResult = portalOrderService.orderList(status, pageNum, pageSize);
+        List<OmsOrderDetail> commResult = portalOrderService.orderList(status, pageNum, pageSize);
         return CommonResult.success(commResult);
     }
 
@@ -148,13 +149,13 @@ public class OmsPortalOrderController {
      * 分页获取商品购买订单列表
      */
     @ApiOperation("根据订单编号获取订单详情")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "orderId", value = "订单编号", required = true) })
+    // @ApiImplicitParams({
+        // @ApiImplicitParam(name = "orderId", value = "订单编号", required = true) })
     @RequestMapping(value = "/orderinfo", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<OmsOrder> orderinfo(@RequestParam Long orderId) {
+    public CommonResult<OmsOrderDetail> orderinfo(@RequestParam Long orderId) {
 
-        OmsOrder commResult = portalOrderService.orderinfo(orderId);
+        OmsOrderDetail commResult = portalOrderService.orderinfo(orderId);
         return CommonResult.success(commResult);
     }
 

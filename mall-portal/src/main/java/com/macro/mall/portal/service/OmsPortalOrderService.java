@@ -6,6 +6,7 @@ import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.OmsOrder;
 import com.macro.mall.model.OmsOrderConfim;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
+import com.macro.mall.portal.domain.OmsOrderDetail;
 import com.macro.mall.portal.domain.OrderParam;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,10 +76,10 @@ public interface OmsPortalOrderService {
     /**
      * 根据状态获取用户订单列表
      */
-    List<OmsOrder> orderList(Integer status, Integer pageNum,Integer pageSize);
+    List<OmsOrderDetail> orderList(Integer status, Integer pageNum,Integer pageSize);
 
     /**
      * 根据订单id获取订单详情
      */
-    OmsOrder orderinfo(Long orderId);
+    OmsOrderDetail orderinfo(Long orderId);
 }
