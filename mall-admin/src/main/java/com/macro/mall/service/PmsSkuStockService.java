@@ -21,6 +21,8 @@ public interface PmsSkuStockService {
      */
     int update(Long pid, List<PmsSkuStock> skuStockList);
 
+    CommonResult updateskuitem(PmsSkuStockParam skuitem);
+
     /**
      * 给商品添加sku信息
      */

@@ -5,7 +5,9 @@ import com.macro.mall.dao.PmsSkuStockDao;
 import com.macro.mall.dto.PmsSkuStockParam;
 import com.macro.mall.mapper.PmsProductAttributeValueMapper;
 import com.macro.mall.mapper.PmsSkuStockMapper;
+import com.macro.mall.model.PmsProductAttributeCategoryExample;
 import com.macro.mall.model.PmsProductAttributeValue;
+import com.macro.mall.model.PmsProductAttributeValueExample;
 import com.macro.mall.model.PmsSkuStock;
 import com.macro.mall.model.PmsSkuStockExample;
 import com.macro.mall.service.PmsSkuStockService;
@@ -36,8 +38,15 @@ public class PmsSkuStockServiceImpl implements PmsSkuStockService {
         if(skuitem.getProductId() == null){
             return CommonResult.failed("产品id不能为空");
         }
+        if(skuitem.getAttributlvaluelist().isEmpty()){
+            return CommonResult.failed("规格值不能为空");
+        }
         int result = 0;
+        if(skuitem.getId() != null){
+            return CommonResult.failed("不要重复添加，请使用修改");
+        }
         result = skuStockMapper.insert(skuitem);
+        
         if(result ==1 ){
             for (PmsProductAttributeValue attvalue : skuitem.getAttributlvaluelist()) {
                 //
@@ -52,6 +61,42 @@ public class PmsSkuStockServiceImpl implements PmsSkuStockService {
             return CommonResult.failed("系统错误");
         }
        
+    }
+    @Override
+    public CommonResult updateskuitem(PmsSkuStockParam skuitem){
+        if(skuitem.getProductId() == null){
+            return CommonResult.failed("产品id不能为空");
+        }
+        if(skuitem.getAttributlvaluelist().isEmpty()){
+            return CommonResult.failed("规格值不能为空");
+        }
+        
+        if(skuitem.getId() == null){
+            return CommonResult.failed("skuid不能为空");
+        }
+        int result = 0;
+
+        PmsProductAttributeValueExample example = new PmsProductAttributeValueExample();
+        PmsProductAttributeValueExample.Criteria criteria = example.createCriteria().
+        andProductIdEqualTo(skuitem.getProductId()).
+        andSkuidEqualTo(skuitem.getId());
+        attributeValueMapper.deleteByExample(example);
+        result = skuStockMapper.updateByPrimaryKey(skuitem);
+       
+
+        if(result ==1 ){
+            for (PmsProductAttributeValue attvalue : skuitem.getAttributlvaluelist()) {
+                //
+                attvalue.setSkuid(skuitem.getId());
+                result = attributeValueMapper.insert(attvalue);
+                if(result !=1 ){
+                    return CommonResult.failed("系统错误");
+                }
+            }
+            return CommonResult.success(result);
+        }else{
+            return CommonResult.failed("系统错误");
+        }
     }
 
 

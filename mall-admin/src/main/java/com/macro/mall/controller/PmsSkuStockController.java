@@ -31,7 +31,7 @@ public class PmsSkuStockController {
         return CommonResult.success(skuStockList);
     }
     
-    @ApiOperation("批量更新库存信息")
+    @ApiOperation("批量更新库存信息（废弃20191010）")
     @RequestMapping(value ="/update/{pid}",method = RequestMethod.POST)
     @ResponseBody
     public CommonResult update(@PathVariable Long pid,@RequestBody List<PmsSkuStock> skuStockList){
@@ -42,6 +42,14 @@ public class PmsSkuStockController {
             return CommonResult.failed();
         }
     }
+    @ApiOperation("更新sku信息")
+    @RequestMapping(value ="/updateskuitem",method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updateskuitem(@RequestBody PmsSkuStockParam skuStockParam){
+        return skuStockService.updateskuitem(skuStockParam);
+    }
+
+    
 
     @ApiOperation("给商品添加SKU信息")
     @RequestMapping(value ="/create",method = RequestMethod.POST)
