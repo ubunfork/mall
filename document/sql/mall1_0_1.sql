@@ -183,6 +183,10 @@ PRIMARY KEY (`id`)
 ALTER table pms_product_attribute_value add `skuid` bigint(20) NOT NULL  COMMENT 'skuid';
 
 
+
+
+
+
 CREATE TABLE `cfg_cnarea` (
   `id` mediumint(7) unsigned NOT NULL AUTO_INCREMENT,
   `level` tinyint(1) unsigned NOT NULL COMMENT '层级',
@@ -200,3 +204,10 @@ CREATE TABLE `cfg_cnarea` (
   UNIQUE KEY `uk_code` (`area_code`) USING BTREE,
   KEY `idx_parent_code` (`parent_code`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='中国行政地区表';
+
+
+-- ----------------------------
+-- 商品表添加添加时间跟修改时间
+-- ----------------------------
+ALTER table pms_product add `create_time` datetime DEFAULT NULL COMMENT '创建时间';
+ALTER table pms_product add `modify_time` datetime DEFAULT NULL COMMENT '修改时间';

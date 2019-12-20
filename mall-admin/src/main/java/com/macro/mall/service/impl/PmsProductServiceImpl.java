@@ -119,6 +119,10 @@ public class PmsProductServiceImpl implements PmsProductService {
     @Override
     public int update(Long id, PmsProductParam productParam) {
         int count;
+        if(productParam.getAlbumPics().length()>600){
+            return 0;
+        }
+        PmsProduct oldProduct = productMapper.selectByPrimaryKey(id);
         //更新商品信息
         PmsProduct product = productParam;
         product.setId(id);
@@ -138,17 +142,19 @@ public class PmsProductServiceImpl implements PmsProductService {
         fullReductionExample.createCriteria().andProductIdEqualTo(id);
         productFullReductionMapper.deleteByExample(fullReductionExample);
         relateAndInsertList(productFullReductionDao, productParam.getProductFullReductionList(), id);
-        //修改sku库存信息
-        PmsSkuStockExample skuStockExample = new PmsSkuStockExample();
-        skuStockExample.createCriteria().andProductIdEqualTo(id);
-        skuStockMapper.deleteByExample(skuStockExample);
-        handleSkuStockCode(productParam.getSkuStockList(),id);
-        relateAndInsertList(skuStockDao, productParam.getSkuStockList(), id);
-        //修改商品参数,添加自定义商品规格
-        PmsProductAttributeValueExample productAttributeValueExample = new PmsProductAttributeValueExample();
-        productAttributeValueExample.createCriteria().andProductIdEqualTo(id);
-        productAttributeValueMapper.deleteByExample(productAttributeValueExample);
-        relateAndInsertList(productAttributeValueDao, productParam.getProductAttributeValueList(), id);
+        // 如果修改了商品属性类型，则删除对应的SKU数据跟属性值，并设置为下架状态
+        if(oldProduct.getProductAttributeCategoryId() != product.getProductAttributeCategoryId()){
+            PmsSkuStockExample skuStockExample = new PmsSkuStockExample();
+            skuStockExample.createCriteria().andProductIdEqualTo(id);
+            skuStockMapper.deleteByExample(skuStockExample);
+
+            PmsProductAttributeValueExample productAttributeValueExample = new PmsProductAttributeValueExample();
+            productAttributeValueExample.createCriteria().andProductIdEqualTo(id);
+            productAttributeValueMapper.deleteByExample(productAttributeValueExample);
+             
+            product.setPublishStatus(0);
+        }
+        
         //关联专题
         CmsSubjectProductRelationExample subjectProductRelationExample = new CmsSubjectProductRelationExample();
         subjectProductRelationExample.createCriteria().andProductIdEqualTo(id);
@@ -187,6 +193,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         if (productQueryParam.getProductCategoryId() != null) {
             criteria.andProductCategoryIdEqualTo(productQueryParam.getProductCategoryId());
         }
+        productExample.setOrderByClause("modify_time");
         return productMapper.selectByExample(productExample);
     }
 

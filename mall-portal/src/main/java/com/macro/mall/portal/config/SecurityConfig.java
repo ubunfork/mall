@@ -52,7 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/sso/*",//登录注册
                         "/home/**",//首页接口
-                        "/product/**"//商品详情
+                        "/product/**",//商品详情
+                        "/cnarea/**" //地址查询
                 )
                 .permitAll()
                 /*.antMatchers("/**")//测试时全部运行访问
