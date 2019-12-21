@@ -18,6 +18,9 @@ public class PmsProductResult extends PmsProductParam{
     @ApiModelProperty("商品参数及自定义规格属性")
     private List<PmsProductAttributeItem> attributeList;
 
+    @ApiModelProperty("sku列表")
+    private List<PmsProductSkuResult> skuList;
+
     //商品所选分类的父id
     private Long cateParentId;
 
@@ -53,4 +56,19 @@ public class PmsProductResult extends PmsProductParam{
     public List<PmsProductAttributeItem> getAttributeList() {
         return attributeList;
     }
+    
+    /**
+     * @param attributeList the attributeList to set
+     */
+    public void setSkuList(List<PmsProductSkuResult> skuList) {
+        this.skuList = skuList;
+    }
+    /**
+     * @return the attributeList
+     */
+    public List<PmsProductSkuResult> getSkuList() {
+        return skuList;
+    }
+
+  
 }

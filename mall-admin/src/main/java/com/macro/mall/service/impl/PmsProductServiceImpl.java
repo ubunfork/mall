@@ -2,6 +2,7 @@ package com.macro.mall.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.macro.mall.dao.*;
+import com.macro.mall.dto.PmsProductAttributeItem;
 import com.macro.mall.dto.PmsProductParam;
 import com.macro.mall.dto.PmsProductQueryParam;
 import com.macro.mall.dto.PmsProductResult;
@@ -113,7 +114,10 @@ public class PmsProductServiceImpl implements PmsProductService {
 
     @Override
     public PmsProductResult getUpdateInfo(Long id) {
-        return productDao.getUpdateInfo(id);
+        PmsProductResult result = productDao.getUpdateInfo(id);
+        List<PmsProductAttributeItem> items =  productDao.getAttributeList(id);
+        result.setAttributeList(items);
+        return result;
     }
 
     @Override

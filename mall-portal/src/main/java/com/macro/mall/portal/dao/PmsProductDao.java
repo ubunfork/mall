@@ -28,4 +28,10 @@ public interface PmsProductDao {
      * 获取商品可选属性列表
      */
     List<PmsProductAttributeItem> getAttributeList(@Param("productid") Long productid);
+
+    /**
+     * 获取商品SKU信息
+     */
+    List<PmsProductSkuResult>getskuStickList(@Param("productid") Long productid);
+    
 }

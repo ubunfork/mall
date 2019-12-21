@@ -10,6 +10,7 @@ import com.macro.mall.portal.dao.PmsCommentDao;
 import com.macro.mall.portal.dao.PmsCommentResult;
 import com.macro.mall.portal.dao.PmsProductDao;
 import com.macro.mall.portal.dao.PmsProductResult;
+import com.macro.mall.portal.dao.PmsProductSkuResult;
 import com.macro.mall.portal.domain.PmsProductAttributeItem;
 import com.macro.mall.portal.service.PmsProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,10 @@ public class PmsProductServiceImp implements PmsProductService {
     public PmsProductResult productInfo(Long id) {
         
         PmsProductResult temdata = productDao.productInfo(id);
+        //商品sku信息
+        List<PmsProductSkuResult> skulist = productDao.getskuStickList(id);
+        temdata.setSkuList(skulist);
+        
         // 商品规格列表
         List<PmsProductAttributeItem> attlist = productDao.getAttributeList(id);
         temdata.setAttributeList(attlist);

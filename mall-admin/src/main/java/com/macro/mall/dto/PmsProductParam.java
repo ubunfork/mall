@@ -25,6 +25,8 @@ public class PmsProductParam extends PmsProduct{
     @ApiModelProperty("优选专区和商品的关系")
     private List<CmsPrefrenceAreaProductRelation> prefrenceAreaProductRelationList;
 
+   
+
     public List<PmsProductLadder> getProductLadderList() {
         return productLadderList;
     }
@@ -80,4 +82,7 @@ public class PmsProductParam extends PmsProduct{
     public void setPrefrenceAreaProductRelationList(List<CmsPrefrenceAreaProductRelation> prefrenceAreaProductRelationList) {
         this.prefrenceAreaProductRelationList = prefrenceAreaProductRelationList;
     }
+
+
+    
 }

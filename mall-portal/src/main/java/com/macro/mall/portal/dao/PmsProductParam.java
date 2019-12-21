@@ -1,7 +1,6 @@
 package com.macro.mall.portal.dao;
 
 import com.macro.mall.model.*;
-import com.macro.mall.portal.domain.PmsProductAttributeItem;
 
 import io.swagger.annotations.ApiModelProperty;
 

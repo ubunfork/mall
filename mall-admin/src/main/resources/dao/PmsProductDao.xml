@@ -42,4 +42,18 @@
         select * from cms_prefrence_area_product_relation where product_id=#{productId}
     </select>
 
+
+    <!-- 根据商品ID获取可选属性 -->
+    <resultMap type="com.macro.mall.dto.PmsProductAttributeItem" id="attributeList" extends="com.macro.mall.mapper.PmsProductAttributeMapper.BaseResultMap">
+        <association property="valueList" columnPrefix="var_" resultMap="com.macro.mall.mapper.PmsProductAttributeValueMapper.BaseResultMap" >
+        </association>
+    </resultMap>
+    <select id="getAttributeList" resultMap="attributeList">
+    SELECT a.id,a.name,
+    av.value var_value
+    FROM pms_product_attribute a
+    LEFT JOIN pms_product_attribute_value av ON av.product_attribute_id = a.id
+    WHERE a.type = 0 AND av.product_id = #{productid}
+    </select>
+
 </mapper>
