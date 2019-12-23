@@ -1,11 +1,17 @@
 package com.macro.mall.portal.service.impl;
 
+import com.macro.mall.mapper.PmsProductMapper;
+import com.macro.mall.model.PmsProduct;
+import com.macro.mall.model.UmsMember;
 import com.macro.mall.portal.domain.MemberProductCollection;
 import com.macro.mall.portal.repository.MemberProductCollectionRepository;
 import com.macro.mall.portal.service.MemberCollectionService;
+import com.macro.mall.portal.service.UmsMemberService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,27 +20,48 @@ import java.util.List;
  */
 @Service
 public class MemberCollectionServiceImpl implements MemberCollectionService {
+
     @Autowired
     private MemberProductCollectionRepository productCollectionRepository;
 
+    @Autowired
+    private UmsMemberService memberService;
+
+    @Autowired
+    private PmsProductMapper pmsProductMapper;
+
     @Override
-    public int addProduct(MemberProductCollection productCollection) {
+    public int addProduct(Long productId) {
+        UmsMember currentMember = memberService.getCurrentMember();
         int count = 0;
-        MemberProductCollection findCollection = productCollectionRepository.findByMemberIdAndProductId(productCollection.getMemberId(), productCollection.getProductId());
+        MemberProductCollection findCollection = productCollectionRepository.findByMemberIdAndProductId(currentMember.getId(), productId);
         if (findCollection == null) {
-            productCollectionRepository.save(productCollection);
+            PmsProduct product = pmsProductMapper.selectByPrimaryKey(productId);
+            findCollection = new MemberProductCollection();
+            findCollection.setCreateTime(new Date());
+            findCollection.setMemberIcon(currentMember.getIcon());
+            findCollection.setMemberId(currentMember.getId());
+            findCollection.setMemberNickname(currentMember.getNickname());
+            findCollection.setProductId(productId);
+            findCollection.setProductPic(product.getPrice());
+            findCollection.setProductName(product.getName());
+            findCollection.setProductSubTitle(product.getSubTitle());
+            findCollection.setProductPrice(product.getPrice());
+            productCollectionRepository.save(findCollection);
             count = 1;
         }
         return count;
     }
 
     @Override
-    public int deleteProduct(Long memberId, Long productId) {
-        return productCollectionRepository.deleteByMemberIdAndProductId(memberId, productId);
+    public int deleteProduct(Long productId) {
+        UmsMember currentMember = memberService.getCurrentMember();
+        return productCollectionRepository.deleteByMemberIdAndProductId(currentMember.getId(), productId);
     }
 
     @Override
-    public List<MemberProductCollection> listProduct(Long memberId) {
-        return productCollectionRepository.findByMemberId(memberId);
+    public List<MemberProductCollection> listProduct() {
+        UmsMember currentMember = memberService.getCurrentMember();
+        return productCollectionRepository.findByMemberId(currentMember.getId());
     }
 }

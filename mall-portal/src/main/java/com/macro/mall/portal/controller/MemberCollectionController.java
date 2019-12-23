@@ -25,8 +25,8 @@ public class MemberCollectionController {
     @ApiOperation("添加商品收藏")
     @RequestMapping(value = "/addProduct", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult addProduct(@RequestBody MemberProductCollection productCollection) {
-        int count = memberCollectionService.addProduct(productCollection);
+    public CommonResult addProduct(Long productId) {
+        int count = memberCollectionService.addProduct(productId);
         if (count > 0) {
             return CommonResult.success(count);
         } else {
@@ -38,7 +38,7 @@ public class MemberCollectionController {
     @RequestMapping(value = "/deleteProduct", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult deleteProduct(Long memberId, Long productId) {
-        int count = memberCollectionService.deleteProduct(memberId, productId);
+        int count = memberCollectionService.deleteProduct(productId);
         if (count > 0) {
             return CommonResult.success(count);
         } else {
@@ -46,11 +46,11 @@ public class MemberCollectionController {
         }
     }
 
-    @ApiOperation("显示关注列表")
-    @RequestMapping(value = "/listProduct/{memberId}", method = RequestMethod.GET)
+    @ApiOperation("显示收藏列表")
+    @RequestMapping(value = "/listProduct", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<MemberProductCollection>> listProduct(@PathVariable Long memberId) {
-        List<MemberProductCollection> memberProductCollectionList = memberCollectionService.listProduct(memberId);
+    public CommonResult<List<MemberProductCollection>> listProduct() {
+        List<MemberProductCollection> memberProductCollectionList = memberCollectionService.listProduct();
         return CommonResult.success(memberProductCollectionList);
     }
 }

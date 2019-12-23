@@ -9,9 +9,9 @@ import java.util.List;
  * Created by macro on 2018/8/2.
  */
 public interface MemberCollectionService {
-    int addProduct(MemberProductCollection productCollection);
+    int addProduct(Long productId);
 
-    int deleteProduct(Long memberId, Long productId);
+    int deleteProduct(Long productId);
 
-    List<MemberProductCollection> listProduct(Long memberId);
+    List<MemberProductCollection> listProduct();
 }
