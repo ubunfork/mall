@@ -48,6 +48,7 @@ public class PmsProductResult extends PmsProductParam{
      * @param attributeList the attributeList to set
      */
     public void setAttributeList(List<PmsProductAttributeItem> attributeList) {
+
         this.attributeList = attributeList;
     }
     /**

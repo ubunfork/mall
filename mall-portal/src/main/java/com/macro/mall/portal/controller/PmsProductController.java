@@ -31,7 +31,7 @@ public class PmsProductController {
     // @Autowired
     // private PmsCommentDao commentDao;
 
-   @ApiOperation("根据商品id获取商品编辑信息")
+   @ApiOperation("根据商品id获取商品信息")
    @RequestMapping(value = "/productInfo/{id}", method = RequestMethod.GET)
    @ResponseBody
    public CommonResult<PmsProductResult> productInfo(@PathVariable Long id) {

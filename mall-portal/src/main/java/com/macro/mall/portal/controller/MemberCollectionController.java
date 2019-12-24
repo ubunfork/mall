@@ -37,7 +37,7 @@ public class MemberCollectionController {
     @ApiOperation("删除收藏商品")
     @RequestMapping(value = "/deleteProduct", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult deleteProduct(Long memberId, Long productId) {
+    public CommonResult deleteProduct(Long productId) {
         int count = memberCollectionService.deleteProduct(productId);
         if (count > 0) {
             return CommonResult.success(count);
