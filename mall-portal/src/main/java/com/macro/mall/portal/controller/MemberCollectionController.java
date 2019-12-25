@@ -25,7 +25,7 @@ public class MemberCollectionController {
     @ApiOperation("添加商品收藏")
     @RequestMapping(value = "/addProduct", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult addProduct(Long productId) {
+    public CommonResult addProduct(@RequestBody Long productId) {
         int count = memberCollectionService.addProduct(productId);
         if (count > 0) {
             return CommonResult.success(count);

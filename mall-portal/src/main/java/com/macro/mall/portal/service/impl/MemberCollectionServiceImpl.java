@@ -10,6 +10,7 @@ import com.macro.mall.portal.service.UmsMemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Date;
 import java.util.List;
@@ -31,7 +32,7 @@ public class MemberCollectionServiceImpl implements MemberCollectionService {
     private PmsProductMapper pmsProductMapper;
 
     @Override
-    public int addProduct(Long productId) {
+    public int addProduct(@RequestBody Long productId) {
         UmsMember currentMember = memberService.getCurrentMember();
         int count = 0;
         MemberProductCollection findCollection = productCollectionRepository.findByMemberIdAndProductId(currentMember.getId(), productId);

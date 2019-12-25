@@ -84,11 +84,12 @@ WHERE pro.id=#{productid} and sku.id = #{skuid};
     </association>
 </resultMap>
 <select id="getAttributeList" resultMap="attributeList">
-SELECT a.id,a.name,
+SELECT any_value(a.name)  name
 av.value var_value
 FROM pms_product_attribute a
 LEFT JOIN pms_product_attribute_value av ON av.product_attribute_id = a.id
 WHERE a.type = 0 AND av.product_id = #{productid}
+GROUP BY av.value
 </select>
 
 <!-- 根据商品ID 获取sku 列表 -->
