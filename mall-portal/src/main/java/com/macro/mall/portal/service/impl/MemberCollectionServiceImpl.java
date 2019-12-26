@@ -34,7 +34,7 @@ public class MemberCollectionServiceImpl implements MemberCollectionService {
     @Override
     public int addProduct(@RequestBody Long productId) {
         UmsMember currentMember = memberService.getCurrentMember();
-        int count = 0;
+     
         MemberProductCollection findCollection = productCollectionRepository.findByMemberIdAndProductId(currentMember.getId(), productId);
         if (findCollection == null) {
             PmsProduct product = pmsProductMapper.selectByPrimaryKey(productId);
@@ -49,9 +49,9 @@ public class MemberCollectionServiceImpl implements MemberCollectionService {
             findCollection.setProductSubTitle(product.getSubTitle());
             findCollection.setProductPrice(product.getPrice());
             productCollectionRepository.save(findCollection);
-            count = 1;
+        
         }
-        return count;
+        return 1;
     }
 
     @Override

@@ -62,10 +62,20 @@
             ot.product_name ot_product_name,
             ot.product_sku_id ot_product_sku_id,
             ot.product_sku_code ot_product_sku_code,
-            ot.product_quantity ot_product_quantity
+            ot.product_quantity ot_product_quantity,
+            ot.product_id ot_product_id,
+            ot.product_pic ot_product_pic,
+            ot.product_brand ot_product_brand,
+            ot.product_sn ot_product_sn,
+            ot.product_price ot_product_price,
+            ot.product_category_id ot_product_category_id
+            
         FROM
             (select * from oms_order tem 
-            WHERE tem.status = 4 AND tem.member_id = 1
+            WHERE tem.member_id = 1
+            <if test="status!=-1">
+                AND tem.status = #{status}
+            </if>
             ORDER BY tem.modify_time 
             LIMIT #{offset}, #{limit})  o
             LEFT JOIN oms_order_item ot ON o.id = ot.order_id

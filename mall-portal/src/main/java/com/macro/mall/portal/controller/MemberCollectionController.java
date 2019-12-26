@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 会员收藏管理Controller
@@ -23,9 +24,9 @@ public class MemberCollectionController {
     private MemberCollectionService memberCollectionService;
 
     @ApiOperation("添加商品收藏")
-    @RequestMapping(value = "/addProduct", method = RequestMethod.POST)
+    @RequestMapping(value = "/addProduct/{productId}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult addProduct(@RequestBody Long productId) {
+    public CommonResult addProduct(@PathVariable Long productId) {
         int count = memberCollectionService.addProduct(productId);
         if (count > 0) {
             return CommonResult.success(count);
@@ -35,9 +36,9 @@ public class MemberCollectionController {
     }
 
     @ApiOperation("删除收藏商品")
-    @RequestMapping(value = "/deleteProduct", method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteProduct/{productId}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult deleteProduct(Long productId) {
+    public CommonResult deleteProduct(@PathVariable Long productId) {
         int count = memberCollectionService.deleteProduct(productId);
         if (count > 0) {
             return CommonResult.success(count);
