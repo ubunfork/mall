@@ -180,7 +180,8 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         UmsMember umsMember = memberList.get(0);
         UserDetails userDetails = userDetailsService.loadUserByUsername(umsMember.getUsername());
         if(!passwordEncoder.matches(password,userDetails.getPassword())){
-            throw new BadCredentialsException("密码不正确");
+            // throw new BadCredentialsException("密码不正确");
+            return CommonResult.failed("密码不正确");
         }
         umsMember.setPassword(null);
         
