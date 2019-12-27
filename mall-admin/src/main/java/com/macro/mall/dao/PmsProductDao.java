@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.macro.mall.dto.PmsProductAttributeItem;
 import com.macro.mall.dto.PmsProductResult;
+import com.macro.mall.dto.PmsSkuStockParam;
+
 import org.apache.ibatis.annotations.Param;
 
 
@@ -21,4 +23,9 @@ public interface PmsProductDao {
      * 获取商品可选属性列表
      */
     List<PmsProductAttributeItem> getAttributeList(@Param("productid") Long productid);
+
+    /**
+     * skuStockList
+     */
+    List<PmsSkuStockParam> getskuStockList(@Param("productid") Long productid);
 }

@@ -6,6 +6,7 @@ import com.macro.mall.dto.PmsProductAttributeItem;
 import com.macro.mall.dto.PmsProductParam;
 import com.macro.mall.dto.PmsProductQueryParam;
 import com.macro.mall.dto.PmsProductResult;
+import com.macro.mall.dto.PmsSkuStockParam;
 import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
 import com.macro.mall.service.PmsProductService;
@@ -85,7 +86,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         //添加sku库存信息
         relateAndInsertList(skuStockDao, productParam.getSkuStockList(), productId);
         //添加商品参数,添加自定义商品规格
-        relateAndInsertList(productAttributeValueDao, productParam.getProductAttributeValueList(), productId);
+        // relateAndInsertList(productAttributeValueDao, productParam.getProductAttributeValueList(), productId);
         //关联专题
         relateAndInsertList(subjectProductRelationDao, productParam.getSubjectProductRelationList(), productId);
         //关联优选
@@ -114,9 +115,13 @@ public class PmsProductServiceImpl implements PmsProductService {
 
     @Override
     public PmsProductResult getUpdateInfo(Long id) {
+        
         PmsProductResult result = productDao.getUpdateInfo(id);
         List<PmsProductAttributeItem> items =  productDao.getAttributeList(id);
         result.setAttributeList(items);
+
+        List<PmsSkuStockParam> skulist  = productDao.getskuStockList(id);
+        result.setSkuStockList(skulist);
         return result;
     }
 
@@ -318,15 +323,15 @@ public class PmsProductServiceImpl implements PmsProductService {
             }
             skuStockDao.insertList(skuStockList);
         }
-        //添加商品参数,添加自定义商品规格
-        List<PmsProductAttributeValue> productAttributeValueList = productParam.getProductAttributeValueList();
-        if (!CollectionUtils.isEmpty(productAttributeValueList)) {
-            for (PmsProductAttributeValue productAttributeValue : productAttributeValueList) {
-                productAttributeValue.setId(null);
-                productAttributeValue.setProductId(productId);
-            }
-            productAttributeValueDao.insertList(productAttributeValueList);
-        }
+        // //添加商品参数,添加自定义商品规格
+        // List<PmsProductAttributeValue> productAttributeValueList = productParam.getProductAttributeValueList();
+        // if (!CollectionUtils.isEmpty(productAttributeValueList)) {
+        //     for (PmsProductAttributeValue productAttributeValue : productAttributeValueList) {
+        //         productAttributeValue.setId(null);
+        //         productAttributeValue.setProductId(productId);
+        //     }
+        //     productAttributeValueDao.insertList(productAttributeValueList);
+        // }
         //关联专题
         relateAndInsertList(subjectProductRelationDao, productParam.getSubjectProductRelationList(), productId);
         //关联优选

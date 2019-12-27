@@ -84,7 +84,7 @@ WHERE pro.id=#{productid} and sku.id = #{skuid};
     </association>
 </resultMap>
 <select id="getAttributeList" resultMap="attributeList">
-SELECT any_value(a.name)  name
+SELECT any_value(a.name)  name, any_value(a.id) id,
 av.value var_value
 FROM pms_product_attribute a
 LEFT JOIN pms_product_attribute_value av ON av.product_attribute_id = a.id

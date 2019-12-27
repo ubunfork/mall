@@ -134,7 +134,7 @@ public class OmsPortalOrderController {
      */
     @ApiOperation("分页获取商品购买订单列表")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "status", value = "订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单", required = true, paramType = "query", dataType = "Int"), })
+        @ApiImplicitParam(name = "status", value = "订单状态：-1->全部 0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单", required = true, paramType = "query", dataType = "Int"), })
     @RequestMapping(value = "/orderlist", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<OmsOrderDetail>> orderlist(@RequestParam Integer status,
