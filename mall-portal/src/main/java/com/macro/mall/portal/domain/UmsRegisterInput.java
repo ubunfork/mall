@@ -11,13 +11,13 @@ public class UmsRegisterInput{
     @ApiModelProperty(value = "用户名")
     private String username;
 
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(value = "密码")
     private String password;
 
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(value = "手机号")
     private String telephone;
 
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(value = "验证码")
     private String authCode;
 
     @ApiModelProperty(value = "邀请码")

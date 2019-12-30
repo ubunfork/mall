@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.OmsOrderConfim;
+import com.macro.mall.portal.domain.ConfirmOrderParam;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
 import com.macro.mall.portal.domain.OmsOrderDetail;
 import com.macro.mall.portal.domain.OrderParam;
@@ -30,19 +31,15 @@ public class OmsPortalOrderController {
     private OmsPortalOrderService portalOrderService;
 
     @ApiOperation("生成确认订单记录")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "type", value = "状态 0->商品详情购买 1->购物车购买", required = true, allowableValues = "0,1", paramType = "query", dataType = "Int"),
-            @ApiImplicitParam(name = "remark", value = "下单列表 ','分割 商品详情是商品id+skuid+quantity（购买数量） 购物车是购物车id", required = true, paramType = "query", dataType = "String") })
     @RequestMapping(value = "/confirmOrder", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult confirmOrder(@RequestParam(value = "type") Integer type,
-            @RequestParam(value = "remark") String remark) {
+    public CommonResult confirmOrder(@RequestBody ConfirmOrderParam param) {
         CommonResult commonResult;
         OmsOrderConfim omsOrderConfim = new OmsOrderConfim();
         omsOrderConfim.setCreateTime(new Date());
         omsOrderConfim.setModifyTime(new Date());
-        omsOrderConfim.setType(type);
-        omsOrderConfim.setRemark(remark);
+        omsOrderConfim.setType(param.getType());
+        omsOrderConfim.setRemark(param.getRemark());
         omsOrderConfim.setStatus(0);
         int count = portalOrderService.confirmOrder(omsOrderConfim);
         if (count == 1) {
@@ -134,7 +131,7 @@ public class OmsPortalOrderController {
      */
     @ApiOperation("分页获取商品购买订单列表")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "status", value = "订单状态：-1->全部 0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单", required = true, paramType = "query", dataType = "Int"), })
+        @ApiImplicitParam(name = "status", value = "订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单", required = true, paramType = "query", dataType = "Int"), })
     @RequestMapping(value = "/orderlist", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<OmsOrderDetail>> orderlist(@RequestParam Integer status,
