@@ -51,7 +51,7 @@ public class OmsPortalOrderController {
     }
 
     @ApiOperation("根据确认单编号返回确认订单信息")
-    @RequestMapping(value = "/getConfirmOrderInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/getConfirmOrderInfo", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<ConfirmOrderResult> getConfirmOrderInfo(@RequestParam(value = "confirmid") Long confirmid) {
         ConfirmOrderResult confirmOrderResult = portalOrderService.getConfirmOrderInfo(confirmid);
