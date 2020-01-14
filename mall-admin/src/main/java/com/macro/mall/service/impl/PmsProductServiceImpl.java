@@ -82,7 +82,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         //满减价格
         relateAndInsertList(productFullReductionDao, productParam.getProductFullReductionList(), productId);
         //处理sku的编码
-        handleSkuStockCode(productParam.getSkuStockList(),productId);
+        // handleSkuStockCode(productParam.getSkuStockList(),productId);
         //添加sku库存信息
         relateAndInsertList(skuStockDao, productParam.getSkuStockList(), productId);
         //添加商品参数,添加自定义商品规格
@@ -314,15 +314,15 @@ public class PmsProductServiceImpl implements PmsProductService {
             }
             productFullReductionDao.insertList(productFullReductionList);
         }
-        //添加sku库存信息
-        List<PmsSkuStock> skuStockList = productParam.getSkuStockList();
-        if (!CollectionUtils.isEmpty(skuStockList)) {
-            for (PmsSkuStock skuStock : skuStockList) {
-                skuStock.setId(null);
-                skuStock.setProductId(productId);
-            }
-            skuStockDao.insertList(skuStockList);
-        }
+        // //添加sku库存信息
+        // List<PmsSkuStock> skuStockList = productParam.getSkuStockList();
+        // if (!CollectionUtils.isEmpty(skuStockList)) {
+        //     for (PmsSkuStock skuStock : skuStockList) {
+        //         skuStock.setId(null);
+        //         skuStock.setProductId(productId);
+        //     }
+        //     skuStockDao.insertList(skuStockList);
+        // }
         // //添加商品参数,添加自定义商品规格
         // List<PmsProductAttributeValue> productAttributeValueList = productParam.getProductAttributeValueList();
         // if (!CollectionUtils.isEmpty(productAttributeValueList)) {

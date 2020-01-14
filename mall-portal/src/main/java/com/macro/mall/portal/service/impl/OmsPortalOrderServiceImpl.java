@@ -71,9 +71,86 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     PmsProductDao pmsProductDao;
 
     @Override
-    public Integer confirmOrder(OmsOrderConfim omsOrderConfim) {
+    public CommonResult confirmOrder(OmsOrderConfim omsOrderConfim) {
+        CommonResult commonResult;
+        UmsMember currentMember = memberService.getCurrentMember();
+        ConfirmOrderResult result = new ConfirmOrderResult();
+        ArrayList<ProductItem> productitems = new ArrayList<ProductItem>();
+        if (omsOrderConfim.getType() == 1) {
+            // 购物车购买的
+            for (String carid : omsOrderConfim.getRemark().split(",")) {
+                OmsCartItem omsCartItem = omsCartItemMapper.selectByPrimaryKey(Long.parseLong(carid));
+                ProductItem productItem = pmsProductDao.getproductitem(omsCartItem.getProductId(),
+                        omsCartItem.getProductSkuId());
+                productItem.setQuantity(omsCartItem.getQuantity());
+                productItem.setReduceAmount(BigDecimal.ZERO);
+                productitems.add(productItem);
+            }
+            result.setProductItemlist(productitems);
+        } else if (omsOrderConfim.getType() == 0) {
+            // 商品详情购买的
+            String[] skuinfo = omsOrderConfim.getRemark().split(",");
+            ProductItem productItem = pmsProductDao.getproductitem(Long.parseLong(skuinfo[0]),
+                    Long.parseLong(skuinfo[1]));
+            productItem.setQuantity(Integer.parseInt(skuinfo[2]));
+            productItem.setReduceAmount(BigDecimal.ZERO);
+            productitems.add(productItem);
+        }
+         // 检查购买商品是否有库存
+         if (!prohasStock(productitems)) {
+            return CommonResult.failed("库存不足，无法下单");
+        }
+        //生成订单
 
-        return omsOrderConfimMapper.insert(omsOrderConfim);
+        List<OmsOrderItem> orderItemList = new ArrayList<>();
+        for (ProductItem productItem : productitems) {
+            // 生成下单商品信息
+            OmsOrderItem orderItem = new OmsOrderItem();
+            orderItem.setProductId(productItem.getProductId()); //
+            orderItem.setProductQuantity(productItem.getQuantity());
+            orderItem.setProductSkuId(productItem.getId());
+            orderItem.setPromotionAmount(productItem.getReduceAmount());
+            orderItem.setPromotionName(productItem.getPromotionMessage());
+            orderItem.setProductPrice(productItem.getPrice());
+            orderItem.setProductSkuCode(productItem.getSkuCode());
+            
+            
+            PmsProduct pmsProduct = pmsProductMapper.selectByPrimaryKey(productItem.getProductId());
+            orderItem.setProductPic(pmsProduct.getPic());
+            orderItem.setProductName(pmsProduct.getName());
+            orderItem.setProductBrand(pmsProduct.getBrandName());
+            orderItem.setProductSn(pmsProduct.getProductSn());
+            orderItem.setProductCategoryId(pmsProduct.getProductAttributeCategoryId());
+            
+            orderItem.setGiftIntegration(pmsProduct.getGiftPoint());
+            orderItem.setGiftGrowth(pmsProduct.getGiftGrowth());
+            orderItemList.add(orderItem);
+        }
+        // 进行库存锁定
+        prolockStock(productitems);
+
+        OmsOrder order = new OmsOrder();
+        // 转化为订单信息并插入数据库
+        order.setMemberId(currentMember.getId());
+        // 0->未确认；1->已确认
+        order.setConfirmStatus(0);
+        order.setDeleteStatus(0);
+        // 生成订单号
+        order.setOrderSn(generateOrderSn(order));
+        order.setStatus(0);
+        // 插入order表和order_item表
+        order.setCreateTime(new Date());
+        order.setModifyTime(new Date());
+        order.setMemberUsername(currentMember.getUsername());
+        orderMapper.insert(order);
+
+        for (OmsOrderItem orderItem : orderItemList) {
+            orderItem.setOrderId(order.getId());
+            orderItem.setOrderSn(order.getOrderSn());
+        }
+        orderItemDao.insertList(orderItemList);
+        commonResult = CommonResult.success(order.getId());
+        return commonResult;
     }
 
     @Override
@@ -583,7 +660,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         String key = REDIS_KEY_PREFIX_ORDER_ID + date;
         Long increment = redisService.increment(key, 1);
         sb.append(date);
-        sb.append(String.format("%02d", order.getSourceType()));
+        // sb.append(String.format("%02d", order.getSourceType()));
         // sb.append(String.format("%02d", order.getPayType()));
         String incrementStr = increment.toString();
         if (incrementStr.length() <= 6) {

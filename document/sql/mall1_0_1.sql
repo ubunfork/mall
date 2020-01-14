@@ -115,7 +115,7 @@ CREATE TABLE `cfg_service` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务器设置';
 
 
-INSERT INTO `cfg_service` VALUES (1001, '是否发送验证码', '0', '{"发送":0,"不发送":1}');
+
 
 ALTER table pms_product add `ownerId` bigint(20) NOT NULL  COMMENT '商品拥有者(卖家id)';
 
@@ -184,9 +184,6 @@ ALTER table pms_product_attribute_value add `skuid` bigint(20) NOT NULL  COMMENT
 
 
 
-
-
-
 CREATE TABLE `cfg_cnarea` (
   `id` mediumint(7) unsigned NOT NULL AUTO_INCREMENT,
   `level` tinyint(1) unsigned NOT NULL COMMENT '层级',
@@ -211,3 +208,8 @@ CREATE TABLE `cfg_cnarea` (
 -- ----------------------------
 ALTER table pms_product add `create_time` datetime DEFAULT NULL COMMENT '创建时间';
 ALTER table pms_product add `modify_time` datetime DEFAULT NULL COMMENT '修改时间';
+
+ALTER table oms_order modify column `receiver_name` varchar(100) DEFAULT NULL COMMENT '收货人姓名';
+ALTER table oms_order modify column `receiver_phone` varchar(32) DEFAULT NULL COMMENT '收货人电话';
+ALTER table oms_order modify column `status` int(1) DEFAULT NULL COMMENT '订单状态：0->待付款；1->待发货；2->已发货；3->待收货（待自提） 4->已完成；5->已关闭；6->无效订单'
+

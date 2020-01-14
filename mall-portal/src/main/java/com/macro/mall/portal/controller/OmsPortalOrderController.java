@@ -30,24 +30,18 @@ public class OmsPortalOrderController {
     @Autowired
     private OmsPortalOrderService portalOrderService;
 
-    @ApiOperation("生成确认订单记录")
+    @ApiOperation("生成订单")
     @RequestMapping(value = "/confirmOrder", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult confirmOrder(@RequestBody ConfirmOrderParam param) {
-        CommonResult commonResult;
+       
         OmsOrderConfim omsOrderConfim = new OmsOrderConfim();
         omsOrderConfim.setCreateTime(new Date());
         omsOrderConfim.setModifyTime(new Date());
         omsOrderConfim.setType(param.getType());
         omsOrderConfim.setRemark(param.getRemark());
         omsOrderConfim.setStatus(0);
-        int count = portalOrderService.confirmOrder(omsOrderConfim);
-        if (count == 1) {
-            commonResult = CommonResult.success(omsOrderConfim);
-        } else {
-            commonResult = CommonResult.failed();
-        }
-        return commonResult;
+        return portalOrderService.confirmOrder(omsOrderConfim);
     }
 
     @ApiOperation("根据确认单编号返回确认订单信息")

@@ -19,7 +19,7 @@ public interface OmsPortalOrderService {
      * 1:根据购物车ids生成确认订单记录
      * 2:根据1商品id+skuid生成确认订单记录
      */
-    Integer confirmOrder(OmsOrderConfim omsOrderConfim);
+    CommonResult confirmOrder(OmsOrderConfim omsOrderConfim);
 
     /**
      * 根据确认订单信息记录id返回确认单信息
@@ -45,7 +45,7 @@ public interface OmsPortalOrderService {
     CommonResult generateOrder(OrderParam orderParam);
 
     /**
-     * 根据提交确认信息生成支付订单
+     * 生成/更新 支付订单
      */
     @Transactional
     CommonResult generatePayOrder(OrderParam orderParam);

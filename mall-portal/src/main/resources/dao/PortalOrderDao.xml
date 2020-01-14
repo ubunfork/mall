@@ -32,7 +32,8 @@
             ot.product_name ot_product_name,
             ot.product_sku_id ot_product_sku_id,
             ot.product_sku_code ot_product_sku_code,
-            ot.product_quantity ot_product_quantity
+            ot.product_quantity ot_product_quantity,
+            ot.product_pic ot_product_pic
         FROM
             oms_order o
             LEFT JOIN oms_order_item ot ON o.id = ot.order_id
@@ -54,6 +55,7 @@
             o.receiver_region,
             o.receiver_detail_address,
             o.create_time,
+            o.modify_time,
             o.payment_time,
             o.delivery_time,
             o.receive_time,
@@ -76,9 +78,10 @@
             <if test="status!=-1">
                 AND tem.status = #{status}
             </if>
-            ORDER BY tem.modify_time 
+            ORDER BY tem.modify_time desc
             LIMIT #{offset}, #{limit})  o
             LEFT JOIN oms_order_item ot ON o.id = ot.order_id
+            ORDER BY o.modify_time desc
     </select>
 
     
