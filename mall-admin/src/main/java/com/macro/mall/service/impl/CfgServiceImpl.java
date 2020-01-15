@@ -1,12 +1,16 @@
 package com.macro.mall.service.impl;
 
 import com.macro.mall.dao.CfgDao;
+import com.macro.mall.dto.CfgServiceResult;
 import com.macro.mall.dto.CfgSourceParam;
 import com.macro.mall.mapper.CfgServiceMapper;
+import com.macro.mall.mapper.CfgServiceValueMapper;
 import com.macro.mall.mapper.CfgSourceMapper;
 import com.macro.mall.mapper.CfgTypeMapper;
 import com.macro.mall.mapper.CfgTypeSourceMapper;
 import com.macro.mall.model.CfgServiceExample;
+import com.macro.mall.model.CfgServiceValue;
+import com.macro.mall.model.CfgServiceValueExample;
 import com.macro.mall.model.CfgSource;
 import com.macro.mall.model.CfgType;
 import com.macro.mall.model.CfgTypeExample;
@@ -17,6 +21,7 @@ import com.macro.mall.model.CfgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 /**
@@ -29,6 +34,8 @@ public class CfgServiceImpl implements CfgServices {
     private CfgTypeMapper cfgTypeMapper;
     @Autowired
     private CfgSourceMapper cfgSourceMapper;
+    @Autowired
+    private CfgServiceValueMapper cfgServiceValueMapper;
     @Autowired
     private CfgTypeSourceMapper  cfgTypeSourceMapper;
     @Autowired
@@ -96,12 +103,14 @@ public class CfgServiceImpl implements CfgServices {
     public List<CfgSource> getsourcebytype(CfgSourceParam cfgSourceParam){
         return  cfgDao.selectsource(cfgSourceParam);
     }
-    // 获取服务器配置表
+    // 根据配置类型获取下属配置列表
     @Override
-    public List<CfgService> listservice(){
-        CfgServiceExample example = new CfgServiceExample();
-        return cfgServiceMapper.selectByExample(example);
+    public List<CfgServiceResult> listservice(Integer parentid){
+        List<CfgServiceResult> result =  cfgDao.defualConfigServiec(parentid);
+        return  result;
     }
+
+
 
     @Override
     public int updateservice(Integer id, CfgService cfgService){

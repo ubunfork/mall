@@ -213,3 +213,21 @@ ALTER table oms_order modify column `receiver_name` varchar(100) DEFAULT NULL CO
 ALTER table oms_order modify column `receiver_phone` varchar(32) DEFAULT NULL COMMENT '收货人电话';
 ALTER table oms_order modify column `status` int(1) DEFAULT NULL COMMENT '订单状态：0->待付款；1->待发货；2->已发货；3->待收货（待自提） 4->已完成；5->已关闭；6->无效订单'
 
+-- ----------------------------
+-- 服务器配置修改
+-- ----------------------------
+ALTER table cfg_service add `type` int(1) DEFAULT 0 COMMENT '值类型，0 用户输入 1:有可选值';
+ALTER table cfg_service add `parentid` int(4) DEFAULT 0 COMMENT '配置父id';
+ALTER table cfg_service modify column `maybe` varchar(1000) DEFAULT NULL COMMENT '废弃（20200115） 可选json参数[{key:value}]，如果为空则为string';
+
+-- ----------------------------
+-- 服务器设置的值表
+-- ----------------------------
+DROP TABLE IF EXISTS `cfg_service_value`;
+CREATE TABLE `cfg_service_value` (
+  `id` int(4) NOT NULL,
+  `serviceid` int(4) NOT NULL COMMENT '配置id',
+  `value` varchar(1024) NOT NULL COMMENT '配置值',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务器设置的值表';

@@ -101,6 +101,12 @@ public class PmsProduct implements Serializable {
     @ApiModelProperty(value = "商品拥有者(卖家id)")
     private Long ownerid;
 
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
+
+    @ApiModelProperty(value = "修改时间")
+    private Date modifyTime;
+
     @ApiModelProperty(value = "商品描述")
     private String description;
 
@@ -394,6 +400,22 @@ public class PmsProduct implements Serializable {
         this.ownerid = ownerid;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -467,6 +489,8 @@ public class PmsProduct implements Serializable {
         sb.append(", productCategoryName=").append(productCategoryName);
         sb.append(", price=").append(price);
         sb.append(", ownerid=").append(ownerid);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", modifyTime=").append(modifyTime);
         sb.append(", description=").append(description);
         sb.append(", detailDesc=").append(detailDesc);
         sb.append(", detailHtml=").append(detailHtml);

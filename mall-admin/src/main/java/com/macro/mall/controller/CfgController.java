@@ -3,6 +3,7 @@ package com.macro.mall.controller;
 import java.util.List;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.CfgService;
+import com.macro.mall.model.CfgServiceValue;
 import com.macro.mall.model.CfgSource;
 import com.macro.mall.model.CfgType;
 
@@ -12,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 
 import io.swagger.annotations.Api;
+
+import com.macro.mall.dto.CfgServiceResult;
 import com.macro.mall.dto.CfgSourceParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -134,17 +137,20 @@ public class CfgController {
     @ResponseBody
     public CommonResult<List<CfgSource>> getsourcebytype(CfgSourceParam cfgSourceParam , BindingResult result) {
         CommonResult commonResult;
-        List<CfgSource > cfgSource = cfgServices.getsourcebytype(cfgSourceParam);
-        commonResult = CommonResult.success(cfgSource);
+        List<CfgSource > cfgSources = cfgServices.getsourcebytype(cfgSourceParam);
+        commonResult = CommonResult.success(cfgSources);
         return commonResult;
     }
 
-    @ApiOperation("获取服务器配置")
+    @ApiOperation("根据配置类型获取下属配置列表 0 获取所有配置类型")
     @RequestMapping(value = "/getserviec", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<CfgService>> getserviec() {
+    public CommonResult<List<CfgServiceResult>> getserviec(Integer parentid) {
+        if(parentid == null){
+            parentid = 0;
+        }
         CommonResult commonResult;
-        List<CfgService > cfgSource = cfgServices.listservice();
+        List<CfgServiceResult > cfgSource = cfgServices.listservice(parentid);
         commonResult = CommonResult.success(cfgSource);
         return commonResult;
     }
@@ -163,5 +169,6 @@ public class CfgController {
         }
         return commonResult;
     }
+
 
 }

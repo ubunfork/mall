@@ -1,13 +1,12 @@
 package com.macro.mall.portal.service;
 
 import java.util.List;
-
 import com.macro.mall.common.api.CommonResult;
-import com.macro.mall.model.OmsOrder;
 import com.macro.mall.model.OmsOrderConfim;
-import com.macro.mall.portal.domain.ConfirmOrderResult;
 import com.macro.mall.portal.domain.OmsOrderDetail;
 import com.macro.mall.portal.domain.OrderParam;
+import com.macro.mall.portal.domain.PayinfoParam;
+
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -15,23 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by macro on 2018/8/30.
  */
 public interface OmsPortalOrderService {
-     /**
+    /**
      * 1:根据购物车ids生成确认订单记录
      * 2:根据1商品id+skuid生成确认订单记录
      */
     CommonResult confirmOrder(OmsOrderConfim omsOrderConfim);
 
-    /**
-     * 根据确认订单信息记录id返回确认单信息
-     * @param confimid
-     * @return
-     */
-    ConfirmOrderResult getConfirmOrderInfo(Long confimid);
-
-    /**
-     * 根据用户购物车信息生成确认单信息
-     */
-    ConfirmOrderResult generateConfirmOrder();
 
     /**
      * 删除确认订单单信息
@@ -44,11 +32,6 @@ public interface OmsPortalOrderService {
     @Transactional
     CommonResult generateOrder(OrderParam orderParam);
 
-    /**
-     * 生成/更新 支付订单
-     */
-    @Transactional
-    CommonResult generatePayOrder(OrderParam orderParam);
 
     /**
      * 支付成功后的回调
@@ -82,4 +65,12 @@ public interface OmsPortalOrderService {
      * 根据订单id获取订单详情
      */
     OmsOrderDetail orderinfo(Long orderId);
+
+    /**
+     * 自动取消超时订单
+     * orderId 订单id
+     * payType 支付类型 
+     */
+    @Transactional
+    CommonResult payInfo(PayinfoParam param);
 }

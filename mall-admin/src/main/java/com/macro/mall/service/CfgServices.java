@@ -3,6 +3,7 @@ package com.macro.mall.service;
 import com.macro.mall.model.CfgService;
 import com.macro.mall.model.CfgSource;
 import com.macro.mall.model.CfgType;
+import com.macro.mall.dto.CfgServiceResult;
 import com.macro.mall.dto.CfgSourceParam;
 import java.util.List;
 /**
@@ -22,8 +23,12 @@ public interface CfgServices {
     int deletesource(Long id);
     
     List<CfgSource> getsourcebytype(CfgSourceParam cfgSourceParam);
-
-    List<CfgService> listservice();
+    /**
+     * 根据配置类型获取下属配置列表
+     * @param parentid
+     * @return
+     */
+    List<CfgServiceResult> listservice(Integer parentid);
 
     int updateservice(Integer id, CfgService cfgService);
 }

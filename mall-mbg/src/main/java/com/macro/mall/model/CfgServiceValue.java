@@ -3,20 +3,17 @@ package com.macro.mall.model;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
-public class CfgService implements Serializable {
+public class CfgServiceValue implements Serializable {
     private Integer id;
 
-    @ApiModelProperty(value = "标题")
-    private String name;
+    @ApiModelProperty(value = "配置id")
+    private Integer serviceid;
 
-    @ApiModelProperty(value = "设置值")
+    @ApiModelProperty(value = "配置值")
     private String value;
 
-    @ApiModelProperty(value = "值类型，0 用户输入 1:有可选值")
-    private Integer type;
-
-    @ApiModelProperty(value = "配置父id")
-    private Integer parentid;
+    @ApiModelProperty(value = "备注")
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -28,12 +25,12 @@ public class CfgService implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getServiceid() {
+        return serviceid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setServiceid(Integer serviceid) {
+        this.serviceid = serviceid;
     }
 
     public String getValue() {
@@ -44,20 +41,12 @@ public class CfgService implements Serializable {
         this.value = value;
     }
 
-    public Integer getType() {
-        return type;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public Integer getParentid() {
-        return parentid;
-    }
-
-    public void setParentid(Integer parentid) {
-        this.parentid = parentid;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Override
@@ -67,10 +56,9 @@ public class CfgService implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
+        sb.append(", serviceid=").append(serviceid);
         sb.append(", value=").append(value);
-        sb.append(", type=").append(type);
-        sb.append(", parentid=").append(parentid);
+        sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

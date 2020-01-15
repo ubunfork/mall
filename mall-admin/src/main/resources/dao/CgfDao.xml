@@ -21,5 +21,25 @@
         and (cs.platform like concat("%",#{queryParam.platform},"%"))
     </if>
   </select>
+
+
+  <!-- 根据商品id查询对应的sku列表 -->
+
+<resultMap id="cfgServiceResult" type="com.macro.mall.dto.CfgServiceResult" extends="com.macro.mall.mapper.CfgSourceMapper.BaseResultMap">
+    <collection property="vlaues" columnPrefix="v_" resultMap="com.macro.mall.mapper.CfgServiceValueMapper.BaseResultMap">
+    </collection>
+</resultMap>
+<select id="defualConfigServiec" resultMap="cfgServiceResult">
+
+SELECT s.*,
+v.value v_value,
+v.remark v_remark
+FROM cfg_service s
+LEFT JOIN cfg_service_value v ON v.serviceid =s.id
+WHERE s.parentid = #{parentId}
+
+</select>
+
+  
   
 </mapper>

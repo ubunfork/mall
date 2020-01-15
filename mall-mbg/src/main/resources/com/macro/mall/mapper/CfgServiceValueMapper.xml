@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.CfgServiceMapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.CfgService">
+<mapper namespace="com.macro.mall.mapper.CfgServiceValueMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.CfgServiceValue">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="serviceid" jdbcType="INTEGER" property="serviceid" />
     <result column="value" jdbcType="VARCHAR" property="value" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="parentid" jdbcType="INTEGER" property="parentid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, value, type, parentid
+    id, serviceid, value, remark
   </sql>
-  <select id="selectByExample" parameterType="com.macro.mall.model.CfgServiceExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.macro.mall.model.CfgServiceValueExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cfg_service
+    from cfg_service_value
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,85 +85,76 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from cfg_service
+    from cfg_service_value
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from cfg_service
+    delete from cfg_service_value
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.CfgServiceExample">
-    delete from cfg_service
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.CfgServiceValueExample">
+    delete from cfg_service_value
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.CfgService">
+  <insert id="insert" parameterType="com.macro.mall.model.CfgServiceValue">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cfg_service (name, value, type, 
-      parentid)
-    values (#{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{parentid,jdbcType=INTEGER})
+    insert into cfg_service_value (serviceid, value, remark
+      )
+    values (#{serviceid,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.CfgService">
+  <insert id="insertSelective" parameterType="com.macro.mall.model.CfgServiceValue">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cfg_service
+    insert into cfg_service_value
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        name,
+      <if test="serviceid != null">
+        serviceid,
       </if>
       <if test="value != null">
         value,
       </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="parentid != null">
-        parentid,
+      <if test="remark != null">
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="serviceid != null">
+        #{serviceid,jdbcType=INTEGER},
       </if>
       <if test="value != null">
         #{value,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
-      </if>
-      <if test="parentid != null">
-        #{parentid,jdbcType=INTEGER},
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.CfgServiceExample" resultType="java.lang.Long">
-    select count(*) from cfg_service
+  <select id="countByExample" parameterType="com.macro.mall.model.CfgServiceValueExample" resultType="java.lang.Long">
+    select count(*) from cfg_service_value
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update cfg_service
+    update cfg_service_value
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.serviceid != null">
+        serviceid = #{record.serviceid,jdbcType=INTEGER},
       </if>
       <if test="record.value != null">
         value = #{record.value,jdbcType=VARCHAR},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
-      </if>
-      <if test="record.parentid != null">
-        parentid = #{record.parentid,jdbcType=INTEGER},
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -172,40 +162,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update cfg_service
+    update cfg_service_value
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
+      serviceid = #{record.serviceid,jdbcType=INTEGER},
       value = #{record.value,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=INTEGER},
-      parentid = #{record.parentid,jdbcType=INTEGER}
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.CfgService">
-    update cfg_service
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.CfgServiceValue">
+    update cfg_service_value
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="serviceid != null">
+        serviceid = #{serviceid,jdbcType=INTEGER},
       </if>
       <if test="value != null">
         value = #{value,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="parentid != null">
-        parentid = #{parentid,jdbcType=INTEGER},
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.CfgService">
-    update cfg_service
-    set name = #{name,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.CfgServiceValue">
+    update cfg_service_value
+    set serviceid = #{serviceid,jdbcType=INTEGER},
       value = #{value,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
-      parentid = #{parentid,jdbcType=INTEGER}
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
