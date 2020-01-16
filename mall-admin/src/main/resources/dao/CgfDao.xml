@@ -25,8 +25,8 @@
 
   <!-- 根据商品id查询对应的sku列表 -->
 
-<resultMap id="cfgServiceResult" type="com.macro.mall.dto.CfgServiceResult" extends="com.macro.mall.mapper.CfgSourceMapper.BaseResultMap">
-    <collection property="vlaues" columnPrefix="v_" resultMap="com.macro.mall.mapper.CfgServiceValueMapper.BaseResultMap">
+<resultMap id="cfgServiceResult" type="com.macro.mall.dto.CfgServiceResult" extends="com.macro.mall.mapper.CfgServiceMapper.BaseResultMap">
+    <collection property="values" columnPrefix="v_" resultMap="com.macro.mall.mapper.CfgServiceValueMapper.BaseResultMap">
     </collection>
 </resultMap>
 <select id="defualConfigServiec" resultMap="cfgServiceResult">

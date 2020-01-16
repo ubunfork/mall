@@ -9,7 +9,7 @@ import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
-import com.macro.mall.portal.component.AlipayConfig;
+import com.macro.mall.model.CfgService;
 import com.macro.mall.portal.component.CancelOrderSender;
 import com.macro.mall.portal.dao.PmsProductDao;
 import com.macro.mall.portal.dao.PortalOrderDao;
@@ -44,6 +44,9 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     private UmsIntegrationConsumeSettingMapper integrationConsumeSettingMapper;
     @Autowired
     private PmsSkuStockMapper skuStockMapper;
+    @Autowired
+    private CfgServiceMapper cfgServiceMapper;
+    
     @Autowired
     private SmsCouponHistoryDao couponHistoryDao;
     @Autowired
@@ -457,6 +460,9 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         }
         UmsMember currentMember = memberService.getCurrentMember();
         OmsOrderDetail orderDetail = portalOrderDao.getDetail(param.getOrderId());
+        if(orderDetail.getStatus() != 0){
+            return CommonResult.failed("订单不能支付");
+        }
         ArrayList<ProductItem> productitems = new ArrayList<ProductItem>();
 
         // 获取购买的商品列表
@@ -514,8 +520,13 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         handleRealAmount(orderDetail.getOrderItemList());
         // 进行库存锁定
         prolockStock(productitems);
-        createAlipayInfo(orderDetail.getId());
-        return CommonResult.failed("库存不足，无法下单");
+        try {
+            String result = createAlipayInfo(orderDetail.getId());
+            return CommonResult.success(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return CommonResult.failed(e.getMessage());
+        }
     }
 
     /**
@@ -921,34 +932,34 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
      */
     private String createAlipayInfo(Long orderId) {
         try {
-            AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.URL, AlipayConfig.APPID,
-                    AlipayConfig.RSA_PRIVATE_KEY, AlipayConfig.FORMAT, AlipayConfig.CHARSET,
-                    AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.SIGNTYPE);
+            
+            CfgService appidService = cfgServiceMapper.selectByPrimaryKey(1002);
+            CfgService privatekeyService = cfgServiceMapper.selectByPrimaryKey(1003);
+            CfgService publickeyService = cfgServiceMapper.selectByPrimaryKey(1004);
+            CfgService notifyService = cfgServiceMapper.selectByPrimaryKey(1005);
+            CfgService urlService = cfgServiceMapper.selectByPrimaryKey(1007);
+            CfgService charsetService = cfgServiceMapper.selectByPrimaryKey(1008);
+            CfgService formatService = cfgServiceMapper.selectByPrimaryKey(1009);
+            CfgService signService = cfgServiceMapper.selectByPrimaryKey(1010);
+          
+            AlipayClient alipayClient = new DefaultAlipayClient(urlService.getValue(), appidService.getValue(),
+            privatekeyService.getValue(), formatService.getValue(), charsetService.getValue(),
+            publickeyService.getValue(), signService.getValue());
             AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
             AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
             // model.setPassbackParams(URLEncoder.encode(request.getBody().toString()));
             // //公用参数（附加数据）
             model.setBody("对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body");// 对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。
             model.setSubject("商品名称");// 商品名称
-
             model.setOutTradeNo(Long.toString(orderId));//// 商户订单号
-
             model.setTimeoutExpress("30m");// 交易超时时间
-
             model.setTotalAmount("0.01");// 支付总金额
-
             model.setProductCode("QUICK_MSECURITY_PAY");// 销售产品码，商家和支付宝签约的产品码
-
             request.setBizModel(model);
-
-            request.setNotifyUrl(AlipayConfig.notify_url);// 异步回调地址（后台）
-
+            request.setNotifyUrl(notifyService.getValue());// 异步回调地址（后台）
             // 这里和普通的接口调用不同，使用的是sdkExecute
-
             AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
-
             String orderString = response.getBody();// 就是orderString 可以直接给客户端请求，无需再做处理。
-
             return orderString;
 
         } catch (AlipayApiException e) {

@@ -2,15 +2,13 @@ package com.macro.mall.portal.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.OmsOrderConfim;
 import com.macro.mall.portal.domain.ConfirmOrderParam;
-import com.macro.mall.portal.domain.ConfirmOrderResult;
 import com.macro.mall.portal.domain.OmsOrderDetail;
-import com.macro.mall.portal.domain.OrderParam;
 import com.macro.mall.portal.domain.PayinfoParam;
-import com.macro.mall.model.OmsOrder;
 import com.macro.mall.portal.service.OmsPortalOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -44,6 +42,21 @@ public class OmsPortalOrderController {
         omsOrderConfim.setStatus(0);
         return portalOrderService.confirmOrder(omsOrderConfim);
     }
+
+    @ApiOperation("修改订单地址")
+    @RequestMapping(value = "/updateOrderAddress", method = RequestMethod.POST)
+    @ApiImplicitParams({ 
+        @ApiImplicitParam(name = "orderId", value = "订单ID", paramType = "query", dataType = "Long"),
+        @ApiImplicitParam(name = "addressId", value = "地址id", paramType = "query", dataType = "Long")
+        })
+    @ResponseBody
+    public CommonResult updateOrderAddress(@RequestBody Map map) {
+
+        return CommonResult.success(map.toString());
+       
+    }
+
+
 
 
 
@@ -93,6 +106,9 @@ public class OmsPortalOrderController {
         return CommonResult.success(commResult);
     }
 
+    /**
+     * 根据订单编号获取订单详情
+     */
     @ApiOperation("根据订单编号获取订单详情")
     @RequestMapping(value = "/orderinfo", method = RequestMethod.GET)
     @ResponseBody
@@ -102,6 +118,9 @@ public class OmsPortalOrderController {
         return CommonResult.success(commResult);
     }
 
+    /**
+     * 根据订单号，支付方式生成支付信息
+     */
     @ApiOperation("根据订单号，支付方式生成支付信息")
     @RequestMapping(value = "/payInfo", method = RequestMethod.POST)
     @ResponseBody

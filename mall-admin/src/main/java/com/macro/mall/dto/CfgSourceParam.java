@@ -11,10 +11,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CfgSourceParam {
+
     @ApiModelProperty(value = "配置类型")
     private int typeid;
+
     @ApiModelProperty(value = "版本号")
     private String verstion;
+    
     @ApiModelProperty(value = "平台")
     private String platform;
 }

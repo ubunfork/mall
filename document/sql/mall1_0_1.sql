@@ -108,7 +108,7 @@ UPDATE oms_order_setting set `confim_overtime`=1 where id=1;
 DROP TABLE IF EXISTS `cfg_service`;
 CREATE TABLE `cfg_service` (
   `id` int(4) NOT NULL,
-  `name` varchar(64) DEFAULT NULL COMMENT '标题',
+  `name` varchar(512) DEFAULT NULL COMMENT '标题',
   `value` varchar(200) DEFAULT NULL COMMENT '设置值',
   `maybe` varchar(1000) DEFAULT NULL COMMENT '可选json参数[{key:value}]，如果为空则为string',
   PRIMARY KEY (`id`)

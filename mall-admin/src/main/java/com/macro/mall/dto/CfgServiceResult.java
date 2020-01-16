@@ -15,20 +15,25 @@ import io.swagger.annotations.ApiModelProperty;
  */
 public class CfgServiceResult extends CfgService {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     @ApiModelProperty("配置可选项")
-    private List<CfgServiceValue> vlaues;
+    private List<CfgServiceValue> values;
 
-    /**
-     * @param vlaues the vlaues to set
-     */
-    public void setVlaues(List<CfgServiceValue> vlaues) {
-        this.vlaues = vlaues;
-    }
+   /**
+    * @param values the values to set
+    */
+   public void setValues(List<CfgServiceValue> values) {
+       this.values = values;
+   }
 
-    /**
-     * @return the vlaues
-     */
-    public List<CfgServiceValue> getVlaues() {
-        return vlaues;
-    }
+   /**
+    * @return the values
+    */
+   public List<CfgServiceValue> getValues() {
+       return values;
+   }
 }

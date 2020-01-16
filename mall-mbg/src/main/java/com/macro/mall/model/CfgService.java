@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 public class CfgService implements Serializable {
+    
     private Integer id;
 
     @ApiModelProperty(value = "标题")
