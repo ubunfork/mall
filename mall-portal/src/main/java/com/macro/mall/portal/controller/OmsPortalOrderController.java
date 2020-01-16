@@ -9,6 +9,7 @@ import com.macro.mall.model.OmsOrderConfim;
 import com.macro.mall.portal.domain.ConfirmOrderParam;
 import com.macro.mall.portal.domain.OmsOrderDetail;
 import com.macro.mall.portal.domain.PayinfoParam;
+import com.macro.mall.portal.domain.UpdateOrderAddressParam;
 import com.macro.mall.portal.service.OmsPortalOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -45,20 +46,17 @@ public class OmsPortalOrderController {
 
     @ApiOperation("修改订单地址")
     @RequestMapping(value = "/updateOrderAddress", method = RequestMethod.POST)
-    @ApiImplicitParams({ 
-        @ApiImplicitParam(name = "orderId", value = "订单ID", paramType = "query", dataType = "Long"),
-        @ApiImplicitParam(name = "addressId", value = "地址id", paramType = "query", dataType = "Long")
-        })
     @ResponseBody
-    public CommonResult updateOrderAddress(@RequestBody Map map) {
-
-        return CommonResult.success(map.toString());
+    public CommonResult updateOrderAddress(@RequestBody UpdateOrderAddressParam param) {
+        if(param.getAddressId() == null || param.getAddressId() == 0){
+           return CommonResult.failed("收货地址不能为空");
+        }
+        if(param.getOrderId() == null || param.getOrderId() == 0){
+            return CommonResult.failed("订单不存在");
+        }
+        return portalOrderService.updateOrderAddress(param.getOrderId(), param.getAddressId());
        
     }
-
-
-
-
 
     @ApiOperation("支付成功的回调")
     @RequestMapping(value = "/paySuccess", method = RequestMethod.POST)

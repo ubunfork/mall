@@ -46,7 +46,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     private PmsSkuStockMapper skuStockMapper;
     @Autowired
     private CfgServiceMapper cfgServiceMapper;
-    
+
     @Autowired
     private SmsCouponHistoryDao couponHistoryDao;
     @Autowired
@@ -329,6 +329,38 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         return CommonResult.success(result, "下单成功");
     }
 
+    /**
+     * 修改订单收货地址
+     * 
+     * @return
+     */
+    @Override
+    public CommonResult updateOrderAddress(Long orderId, Long addressId) {
+        OmsOrder order = orderMapper.selectByPrimaryKey(orderId);
+        if (order == null) {
+            return CommonResult.failed("订单查询失败");
+        }
+        UmsMemberReceiveAddress address = memberReceiveAddressService.getItem(addressId);
+        if (address == null) {
+            return CommonResult.failed("地址查询失败");
+        }
+        order.setReceiverName(address.getName());
+        order.setReceiverPhone(address.getPhoneNumber());
+        order.setReceiverPostCode(address.getPostCode());
+        order.setReceiverProvince(address.getProvince());
+        order.setReceiverCity(address.getCity());
+        order.setReceiverRegion(address.getRegion());
+        order.setReceiverDetailAddress(address.getDetailAddress());
+
+        order.setModifyTime(new Date());
+        if (orderMapper.updateByPrimaryKey(order) == 1) {
+            return CommonResult.success("修改成功");
+        }else{
+            return CommonResult.failed("修改失败");
+        }
+
+    }
+
     @Override
     public CommonResult paySuccess(Long orderId) {
         // 修改订单支付状态
@@ -460,7 +492,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         }
         UmsMember currentMember = memberService.getCurrentMember();
         OmsOrderDetail orderDetail = portalOrderDao.getDetail(param.getOrderId());
-        if(orderDetail.getStatus() != 0){
+        if (orderDetail.getStatus() != 0) {
             return CommonResult.failed("订单不能支付");
         }
         ArrayList<ProductItem> productitems = new ArrayList<ProductItem>();
@@ -927,12 +959,13 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         calcAmount.setPayAmount(totalAmount.subtract(promotionAmount));
         return calcAmount;
     }
+
     /**
      * 生成支付宝支付订单
      */
     private String createAlipayInfo(Long orderId) {
         try {
-            
+
             CfgService appidService = cfgServiceMapper.selectByPrimaryKey(1002);
             CfgService privatekeyService = cfgServiceMapper.selectByPrimaryKey(1003);
             CfgService publickeyService = cfgServiceMapper.selectByPrimaryKey(1004);
@@ -941,10 +974,10 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
             CfgService charsetService = cfgServiceMapper.selectByPrimaryKey(1008);
             CfgService formatService = cfgServiceMapper.selectByPrimaryKey(1009);
             CfgService signService = cfgServiceMapper.selectByPrimaryKey(1010);
-          
+
             AlipayClient alipayClient = new DefaultAlipayClient(urlService.getValue(), appidService.getValue(),
-            privatekeyService.getValue(), formatService.getValue(), charsetService.getValue(),
-            publickeyService.getValue(), signService.getValue());
+                    privatekeyService.getValue(), formatService.getValue(), charsetService.getValue(),
+                    publickeyService.getValue(), signService.getValue());
             AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
             AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
             // model.setPassbackParams(URLEncoder.encode(request.getBody().toString()));

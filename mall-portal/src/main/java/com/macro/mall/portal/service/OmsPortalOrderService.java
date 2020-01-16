@@ -22,6 +22,12 @@ public interface OmsPortalOrderService {
 
 
     /**
+     * 修改订单收货地址
+     * @return
+     */
+    CommonResult updateOrderAddress(Long orderId, Long addressId);
+
+    /**
      * 删除确认订单单信息
      */
     Integer deleteConfirmOrder();
