@@ -6,7 +6,11 @@ import com.macro.mall.dto.OmsOrderQueryParam;
 import com.macro.mall.model.OmsOrder;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import javax.xml.crypto.Data;
 
 /**
  * 订单自定义查询Dao
@@ -27,4 +31,11 @@ public interface OmsOrderDao {
      * 获取订单详情
      */
     OmsOrderDetail getDetail(@Param("id") Long id);
+
+    /**
+     * 根据时间段查询不同状态的个数
+     * @param id
+     * @return
+     */
+    List<Map> selectCount (@Param("start") Date start, @Param("end") Date end);
 }

@@ -90,4 +90,18 @@
             o.id = #{id}
         ORDER BY oi.id ASC,oh.create_time DESC
     </select>
+
+
+    <resultMap id="BaseResultMap" type="Map">
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="num" property="num" jdbcType="INTEGER" />
+    </resultMap>
+
+
+    <select id="selectCount" resultMap="BaseResultMap" >
+        SELECT COUNT(*) as num,status
+        FROM oms_order c
+        WHERE c.create_time BETWEEN #{start} AND #{end}
+        GROUP BY status
+    </select>
 </mapper>

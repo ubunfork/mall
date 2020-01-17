@@ -174,6 +174,8 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         return commonResult;
     }
 
+
+
     @Override
     public Integer deleteConfirmOrder() {
         OmsOrderSetting orderSetting = orderSettingMapper.selectByPrimaryKey(1L);

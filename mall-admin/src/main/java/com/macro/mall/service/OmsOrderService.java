@@ -4,7 +4,9 @@ import com.macro.mall.dto.*;
 import com.macro.mall.model.OmsOrder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单管理Service
@@ -15,6 +17,13 @@ public interface OmsOrderService {
      * 订单查询
      */
     List<OmsOrder> list(OmsOrderQueryParam queryParam, Integer pageSize, Integer pageNum);
+    /**
+     * 查询时间段内订单数量
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    List<Map> selectCount(Date startDate, Date endDate);
 
     /**
      * 批量发货

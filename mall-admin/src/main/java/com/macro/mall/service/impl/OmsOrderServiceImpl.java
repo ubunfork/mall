@@ -13,8 +13,14 @@ import com.macro.mall.service.OmsOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ch.qos.logback.classic.Logger;
+import cn.hutool.core.date.DateUnit;
+
+import java.io.Console;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -36,6 +42,15 @@ public class OmsOrderServiceImpl implements OmsOrderService {
     public List<OmsOrder> list(OmsOrderQueryParam queryParam, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         return orderDao.getList(queryParam);
+    }
+
+    @Override
+    public List<Map> selectCount(Date startDate, Date endDate){
+        
+        OmsOrderExample example = new OmsOrderExample();
+        example.createCriteria().andCreateTimeBetween(startDate, endDate);
+        
+        return orderDao.selectCount(startDate, endDate);
     }
 
     @Override

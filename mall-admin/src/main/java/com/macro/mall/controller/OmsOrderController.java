@@ -11,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
- * 订单管理Controller
- * Created by macro on 2018/10/11.
+ * 订单管理Controller Created by macro on 2018/10/11.
  */
 @Controller
 @Api(tags = "OmsOrderController", description = "订单管理")
@@ -28,10 +31,28 @@ public class OmsOrderController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<OmsOrder>> list(OmsOrderQueryParam queryParam,
-                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+            @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         List<OmsOrder> orderList = orderService.list(queryParam, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(orderList));
+    }
+
+    @ApiOperation("根据时间段查询订单个数")
+    @RequestMapping(value = "/select/count", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult selectCount(@RequestParam String startDate, @RequestParam String endDate) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date start = null;
+        Date end = null;
+        try {
+            start = sdf.parse(startDate);
+            end = sdf.parse(endDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<Map> result = orderService.selectCount(start, end);
+        return CommonResult.success(result);
     }
 
     @ApiOperation("批量发货")
@@ -100,13 +121,13 @@ public class OmsOrderController {
     @ApiOperation("备注订单")
     @RequestMapping(value = "/update/note", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult updateNote(@RequestParam("id") Long id,
-                                   @RequestParam("note") String note,
-                                   @RequestParam("status") Integer status) {
+    public CommonResult updateNote(@RequestParam("id") Long id, @RequestParam("note") String note,
+            @RequestParam("status") Integer status) {
         int count = orderService.updateNote(id, note, status);
         if (count > 0) {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
     }
+
 }
