@@ -3,6 +3,7 @@ package com.macro.mall.portal.service;
 import com.macro.mall.model.CmsSubject;
 import com.macro.mall.model.PmsProduct;
 import com.macro.mall.model.PmsProductCategory;
+import com.macro.mall.portal.dao.PmsProductResult;
 import com.macro.mall.portal.domain.HomeContentResult;
 
 import java.util.List;
@@ -34,4 +35,12 @@ public interface HomeService {
      * @param cateId 专题分类id
      */
     List<CmsSubject> getSubjectList(Long cateId, Integer pageSize, Integer pageNum);
+
+    /**
+     * 首页商品推荐 带sku
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
+    List<PmsProductResult> recommendProduct(Integer pageSize, Integer pageNum) 
 }

@@ -1,5 +1,6 @@
 package com.macro.mall.service;
 
+import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.PmsProductParam;
 import com.macro.mall.dto.PmsProductQueryParam;
 import com.macro.mall.dto.PmsProductResult;
@@ -19,7 +20,7 @@ public interface PmsProductService {
      * 创建商品
      */
     @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
-    int create(PmsProductParam productParam);
+    CommonResult create(PmsProductParam productParam);
 
     /**
      * 根据商品编号获取更新信息
@@ -30,7 +31,7 @@ public interface PmsProductService {
      * 更新商品
      */
     @Transactional
-    int update(Long id, PmsProductParam productParam);
+    CommonResult update(Long id, PmsProductParam productParam);
 
     /**
      * 分页查询商品

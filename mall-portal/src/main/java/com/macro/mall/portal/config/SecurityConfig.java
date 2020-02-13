@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/sso/*",//登录注册
                         "/home/**",//首页接口
                         "/product/**",//商品详情
+                        "/category/**",//分类管理
                         "/cnarea/**" //地址查询
                 )
                 .permitAll()

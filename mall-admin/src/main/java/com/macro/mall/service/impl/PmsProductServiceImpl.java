@@ -1,6 +1,7 @@
 package com.macro.mall.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dao.*;
 import com.macro.mall.dto.PmsProductAttributeItem;
 import com.macro.mall.dto.PmsProductParam;
@@ -11,9 +12,12 @@ import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
 import com.macro.mall.service.PmsProductService;
 import io.swagger.annotations.Example;
+import net.bytebuddy.implementation.bytecode.Throw;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -67,11 +71,13 @@ public class PmsProductServiceImpl implements PmsProductService {
     private PmsProductVertifyRecordDao productVertifyRecordDao;
 
     @Override
-    public int create(PmsProductParam productParam) {
-        int count;
+    public CommonResult create(PmsProductParam productParam) {
+    
         //创建商品
         PmsProduct product = productParam;
         product.setId(null);
+        product.setPublishStatus(0);
+        product.setVerifyStatus(0);
         productMapper.insertSelective(product);
         //根据促销类型设置价格：、阶梯价格、满减价格
         Long productId = product.getId();
@@ -91,26 +97,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         relateAndInsertList(subjectProductRelationDao, productParam.getSubjectProductRelationList(), productId);
         //关联优选
         relateAndInsertList(prefrenceAreaProductRelationDao, productParam.getPrefrenceAreaProductRelationList(), productId);
-        count = 1;
-        return count;
-    }
-
-    private void handleSkuStockCode(List<PmsSkuStock> skuStockList, Long productId) {
-        if(CollectionUtils.isEmpty(skuStockList))return;
-        for(int i=0;i<skuStockList.size();i++){
-            PmsSkuStock skuStock = skuStockList.get(i);
-            if(StringUtils.isEmpty(skuStock.getSkuCode())){
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-                StringBuilder sb = new StringBuilder();
-                //日期
-                sb.append(sdf.format(new Date()));
-                //四位商品id
-                sb.append(String.format("%04d", productId));
-                //三位索引id
-                sb.append(String.format("%03d", i+1));
-                skuStock.setSkuCode(sb.toString());
-            }
-        }
+        return CommonResult.success(1);
     }
 
     @Override
@@ -126,15 +113,17 @@ public class PmsProductServiceImpl implements PmsProductService {
     }
 
     @Override
-    public int update(Long id, PmsProductParam productParam) {
+    public CommonResult update(Long id, PmsProductParam productParam) {
         int count;
         if(productParam.getAlbumPics().length()>600){
-            return 0;
+            return CommonResult.failed("商品图片长度超过限制");
         }
         PmsProduct oldProduct = productMapper.selectByPrimaryKey(id);
         //更新商品信息
         PmsProduct product = productParam;
         product.setId(id);
+        product.setPublishStatus(0);
+        product.setVerifyStatus(0);
         productMapper.updateByPrimaryKeySelective(product);
         //会员价格
         PmsMemberPriceExample pmsMemberPriceExample = new PmsMemberPriceExample();
@@ -156,13 +145,12 @@ public class PmsProductServiceImpl implements PmsProductService {
             PmsSkuStockExample skuStockExample = new PmsSkuStockExample();
             skuStockExample.createCriteria().andProductIdEqualTo(id);
             skuStockMapper.deleteByExample(skuStockExample);
-
             PmsProductAttributeValueExample productAttributeValueExample = new PmsProductAttributeValueExample();
             productAttributeValueExample.createCriteria().andProductIdEqualTo(id);
             productAttributeValueMapper.deleteByExample(productAttributeValueExample);
-             
-            product.setPublishStatus(0);
+            
         }
+    
         
         //关联专题
         CmsSubjectProductRelationExample subjectProductRelationExample = new CmsSubjectProductRelationExample();
@@ -174,8 +162,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         prefrenceAreaExample.createCriteria().andProductIdEqualTo(id);
         prefrenceAreaProductRelationMapper.deleteByExample(prefrenceAreaExample);
         relateAndInsertList(prefrenceAreaProductRelationDao, productParam.getPrefrenceAreaProductRelationList(), id);
-        count = 1;
-        return count;
+        return CommonResult.success(1);
     }
 
     @Override
@@ -230,6 +217,13 @@ public class PmsProductServiceImpl implements PmsProductService {
 
     @Override
     public int updatePublishStatus(List<Long> ids, Integer publishStatus) {
+        if(publishStatus == 1){
+            for (Long id : ids) {
+                PmsProduct product = productMapper.selectByPrimaryKey(id);
+                iscanPush(product);
+            }
+        }
+        
         PmsProduct record = new PmsProduct();
         record.setPublishStatus(publishStatus);
         PmsProductExample example = new PmsProductExample();
@@ -339,6 +333,24 @@ public class PmsProductServiceImpl implements PmsProductService {
         count = 1;
         return count;
     }
+    //处理sku的编码
+    private void handleSkuStockCode(List<PmsSkuStock> skuStockList, Long productId) {
+        if(CollectionUtils.isEmpty(skuStockList))return;
+        for(int i=0;i<skuStockList.size();i++){
+            PmsSkuStock skuStock = skuStockList.get(i);
+            if(StringUtils.isEmpty(skuStock.getSkuCode())){
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                StringBuilder sb = new StringBuilder();
+                //日期
+                sb.append(sdf.format(new Date()));
+                //四位商品id
+                sb.append(String.format("%04d", productId));
+                //三位索引id
+                sb.append(String.format("%03d", i+1));
+                skuStock.setSkuCode(sb.toString());
+            }
+        }
+    }
 
     /**
      * 建立和插入关系表操作
@@ -362,6 +374,24 @@ public class PmsProductServiceImpl implements PmsProductService {
             LOGGER.warn("创建产品出错:{}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
+    }
+    /**
+     * 判断商品是否可以上架
+     */
+    private void iscanPush(PmsProduct pmsProduct){
+        
+        if(pmsProduct.getPrice()== null){
+            throw new RuntimeException("商品价格范围不能为空");
+        }
+        //商品价格范围没有设置，允许上架
+        if(pmsProduct.getPrice().length()<=0){
+            throw new RuntimeException("商品价格范围不正确");
+        }
+        if(pmsProduct.getVerifyStatus() != 1){
+            throw new BadCredentialsException("商品尚未审核");
+        }
+     
+      
     }
 
 }

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
 import com.macro.mall.portal.dao.HomeDao;
+import com.macro.mall.portal.dao.PmsProductResult;
 import com.macro.mall.portal.domain.FlashPromotionProduct;
 import com.macro.mall.portal.domain.HomeContentResult;
 import com.macro.mall.portal.domain.HomeFlashPromotion;
@@ -64,6 +65,12 @@ public class HomeServiceImpl implements HomeService {
                 .andDeleteStatusEqualTo(0)
                 .andPublishStatusEqualTo(1);
         return productMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<PmsProductResult> recommendProduct(Integer pageSize, Integer pageNum) {
+        // TODO: 2019/1/29 暂时默认推荐所有商品
+        return homeDao.getRecommendProductList(pageNum, pageSize);
     }
 
     @Override

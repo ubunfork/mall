@@ -33,12 +33,8 @@ public class PmsProductController {
     @ResponseBody
     @PreAuthorize("hasAuthority('pms:product:create')")
     public CommonResult create(@RequestBody PmsProductParam productParam, BindingResult bindingResult) {
-        int count = productService.create(productParam);
-        if (count > 0) {
-            return CommonResult.success(count);
-        } else {
-            return CommonResult.failed();
-        }
+        return productService.create(productParam);
+        
     }
 
     @ApiOperation("根据商品id获取商品编辑信息")
@@ -55,12 +51,8 @@ public class PmsProductController {
     @ResponseBody
     @PreAuthorize("hasAuthority('pms:product:update')")
     public CommonResult update(@PathVariable Long id, @RequestBody PmsProductParam productParam, BindingResult bindingResult) {
-        int count = productService.update(id, productParam);
-        if (count > 0) {
-            return CommonResult.success(count);
-        } else {
-            return CommonResult.failed();
-        }
+        return productService.update(id, productParam);
+       
     }
 
     @ApiOperation("查询商品")
@@ -103,11 +95,15 @@ public class PmsProductController {
     @PreAuthorize("hasAuthority('pms:product:update')")
     public CommonResult updatePublishStatus(@RequestParam("ids") List<Long> ids,
                                             @RequestParam("publishStatus") Integer publishStatus) {
-        int count = productService.updatePublishStatus(ids, publishStatus);
-        if (count > 0) {
-            return CommonResult.success(count);
-        } else {
-            return CommonResult.failed();
+        try {
+            int count = productService.updatePublishStatus(ids, publishStatus);
+            if (count > 0) {
+                return CommonResult.success(count);
+            } else {
+                return CommonResult.failed();
+            }
+        } catch (Exception e) {
+            return CommonResult.failed(e.getMessage());
         }
     }
 
