@@ -38,6 +38,8 @@ public class PmsProductServiceImpl implements PmsProductService {
     @Autowired
     private PmsProductMapper productMapper;
     @Autowired
+    private UmsMemberLevelMapper memberLevelMapper;
+    @Autowired
     private PmsMemberPriceDao memberPriceDao;
     @Autowired
     private PmsMemberPriceMapper memberPriceMapper;
@@ -78,10 +80,22 @@ public class PmsProductServiceImpl implements PmsProductService {
         product.setId(null);
         product.setPublishStatus(0);
         product.setVerifyStatus(0);
+        product.setCreateTime(new Date());
+        product.setModifyTime(new Date());
         productMapper.insertSelective(product);
         //根据促销类型设置价格：、阶梯价格、满减价格
         Long productId = product.getId();
         //会员价格
+        UmsMemberLevelExample example = new UmsMemberLevelExample();
+        List<UmsMemberLevel> emptMemberPrices = memberLevelMapper.selectByExample(example);
+        
+        for (UmsMemberLevel umsMemberLevel : emptMemberPrices) {
+            PmsMemberPrice memberprice = new PmsMemberPrice();
+            memberprice.setProductId(productId);
+            memberprice.setMemberLevelId(umsMemberLevel.getId());
+            memberprice.setMemberLevelName(umsMemberLevel.getName());
+            productParam.getMemberPriceList().add(memberprice);
+        }
         relateAndInsertList(memberPriceDao, productParam.getMemberPriceList(), productId);
         //阶梯价格
         relateAndInsertList(productLadderDao, productParam.getProductLadderList(), productId);
@@ -97,7 +111,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         relateAndInsertList(subjectProductRelationDao, productParam.getSubjectProductRelationList(), productId);
         //关联优选
         relateAndInsertList(prefrenceAreaProductRelationDao, productParam.getPrefrenceAreaProductRelationList(), productId);
-        return CommonResult.success(1);
+        return CommonResult.success(product);
     }
 
     @Override
@@ -124,6 +138,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         product.setId(id);
         product.setPublishStatus(0);
         product.setVerifyStatus(0);
+        product.setModifyTime(new Date());
         productMapper.updateByPrimaryKeySelective(product);
         //会员价格
         PmsMemberPriceExample pmsMemberPriceExample = new PmsMemberPriceExample();
@@ -150,8 +165,6 @@ public class PmsProductServiceImpl implements PmsProductService {
             productAttributeValueMapper.deleteByExample(productAttributeValueExample);
             
         }
-    
-        
         //关联专题
         CmsSubjectProductRelationExample subjectProductRelationExample = new CmsSubjectProductRelationExample();
         subjectProductRelationExample.createCriteria().andProductIdEqualTo(id);
@@ -189,7 +202,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         if (productQueryParam.getProductCategoryId() != null) {
             criteria.andProductCategoryIdEqualTo(productQueryParam.getProductCategoryId());
         }
-        productExample.setOrderByClause("modify_time");
+        productExample.setOrderByClause("modify_time desc");
         return productMapper.selectByExample(productExample);
     }
 

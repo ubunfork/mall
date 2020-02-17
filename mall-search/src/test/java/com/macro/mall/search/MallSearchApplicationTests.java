@@ -22,6 +22,10 @@ public class MallSearchApplicationTests {
     private EsProductDao productDao;
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate;
+
+    @Autowired
+    private EsProductRepository productRepository;
+
     @Test
     public void contextLoads() {
     }
@@ -35,6 +39,18 @@ public class MallSearchApplicationTests {
         elasticsearchTemplate.putMapping(EsProduct.class);
         Map mapping = elasticsearchTemplate.getMapping(EsProduct.class);
         System.out.println(mapping);
+    }
+
+    @Test
+    public void create(){
+        EsProduct result = null;
+        List<EsProduct> esProductList = productDao.getAllEsProductList(26L);
+        if (esProductList.size() > 0) {
+            
+            EsProduct esProduct = esProductList.get(0);
+            result = productRepository.save(esProduct);
+        }
+        System.out.println(result);
     }
 
 }

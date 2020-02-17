@@ -231,3 +231,5 @@ CREATE TABLE `cfg_service_value` (
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务器设置的值表';
+
+ALTER table pms_product add `defual_sku` bigint(20) DEFAULT NULL COMMENT '默认SKUID';

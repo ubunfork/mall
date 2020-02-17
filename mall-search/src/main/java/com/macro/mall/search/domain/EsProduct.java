@@ -33,7 +33,7 @@ public class EsProduct implements Serializable {
     private String subTitle;
     @Field(analyzer = "ik_max_word",type = FieldType.Text)
     private String keywords;
-    private BigDecimal price;
+    // private BigDecimal price;
     private Integer sale;
     private Integer newStatus;
     private Integer recommandStatus;
@@ -114,13 +114,13 @@ public class EsProduct implements Serializable {
         this.subTitle = subTitle;
     }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+    // public BigDecimal getPrice() {
+    //     return price;
+    // }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+    // public void setPrice(BigDecimal price) {
+    //     this.price = price;
+    // }
 
     public Integer getSale() {
         return sale;
