@@ -7,8 +7,8 @@
     <result column="value" jdbcType="VARCHAR" property="value" />
     <result column="maybe" jdbcType="VARCHAR" property="maybe" />
     <result column="parentid" jdbcType="INTEGER" property="parentid" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="key" jdbcType="VARCHAR" property="key" />
+    <result column="value_type" jdbcType="INTEGER" property="valueType" />
+    <result column="cfg_key" jdbcType="VARCHAR" property="cfgKey" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, value, maybe, parentid, type, key
+    id, name, value, maybe, parentid, value_type, cfg_key
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.CfgServiceExample" resultMap="BaseResultMap">
     select
@@ -106,10 +106,10 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cfg_service (name, value, maybe, 
-      parentid, type, key
+      parentid, value_type, cfg_key
       )
     values (#{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{maybe,jdbcType=VARCHAR}, 
-      #{parentid,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{key,jdbcType=VARCHAR}
+      #{parentid,jdbcType=INTEGER}, #{valueType,jdbcType=INTEGER}, #{cfgKey,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.CfgService">
@@ -130,11 +130,11 @@
       <if test="parentid != null">
         parentid,
       </if>
-      <if test="type != null">
-        type,
+      <if test="valueType != null">
+        value_type,
       </if>
-      <if test="key != null">
-        key,
+      <if test="cfgKey != null">
+        cfg_key,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -150,11 +150,11 @@
       <if test="parentid != null">
         #{parentid,jdbcType=INTEGER},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="valueType != null">
+        #{valueType,jdbcType=INTEGER},
       </if>
-      <if test="key != null">
-        #{key,jdbcType=VARCHAR},
+      <if test="cfgKey != null">
+        #{cfgKey,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -182,11 +182,11 @@
       <if test="record.parentid != null">
         parentid = #{record.parentid,jdbcType=INTEGER},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+      <if test="record.valueType != null">
+        value_type = #{record.valueType,jdbcType=INTEGER},
       </if>
-      <if test="record.key != null">
-        key = #{record.key,jdbcType=VARCHAR},
+      <if test="record.cfgKey != null">
+        cfg_key = #{record.cfgKey,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -200,8 +200,8 @@
       value = #{record.value,jdbcType=VARCHAR},
       maybe = #{record.maybe,jdbcType=VARCHAR},
       parentid = #{record.parentid,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER},
-      key = #{record.key,jdbcType=VARCHAR}
+      value_type = #{record.valueType,jdbcType=INTEGER},
+      cfg_key = #{record.cfgKey,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -221,11 +221,11 @@
       <if test="parentid != null">
         parentid = #{parentid,jdbcType=INTEGER},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+      <if test="valueType != null">
+        value_type = #{valueType,jdbcType=INTEGER},
       </if>
-      <if test="key != null">
-        key = #{key,jdbcType=VARCHAR},
+      <if test="cfgKey != null">
+        cfg_key = #{cfgKey,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -236,8 +236,8 @@
       value = #{value,jdbcType=VARCHAR},
       maybe = #{maybe,jdbcType=VARCHAR},
       parentid = #{parentid,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
-      key = #{key,jdbcType=VARCHAR}
+      value_type = #{valueType,jdbcType=INTEGER},
+      cfg_key = #{cfgKey,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

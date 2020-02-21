@@ -434,133 +434,133 @@ public class CfgServiceExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNull() {
-            addCriterion("type is null");
+        public Criteria andValueTypeIsNull() {
+            addCriterion("value_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNotNull() {
-            addCriterion("type is not null");
+        public Criteria andValueTypeIsNotNull() {
+            addCriterion("value_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeEqualTo(Integer value) {
-            addCriterion("type =", value, "type");
+        public Criteria andValueTypeEqualTo(Integer value) {
+            addCriterion("value_type =", value, "valueType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotEqualTo(Integer value) {
-            addCriterion("type <>", value, "type");
+        public Criteria andValueTypeNotEqualTo(Integer value) {
+            addCriterion("value_type <>", value, "valueType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThan(Integer value) {
-            addCriterion("type >", value, "type");
+        public Criteria andValueTypeGreaterThan(Integer value) {
+            addCriterion("value_type >", value, "valueType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("type >=", value, "type");
+        public Criteria andValueTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("value_type >=", value, "valueType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThan(Integer value) {
-            addCriterion("type <", value, "type");
+        public Criteria andValueTypeLessThan(Integer value) {
+            addCriterion("value_type <", value, "valueType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("type <=", value, "type");
+        public Criteria andValueTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("value_type <=", value, "valueType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIn(List<Integer> values) {
-            addCriterion("type in", values, "type");
+        public Criteria andValueTypeIn(List<Integer> values) {
+            addCriterion("value_type in", values, "valueType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotIn(List<Integer> values) {
-            addCriterion("type not in", values, "type");
+        public Criteria andValueTypeNotIn(List<Integer> values) {
+            addCriterion("value_type not in", values, "valueType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeBetween(Integer value1, Integer value2) {
-            addCriterion("type between", value1, value2, "type");
+        public Criteria andValueTypeBetween(Integer value1, Integer value2) {
+            addCriterion("value_type between", value1, value2, "valueType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("type not between", value1, value2, "type");
+        public Criteria andValueTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("value_type not between", value1, value2, "valueType");
             return (Criteria) this;
         }
 
-        public Criteria andKeyIsNull() {
-            addCriterion("key is null");
+        public Criteria andCfgKeyIsNull() {
+            addCriterion("cfg_key is null");
             return (Criteria) this;
         }
 
-        public Criteria andKeyIsNotNull() {
-            addCriterion("key is not null");
+        public Criteria andCfgKeyIsNotNull() {
+            addCriterion("cfg_key is not null");
             return (Criteria) this;
         }
 
-        public Criteria andKeyEqualTo(String value) {
-            addCriterion("key =", value, "key");
+        public Criteria andCfgKeyEqualTo(String value) {
+            addCriterion("cfg_key =", value, "cfgKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyNotEqualTo(String value) {
-            addCriterion("key <>", value, "key");
+        public Criteria andCfgKeyNotEqualTo(String value) {
+            addCriterion("cfg_key <>", value, "cfgKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyGreaterThan(String value) {
-            addCriterion("key >", value, "key");
+        public Criteria andCfgKeyGreaterThan(String value) {
+            addCriterion("cfg_key >", value, "cfgKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyGreaterThanOrEqualTo(String value) {
-            addCriterion("key >=", value, "key");
+        public Criteria andCfgKeyGreaterThanOrEqualTo(String value) {
+            addCriterion("cfg_key >=", value, "cfgKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyLessThan(String value) {
-            addCriterion("key <", value, "key");
+        public Criteria andCfgKeyLessThan(String value) {
+            addCriterion("cfg_key <", value, "cfgKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyLessThanOrEqualTo(String value) {
-            addCriterion("key <=", value, "key");
+        public Criteria andCfgKeyLessThanOrEqualTo(String value) {
+            addCriterion("cfg_key <=", value, "cfgKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyLike(String value) {
-            addCriterion("key like", value, "key");
+        public Criteria andCfgKeyLike(String value) {
+            addCriterion("cfg_key like", value, "cfgKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyNotLike(String value) {
-            addCriterion("key not like", value, "key");
+        public Criteria andCfgKeyNotLike(String value) {
+            addCriterion("cfg_key not like", value, "cfgKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyIn(List<String> values) {
-            addCriterion("key in", values, "key");
+        public Criteria andCfgKeyIn(List<String> values) {
+            addCriterion("cfg_key in", values, "cfgKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyNotIn(List<String> values) {
-            addCriterion("key not in", values, "key");
+        public Criteria andCfgKeyNotIn(List<String> values) {
+            addCriterion("cfg_key not in", values, "cfgKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyBetween(String value1, String value2) {
-            addCriterion("key between", value1, value2, "key");
+        public Criteria andCfgKeyBetween(String value1, String value2) {
+            addCriterion("cfg_key between", value1, value2, "cfgKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyNotBetween(String value1, String value2) {
-            addCriterion("key not between", value1, value2, "key");
+        public Criteria andCfgKeyNotBetween(String value1, String value2) {
+            addCriterion("cfg_key not between", value1, value2, "cfgKey");
             return (Criteria) this;
         }
     }

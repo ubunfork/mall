@@ -126,7 +126,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         if (!CollectionUtils.isEmpty(memberLevelList)) {
             umsMember.setMemberLevelId(memberLevelList.get(0).getId());
         }
-        memberMapper.insert(umsMember);
+        memberMapper.insertSelective(umsMember);
         umsMember.setReccode(ShareCodeUtil.toSerialCode(umsMember.getId()));
         //设置邀请用户
         if(reccode != null){
@@ -217,7 +217,10 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         redisService.set(keystr,autocode);
         redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE+telephone,AUTH_CODE_EXPIRE_SECONDS);
 
-        CfgService cfgService = cfgServiceMapper.selectByPrimaryKey(1001);
+        CfgServiceExample example = new CfgServiceExample();
+        example.createCriteria().andCfgKeyEqualTo("AUTHCODE");
+        CfgService cfgService = cfgServiceMapper.selectByExample(example).get(0);
+        
         if(cfgService.getValue().equals("0") ){
             sendAuthCode(sb.toString(),telephone);
             return CommonResult.success(null,"获取验证码成功");
@@ -301,7 +304,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     private void inviteIntegration(UmsMember member, UmsMember inviteMember){
         
         CfgServiceExample example = new CfgServiceExample();
-        example.createCriteria().andKeyEqualTo("INVITEMEMBER");
+        example.createCriteria().andCfgKeyEqualTo("INVITEMEMBER");
         CfgService config = cfgServiceMapper.selectByExample(example).get(0);
         Integer setcount = Integer.valueOf(config.getValue()).intValue(); 
         if(setcount<=0){
@@ -309,8 +312,14 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         }
         UmsIntegrationChangeHistoryExample hexample = new UmsIntegrationChangeHistoryExample();
         hexample.setOrderByClause("create_time desc");
-        UmsIntegrationChangeHistory oldHistory = umsIntegrationChangeHistoryMapper.selectByExample(hexample).get(0);
-
+        hexample.createCriteria().andMemberIdEqualTo(inviteMember.getId());
+        
+        Long count = umsIntegrationChangeHistoryMapper.countByExample(hexample);
+        Integer oldBalance = 0;
+        if(count>0){
+            UmsIntegrationChangeHistory history = umsIntegrationChangeHistoryMapper.selectByExample(hexample).get(0);
+            oldBalance = history.getBalance();
+        }
         UmsIntegrationChangeHistory integrationChangeHistory = new UmsIntegrationChangeHistory();
         
         integrationChangeHistory.setChangeCount(setcount);
@@ -318,10 +327,11 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         integrationChangeHistory.setCreateTime(new Date());
         integrationChangeHistory.setMemberId(inviteMember.getId());
         integrationChangeHistory.setChangeType(0);
-        String operateNote = inviteMember.getPhone()+inviteMember.getId()+"邀请会员"+member.getPhone()+member.getId()+"成功赠送积分";
+        String operateNote = inviteMember.getPhone()+'['+inviteMember.getId()+']'+"邀请会员"+member.getPhone()+'['+member.getId()+']'+"成功赠送积分";
         integrationChangeHistory.setOperateNote(operateNote);
         integrationChangeHistory.setSourceType(3);
-        integrationChangeHistory.setBalance(oldHistory.getBalance()+setcount);
+        integrationChangeHistory.setBalance(oldBalance+setcount);
+        umsIntegrationChangeHistoryMapper.insertSelective(integrationChangeHistory);
     }
 
 }
