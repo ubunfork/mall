@@ -4,7 +4,9 @@ import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dao.PmsSkuStockDao;
 import com.macro.mall.dto.PmsSkuStockParam;
 import com.macro.mall.mapper.PmsProductAttributeValueMapper;
+import com.macro.mall.mapper.PmsProductMapper;
 import com.macro.mall.mapper.PmsSkuStockMapper;
+import com.macro.mall.model.PmsProduct;
 import com.macro.mall.model.PmsProductAttributeCategoryExample;
 import com.macro.mall.model.PmsProductAttributeValue;
 import com.macro.mall.model.PmsProductAttributeValueExample;
@@ -26,6 +28,8 @@ public class PmsSkuStockServiceImpl implements PmsSkuStockService {
     @Autowired
     private PmsSkuStockMapper skuStockMapper;
     @Autowired
+    private PmsProductMapper pmsProductMapper;
+    @Autowired
     private PmsSkuStockDao skuStockDao;
     @Autowired
     private PmsProductAttributeValueMapper attributeValueMapper;
@@ -38,6 +42,10 @@ public class PmsSkuStockServiceImpl implements PmsSkuStockService {
         if(skuitem.getProductId() == null){
             return CommonResult.failed("产品id不能为空");
         }
+        PmsProduct product = pmsProductMapper.selectByPrimaryKey(skuitem.getProductId());
+        if(product == null){
+            return CommonResult.failed("为找到对应产品");
+        }
         if(skuitem.getAttributlvaluelist().isEmpty()){
             return CommonResult.failed("规格值不能为空");
         }
@@ -45,6 +53,7 @@ public class PmsSkuStockServiceImpl implements PmsSkuStockService {
         if(skuitem.getId() != null){
             return CommonResult.failed("不要重复添加，请使用修改");
         }
+        
         result = skuStockMapper.insert(skuitem);
         
         if(result ==1 ){
@@ -56,6 +65,10 @@ public class PmsSkuStockServiceImpl implements PmsSkuStockService {
                     return CommonResult.failed("系统错误");
                 }
             }
+            if(product.getDefualSku() == null){
+                product.setDefualSku(skuitem.getId());
+                product.setPrice(skuitem.getPrice());
+            }
             return CommonResult.success(result);
         }else{
             return CommonResult.failed("系统错误");
@@ -66,6 +79,10 @@ public class PmsSkuStockServiceImpl implements PmsSkuStockService {
     public CommonResult updateskuitem(PmsSkuStockParam skuitem){
         if(skuitem.getProductId() == null){
             return CommonResult.failed("产品id不能为空");
+        }
+        PmsProduct product = pmsProductMapper.selectByPrimaryKey(skuitem.getProductId());
+        if(product == null){
+            return CommonResult.failed("为找到对应产品");
         }
         if(skuitem.getAttributlvaluelist().isEmpty()){
             return CommonResult.failed("规格值不能为空");
@@ -82,8 +99,6 @@ public class PmsSkuStockServiceImpl implements PmsSkuStockService {
         andSkuidEqualTo(skuitem.getId());
         attributeValueMapper.deleteByExample(example);
         result = skuStockMapper.updateByPrimaryKey(skuitem);
-       
-
         if(result ==1 ){
             for (PmsProductAttributeValue attvalue : skuitem.getAttributlvaluelist()) {
                 //
@@ -92,6 +107,11 @@ public class PmsSkuStockServiceImpl implements PmsSkuStockService {
                 if(result !=1 ){
                     return CommonResult.failed("系统错误");
                 }
+            }
+            if(product.getDefualSku() == null || product.getDefualSku() == skuitem.getId()){
+                product.setDefualSku(skuitem.getId());
+                product.setPrice(skuitem.getPrice());
+                pmsProductMapper.updateByPrimaryKey(product);
             }
             return CommonResult.success(result);
         }else{

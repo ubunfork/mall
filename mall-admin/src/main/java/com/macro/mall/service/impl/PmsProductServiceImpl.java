@@ -96,21 +96,6 @@ public class PmsProductServiceImpl implements PmsProductService {
             memberprice.setMemberLevelName(umsMemberLevel.getName());
             productParam.getMemberPriceList().add(memberprice);
         }
-        relateAndInsertList(memberPriceDao, productParam.getMemberPriceList(), productId);
-        //阶梯价格
-        relateAndInsertList(productLadderDao, productParam.getProductLadderList(), productId);
-        //满减价格
-        relateAndInsertList(productFullReductionDao, productParam.getProductFullReductionList(), productId);
-        //处理sku的编码
-        // handleSkuStockCode(productParam.getSkuStockList(),productId);
-        //添加sku库存信息
-        relateAndInsertList(skuStockDao, productParam.getSkuStockList(), productId);
-        //添加商品参数,添加自定义商品规格
-        // relateAndInsertList(productAttributeValueDao, productParam.getProductAttributeValueList(), productId);
-        //关联专题
-        relateAndInsertList(subjectProductRelationDao, productParam.getSubjectProductRelationList(), productId);
-        //关联优选
-        relateAndInsertList(prefrenceAreaProductRelationDao, productParam.getPrefrenceAreaProductRelationList(), productId);
         return CommonResult.success(product);
     }
 
@@ -283,6 +268,19 @@ public class PmsProductServiceImpl implements PmsProductService {
         return productMapper.selectByExample(productExample);
     }
 
+        /**
+     * 设置商品的SKU
+     */
+    @Override
+    public int updateDefualSku(Long productID, Long skuID){
+
+        PmsProduct product = productMapper.selectByPrimaryKey(productID);
+        PmsSkuStock skuitem = skuStockMapper.selectByPrimaryKey(skuID);
+        product.setDefualSku(skuID);
+        product.setPrice(skuitem.getPrice());
+        return productMapper.updateByPrimaryKey(product);
+    }
+
     /**
      * @deprecated 旧版创建
      */
@@ -393,16 +391,13 @@ public class PmsProductServiceImpl implements PmsProductService {
      */
     private void iscanPush(PmsProduct pmsProduct){
         
-        if(pmsProduct.getPrice()== null){
-            throw new RuntimeException("商品价格范围不能为空");
-        }
-        //商品价格范围没有设置，允许上架
-        if(pmsProduct.getPrice().length()<=0){
-            throw new RuntimeException("商品价格范围不正确");
+        if(pmsProduct.getDefualSku()==null){
+            throw new BadCredentialsException("商品尚未设置SKU");
         }
         if(pmsProduct.getVerifyStatus() != 1){
             throw new BadCredentialsException("商品尚未审核");
         }
+       
      
       
     }

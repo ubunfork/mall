@@ -52,7 +52,6 @@ public class PmsProductController {
     @PreAuthorize("hasAuthority('pms:product:update')")
     public CommonResult update(@PathVariable Long id, @RequestBody PmsProductParam productParam, BindingResult bindingResult) {
         return productService.update(id, productParam);
-       
     }
 
     @ApiOperation("查询商品")
@@ -142,6 +141,18 @@ public class PmsProductController {
     public CommonResult updateDeleteStatus(@RequestParam("ids") List<Long> ids,
                                            @RequestParam("deleteStatus") Integer deleteStatus) {
         int count = productService.updateDeleteStatus(ids, deleteStatus);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+    @ApiOperation("修改商品的默认SKU")
+    @RequestMapping(value = "/update/defualSku", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updateDefualSku(@RequestParam("productID") Long productID,
+                                           @RequestParam("defualSku") Long skuID) {
+        int count = productService.updateDefualSku(productID, skuID);
         if (count > 0) {
             return CommonResult.success(count);
         } else {

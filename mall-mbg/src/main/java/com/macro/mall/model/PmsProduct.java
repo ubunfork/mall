@@ -95,9 +95,6 @@ public class PmsProduct implements Serializable {
     @ApiModelProperty(value = "商品分类名称")
     private String productCategoryName;
 
-    @ApiModelProperty(value = "商品销售价格区间")
-    private String price;
-
     @ApiModelProperty(value = "商品拥有者(卖家id)")
     private Long ownerid;
 
@@ -106,6 +103,12 @@ public class PmsProduct implements Serializable {
 
     @ApiModelProperty(value = "修改时间")
     private Date modifyTime;
+
+    @ApiModelProperty(value = "默认SKUID")
+    private Long defualSku;
+
+    @ApiModelProperty(value = "商品销售价格区间")
+    private BigDecimal price;
 
     @ApiModelProperty(value = "商品描述")
     private String description;
@@ -384,14 +387,6 @@ public class PmsProduct implements Serializable {
         this.productCategoryName = productCategoryName;
     }
 
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
     public Long getOwnerid() {
         return ownerid;
     }
@@ -414,6 +409,22 @@ public class PmsProduct implements Serializable {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public Long getDefualSku() {
+        return defualSku;
+    }
+
+    public void setDefualSku(Long defualSku) {
+        this.defualSku = defualSku;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public String getDescription() {
@@ -487,10 +498,11 @@ public class PmsProduct implements Serializable {
         sb.append(", promotionType=").append(promotionType);
         sb.append(", brandName=").append(brandName);
         sb.append(", productCategoryName=").append(productCategoryName);
-        sb.append(", price=").append(price);
         sb.append(", ownerid=").append(ownerid);
         sb.append(", createTime=").append(createTime);
         sb.append(", modifyTime=").append(modifyTime);
+        sb.append(", defualSku=").append(defualSku);
+        sb.append(", price=").append(price);
         sb.append(", description=").append(description);
         sb.append(", detailDesc=").append(detailDesc);
         sb.append(", detailHtml=").append(detailHtml);

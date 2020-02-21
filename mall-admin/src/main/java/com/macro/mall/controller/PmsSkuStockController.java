@@ -56,7 +56,6 @@ public class PmsSkuStockController {
     @ResponseBody
     public CommonResult create(@RequestBody PmsSkuStockParam skuStockParam){
         return skuStockService.create(skuStockParam);
-       
     }
 
     @ApiOperation("根据商品id获取商品sku列表")

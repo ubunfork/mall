@@ -14,4 +14,5 @@ public class PmsSkuStockParam extends PmsSkuStock{
     @Getter
     // 规格列表
     List<PmsProductAttributeValue> attributlvaluelist;
+
 }

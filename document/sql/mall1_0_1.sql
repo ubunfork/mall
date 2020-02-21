@@ -80,7 +80,7 @@ CREATE TABLE `oms_order_confim` (
 ALTER TABLE pms_product drop column `promotion_price`,drop column `original_price`;
 ALTER TABLE pms_product drop column `stock`,drop column `low_stock`;
 ALTER TABLE pms_product drop column `price`;
-ALTER table pms_product add `price` varchar(100) COMMENT '商品销售价格区间';
+ALTER table pms_product add `price` decimal(10,2) COMMENT '商品销售价格区间';
 -- ----------------------------
 -- 给sku添加市场价格，作为原价显示
 -- ----------------------------
@@ -233,3 +233,5 @@ CREATE TABLE `cfg_service_value` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务器设置的值表';
 
 ALTER table pms_product add `defual_sku` bigint(20) DEFAULT NULL COMMENT '默认SKUID';
+ALTER TABLE pms_product drop column `price`;
+ALTER table pms_product add `price` decimal(10,2) COMMENT '商品销售价格';
