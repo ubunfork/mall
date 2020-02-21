@@ -21,6 +21,9 @@ public class CfgService implements Serializable {
     @ApiModelProperty(value = "值类型，0 用户输入 1:有可选值")
     private Integer type;
 
+    @ApiModelProperty(value = "关键key")
+    private String key;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -71,6 +74,14 @@ public class CfgService implements Serializable {
         this.type = type;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -83,6 +94,7 @@ public class CfgService implements Serializable {
         sb.append(", maybe=").append(maybe);
         sb.append(", parentid=").append(parentid);
         sb.append(", type=").append(type);
+        sb.append(", key=").append(key);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

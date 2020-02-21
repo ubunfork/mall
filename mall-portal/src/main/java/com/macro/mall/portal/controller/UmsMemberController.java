@@ -33,11 +33,12 @@ public class UmsMemberController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult register(@RequestBody UmsRegisterInput umsRegisterInput) {
-        return memberService.register(umsRegisterInput.getUsername(), 
-        umsRegisterInput.getPassword() ,
-        umsRegisterInput.getTelephone(),
-        umsRegisterInput.getAuthCode(),
-        umsRegisterInput.getReccode());
+        return memberService.register(
+            umsRegisterInput.getUsername(), 
+            umsRegisterInput.getPassword() ,
+            umsRegisterInput.getTelephone(),
+            umsRegisterInput.getAuthCode(),
+            umsRegisterInput.getReccode());
     }
 
     @ApiOperation(value = "验证码登录以后返回token")

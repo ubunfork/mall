@@ -2,9 +2,13 @@ package com.macro.mall.portal.service.impl;
 
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.CfgServiceMapper;
+import com.macro.mall.mapper.UmsIntegrationChangeHistoryMapper;
 import com.macro.mall.mapper.UmsMemberLevelMapper;
 import com.macro.mall.mapper.UmsMemberMapper;
 import com.macro.mall.model.CfgService;
+import com.macro.mall.model.CfgServiceExample;
+import com.macro.mall.model.UmsIntegrationChangeHistory;
+import com.macro.mall.model.UmsIntegrationChangeHistoryExample;
 import com.macro.mall.model.UmsMember;
 import com.macro.mall.model.UmsMemberExample;
 import com.macro.mall.model.UmsMemberLevel;
@@ -55,6 +59,11 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     private UmsMemberMapper memberMapper;
     @Autowired
     private UmsMemberLevelMapper memberLevelMapper;
+
+    @Autowired
+    private UmsIntegrationChangeHistoryMapper umsIntegrationChangeHistoryMapper;
+
+    
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -69,9 +78,6 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     private String REDIS_KEY_PREFIX_AUTH_CODE;
     @Value("${redis.key.expire.authCode}")
     private Long AUTH_CODE_EXPIRE_SECONDS;
-    
-    
-    
 
     @Override
     public UmsMember getByUsername(String username) {
@@ -112,14 +118,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         umsMember.setCreateTime(new Date());
         umsMember.setStatus(1);
         umsMember.setDepth(0);
-        //设置邀请用户
-        if(reccode != null){
-            UmsMember pumsMember = memberMapper.selectByPrimaryKey(ShareCodeUtil.codeToId(reccode));
-            if(pumsMember != null){
-                umsMember.setPid(pumsMember.getId());
-                umsMember.setDepth(pumsMember.getDepth()+1);
-            }
-        }
+       
         //获取默认会员等级并设置
         UmsMemberLevelExample levelExample = new UmsMemberLevelExample();
         levelExample.createCriteria().andDefaultStatusEqualTo(1);
@@ -129,6 +128,15 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         }
         memberMapper.insert(umsMember);
         umsMember.setReccode(ShareCodeUtil.toSerialCode(umsMember.getId()));
+        //设置邀请用户
+        if(reccode != null){
+            UmsMember pumsMember = memberMapper.selectByPrimaryKey(ShareCodeUtil.codeToId(reccode));
+            if(pumsMember != null){
+                umsMember.setPid(pumsMember.getId());
+                umsMember.setDepth(pumsMember.getDepth()+1);
+                inviteIntegration(umsMember, pumsMember);
+            }
+        }
         memberMapper.updateByPrimaryKey(umsMember);
 
         umsMember.setPassword(null);
@@ -288,7 +296,32 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         } catch (ClientException e) {
             e.printStackTrace();
         }
-       
+    }
+    // 邀请会员成功赠送积分
+    private void inviteIntegration(UmsMember member, UmsMember inviteMember){
+        
+        CfgServiceExample example = new CfgServiceExample();
+        example.createCriteria().andKeyEqualTo("INVITEMEMBER");
+        CfgService config = cfgServiceMapper.selectByExample(example).get(0);
+        Integer setcount = Integer.valueOf(config.getValue()).intValue(); 
+        if(setcount<=0){
+            return;
+        }
+        UmsIntegrationChangeHistoryExample hexample = new UmsIntegrationChangeHistoryExample();
+        hexample.setOrderByClause("create_time desc");
+        UmsIntegrationChangeHistory oldHistory = umsIntegrationChangeHistoryMapper.selectByExample(hexample).get(0);
+
+        UmsIntegrationChangeHistory integrationChangeHistory = new UmsIntegrationChangeHistory();
+        
+        integrationChangeHistory.setChangeCount(setcount);
+        integrationChangeHistory.setOperateMan("system");
+        integrationChangeHistory.setCreateTime(new Date());
+        integrationChangeHistory.setMemberId(inviteMember.getId());
+        integrationChangeHistory.setChangeType(0);
+        String operateNote = inviteMember.getPhone()+inviteMember.getId()+"邀请会员"+member.getPhone()+member.getId()+"成功赠送积分";
+        integrationChangeHistory.setOperateNote(operateNote);
+        integrationChangeHistory.setSourceType(3);
+        integrationChangeHistory.setBalance(oldHistory.getBalance()+setcount);
     }
 
 }

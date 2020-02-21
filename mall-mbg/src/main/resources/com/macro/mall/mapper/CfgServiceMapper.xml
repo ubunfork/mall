@@ -8,6 +8,7 @@
     <result column="maybe" jdbcType="VARCHAR" property="maybe" />
     <result column="parentid" jdbcType="INTEGER" property="parentid" />
     <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="key" jdbcType="VARCHAR" property="key" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, value, maybe, parentid, type
+    id, name, value, maybe, parentid, type, key
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.CfgServiceExample" resultMap="BaseResultMap">
     select
@@ -105,9 +106,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cfg_service (name, value, maybe, 
-      parentid, type)
+      parentid, type, key
+      )
     values (#{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{maybe,jdbcType=VARCHAR}, 
-      #{parentid,jdbcType=INTEGER}, #{type,jdbcType=INTEGER})
+      #{parentid,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{key,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.CfgService">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -130,6 +133,9 @@
       <if test="type != null">
         type,
       </if>
+      <if test="key != null">
+        key,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
@@ -146,6 +152,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
+      </if>
+      <if test="key != null">
+        #{key,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -176,6 +185,9 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
       </if>
+      <if test="record.key != null">
+        key = #{record.key,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -188,7 +200,8 @@
       value = #{record.value,jdbcType=VARCHAR},
       maybe = #{record.maybe,jdbcType=VARCHAR},
       parentid = #{record.parentid,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER}
+      type = #{record.type,jdbcType=INTEGER},
+      key = #{record.key,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -211,6 +224,9 @@
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
+      <if test="key != null">
+        key = #{key,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -220,7 +236,8 @@
       value = #{value,jdbcType=VARCHAR},
       maybe = #{maybe,jdbcType=VARCHAR},
       parentid = #{parentid,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER}
+      type = #{type,jdbcType=INTEGER},
+      key = #{key,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -26,6 +26,9 @@ public class UmsIntegrationChangeHistory implements Serializable {
     @ApiModelProperty(value = "积分来源：0->购物；1->管理员修改")
     private Integer sourceType;
 
+    @ApiModelProperty(value = "结余")
+    private Integer balance;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -92,6 +95,14 @@ public class UmsIntegrationChangeHistory implements Serializable {
         this.sourceType = sourceType;
     }
 
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -106,6 +117,7 @@ public class UmsIntegrationChangeHistory implements Serializable {
         sb.append(", operateMan=").append(operateMan);
         sb.append(", operateNote=").append(operateNote);
         sb.append(", sourceType=").append(sourceType);
+        sb.append(", balance=").append(balance);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -107,7 +107,7 @@ UPDATE oms_order_setting set `confim_overtime`=1 where id=1;
 -- ----------------------------
 DROP TABLE IF EXISTS `cfg_service`;
 CREATE TABLE `cfg_service` (
-  `id` int(4) NOT NULL,
+  `id` int(4) NOT NULL AUTO_INCREMENT,
   `name` varchar(512) DEFAULT NULL COMMENT '标题',
   `value` varchar(200) DEFAULT NULL COMMENT '设置值',
   `maybe` varchar(1000) DEFAULT NULL COMMENT '可选json参数[{key:value}]，如果为空则为string',
@@ -235,3 +235,7 @@ CREATE TABLE `cfg_service_value` (
 ALTER table pms_product add `defual_sku` bigint(20) DEFAULT NULL COMMENT '默认SKUID';
 ALTER TABLE pms_product drop column `price`;
 ALTER table pms_product add `price` decimal(10,2) COMMENT '商品销售价格';
+-- ----------------------------
+-- 服务器配置修改 添加关键key，id不再作为关键key
+-- ----------------------------
+ALTER table cfg_service add `key` varchar(50) DEFAULT NULL COMMENT '关键key';
