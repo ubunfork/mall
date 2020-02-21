@@ -69,6 +69,15 @@ public class UmsMember implements Serializable {
     @ApiModelProperty(value = "邀请码")
     private String reccode;
 
+    @ApiModelProperty(value = "最后登陆时间")
+    private Date loginTime;
+
+    @ApiModelProperty(value = "设备UUID")
+    private String loginUuid;
+
+    @ApiModelProperty(value = "登陆ip地址")
+    private String loginIp;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -247,6 +256,30 @@ public class UmsMember implements Serializable {
         this.reccode = reccode;
     }
 
+    public Date getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
+    }
+
+    public String getLoginUuid() {
+        return loginUuid;
+    }
+
+    public void setLoginUuid(String loginUuid) {
+        this.loginUuid = loginUuid;
+    }
+
+    public String getLoginIp() {
+        return loginIp;
+    }
+
+    public void setLoginIp(String loginIp) {
+        this.loginIp = loginIp;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -275,6 +308,9 @@ public class UmsMember implements Serializable {
         sb.append(", depth=").append(depth);
         sb.append(", pid=").append(pid);
         sb.append(", reccode=").append(reccode);
+        sb.append(", loginTime=").append(loginTime);
+        sb.append(", loginUuid=").append(loginUuid);
+        sb.append(", loginIp=").append(loginIp);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

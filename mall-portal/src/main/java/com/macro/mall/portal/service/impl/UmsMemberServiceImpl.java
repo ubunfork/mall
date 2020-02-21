@@ -4,6 +4,7 @@ import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.CfgServiceMapper;
 import com.macro.mall.mapper.UmsIntegrationChangeHistoryMapper;
 import com.macro.mall.mapper.UmsMemberLevelMapper;
+import com.macro.mall.mapper.UmsMemberLoginLogMapper;
 import com.macro.mall.mapper.UmsMemberMapper;
 import com.macro.mall.model.CfgService;
 import com.macro.mall.model.CfgServiceExample;
@@ -13,11 +14,13 @@ import com.macro.mall.model.UmsMember;
 import com.macro.mall.model.UmsMemberExample;
 import com.macro.mall.model.UmsMemberLevel;
 import com.macro.mall.model.UmsMemberLevelExample;
+import com.macro.mall.model.UmsMemberLoginLog;
 import com.macro.mall.portal.domain.MemberDetails;
 import com.macro.mall.portal.service.RedisService;
 import com.macro.mall.portal.service.UmsMemberService;
 import com.macro.mall.portal.util.JwtTokenUtil;
 import com.macro.mall.portal.util.ShareCodeUtil;
+import com.rabbitmq.client.AMQP.Access.Request;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,9 @@ import com.aliyuncs.profile.DefaultProfile;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -62,6 +68,9 @@ public class UmsMemberServiceImpl implements UmsMemberService {
 
     @Autowired
     private UmsIntegrationChangeHistoryMapper umsIntegrationChangeHistoryMapper;
+
+    @Autowired
+    private UmsMemberLoginLogMapper umsMemberLoginLogMapper;
 
     
     @Autowired
@@ -138,8 +147,8 @@ public class UmsMemberServiceImpl implements UmsMemberService {
             }
         }
         memberMapper.updateByPrimaryKey(umsMember);
-
         umsMember.setPassword(null);
+        registerIntegration(umsMember);
         return CommonResult.success(null,"注册成功");
     }
     @Override
@@ -151,12 +160,16 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         if(CollectionUtils.isEmpty(memberList)){
             return CommonResult.failed("该账号不存在");
         }
+        UmsMember umsMember = memberList.get(0);
         //验证验证码
         if(!verifyAuthCode(authCode,telephone)){
+            creatLoginLog(umsMember, 1, false, "验证码错误");
             return CommonResult.failed("验证码错误");
         }
         
-        UmsMember umsMember = memberList.get(0);
+        //添加登陆日志
+        creatLoginLog(umsMember, 1, true, "验证码登陆");
+
         umsMember.setPassword(null);
         UserDetails userDetails = userDetailsService.loadUserByUsername(umsMember.getUsername());
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -186,13 +199,15 @@ public class UmsMemberServiceImpl implements UmsMemberService {
             return CommonResult.failed("该账号不存在");
         }
         UmsMember umsMember = memberList.get(0);
+       
         UserDetails userDetails = userDetailsService.loadUserByUsername(umsMember.getUsername());
         if(!passwordEncoder.matches(password,userDetails.getPassword())){
-            // throw new BadCredentialsException("密码不正确");
+            creatLoginLog(umsMember, 1, false, "密码不正确");
             return CommonResult.failed("密码不正确");
         }
+         //添加登陆日志
+        creatLoginLog(umsMember,0, true, "密码登陆");
         umsMember.setPassword(null);
-        
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtTokenUtil.generateToken(userDetails);
@@ -300,7 +315,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
             e.printStackTrace();
         }
     }
-    // 邀请会员成功赠送积分
+    // 邀请会员成功赠送积分给邀请者
     private void inviteIntegration(UmsMember member, UmsMember inviteMember){
         
         CfgServiceExample example = new CfgServiceExample();
@@ -332,6 +347,64 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         integrationChangeHistory.setSourceType(3);
         integrationChangeHistory.setBalance(oldBalance+setcount);
         umsIntegrationChangeHistoryMapper.insertSelective(integrationChangeHistory);
+        inviteMember.setIntegration(integrationChangeHistory.getBalance());
+        memberMapper.updateByPrimaryKey(inviteMember);
     }
+
+        // 会员注册成功赠送积分
+        private void registerIntegration(UmsMember member){
+        
+            CfgServiceExample example = new CfgServiceExample();
+            example.createCriteria().andCfgKeyEqualTo("REGISTER");
+            CfgService config = cfgServiceMapper.selectByExample(example).get(0);
+            Integer setcount = Integer.valueOf(config.getValue()).intValue(); 
+            if(setcount<=0){
+                return;
+            }
+            UmsIntegrationChangeHistoryExample hexample = new UmsIntegrationChangeHistoryExample();
+            hexample.setOrderByClause("create_time desc");
+            hexample.createCriteria().andMemberIdEqualTo(member.getId());
+            
+            Long count = umsIntegrationChangeHistoryMapper.countByExample(hexample);
+            Integer oldBalance = 0;
+            if(count>0){
+                UmsIntegrationChangeHistory history = umsIntegrationChangeHistoryMapper.selectByExample(hexample).get(0);
+                oldBalance = history.getBalance();
+            }
+            UmsIntegrationChangeHistory integrationChangeHistory = new UmsIntegrationChangeHistory();
+            
+            integrationChangeHistory.setChangeCount(setcount);
+            integrationChangeHistory.setOperateMan("system");
+            integrationChangeHistory.setCreateTime(new Date());
+            integrationChangeHistory.setMemberId(member.getId());
+            integrationChangeHistory.setChangeType(0);
+            String operateNote = member.getPhone()+'['+member.getId()+']'+"会员注册成功赠送积分";
+            integrationChangeHistory.setOperateNote(operateNote);
+            integrationChangeHistory.setSourceType(4);
+            integrationChangeHistory.setBalance(oldBalance+setcount);
+            umsIntegrationChangeHistoryMapper.insertSelective(integrationChangeHistory);
+            member.setIntegration(integrationChangeHistory.getBalance());
+            memberMapper.updateByPrimaryKey(member);
+        }
+
+        //添加登陆日志
+        /**
+         * 
+         * @param umsMember
+         * @param logintype 0 密码登陆 1验证码登陆
+         * @param isok 是否登陆成功
+         */
+        private void creatLoginLog(UmsMember umsMember,Integer logintype, boolean isok, String remark){
+            UmsMemberLoginLog loginLog = new UmsMemberLoginLog();
+            loginLog.setCreateTime(new Date());
+            loginLog.setMemberId(umsMember.getId());
+            loginLog.setRemark(remark);
+            umsMemberLoginLogMapper.insertSelective(loginLog);
+            if(isok){
+                umsMember.setLoginTime(new Date());
+                memberMapper.updateByPrimaryKey(umsMember);
+            }
+
+        }
 
 }

@@ -9,6 +9,8 @@
     <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="login_type" jdbcType="INTEGER" property="loginType" />
     <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, member_id, create_time, ip, city, login_type, province
+    id, member_id, create_time, ip, city, login_type, province, uuid, remark
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.UmsMemberLoginLogExample" resultMap="BaseResultMap">
     select
@@ -106,11 +108,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ums_member_login_log (member_id, create_time, ip, 
-      city, login_type, province
-      )
+      city, login_type, province, 
+      uuid, remark)
     values (#{memberId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
-      #{city,jdbcType=VARCHAR}, #{loginType,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}
-      )
+      #{city,jdbcType=VARCHAR}, #{loginType,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, 
+      #{uuid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.UmsMemberLoginLog">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -136,6 +138,12 @@
       <if test="province != null">
         province,
       </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="memberId != null">
@@ -155,6 +163,12 @@
       </if>
       <if test="province != null">
         #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -188,6 +202,12 @@
       <if test="record.province != null">
         province = #{record.province,jdbcType=VARCHAR},
       </if>
+      <if test="record.uuid != null">
+        uuid = #{record.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +221,9 @@
       ip = #{record.ip,jdbcType=VARCHAR},
       city = #{record.city,jdbcType=VARCHAR},
       login_type = #{record.loginType,jdbcType=INTEGER},
-      province = #{record.province,jdbcType=VARCHAR}
+      province = #{record.province,jdbcType=VARCHAR},
+      uuid = #{record.uuid,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +249,12 @@
       <if test="province != null">
         province = #{province,jdbcType=VARCHAR},
       </if>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -237,7 +265,9 @@
       ip = #{ip,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       login_type = #{loginType,jdbcType=INTEGER},
-      province = #{province,jdbcType=VARCHAR}
+      province = #{province,jdbcType=VARCHAR},
+      uuid = #{uuid,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

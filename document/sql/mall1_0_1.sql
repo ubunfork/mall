@@ -239,3 +239,18 @@ ALTER table pms_product add `price` decimal(10,2) COMMENT '商品销售价格';
 -- 服务器配置修改 添加关键key，id不再作为关键key
 -- ----------------------------
 ALTER table cfg_service add `key` varchar(50) DEFAULT NULL COMMENT '关键key';
+
+-- ----------------------------
+-- 用户信息添加最新登陆事件
+-- ----------------------------
+alter table `ums_member` ADD `login_time` datetime DEFAULT NULL COMMENT '最后登陆时间';
+alter table `ums_member` ADD `login_uuid` varchar(200) NULL COMMENT '设备UUID';
+alter table `ums_member` ADD `login_ip` varchar(50) NULL COMMENT '登陆ip地址';
+
+-- ----------------------------
+-- 用户登陆日志添加uuid
+-- ----------------------------
+alter table `ums_member_login_log` ADD `uuid` varchar(200) NULL COMMENT '设备UUID';
+alter table `ums_member_login_log` ADD `remark` varchar(200) NULL COMMENT '备注';
+
+

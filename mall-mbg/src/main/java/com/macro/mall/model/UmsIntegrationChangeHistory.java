@@ -23,7 +23,7 @@ public class UmsIntegrationChangeHistory implements Serializable {
     @ApiModelProperty(value = "操作备注")
     private String operateNote;
 
-    @ApiModelProperty(value = "积分来源：0->购物；1->管理员修改; 3->邀请会员")
+    @ApiModelProperty(value = "积分来源：0->购物；1->管理员修改; 3->邀请会员； 4->会员注册")
     private Integer sourceType;
 
     @ApiModelProperty(value = "结余")

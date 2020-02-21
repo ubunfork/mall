@@ -20,6 +20,12 @@ public class UmsMemberLoginLog implements Serializable {
 
     private String province;
 
+    @ApiModelProperty(value = "设备UUID")
+    private String uuid;
+
+    @ApiModelProperty(value = "备注")
+    private String remark;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -78,6 +84,22 @@ public class UmsMemberLoginLog implements Serializable {
         this.province = province;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -91,6 +113,8 @@ public class UmsMemberLoginLog implements Serializable {
         sb.append(", city=").append(city);
         sb.append(", loginType=").append(loginType);
         sb.append(", province=").append(province);
+        sb.append(", uuid=").append(uuid);
+        sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
