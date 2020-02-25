@@ -47,7 +47,7 @@ public class MemberCollectionServiceImpl implements MemberCollectionService {
             findCollection.setProductPic(product.getPic());
             findCollection.setProductName(product.getName());
             findCollection.setProductSubTitle(product.getSubTitle());
-            findCollection.setProductPrice(product.getPrice());
+            findCollection.setProductPrice(product.getPrice().toString());
             productCollectionRepository.save(findCollection);
         
         }

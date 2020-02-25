@@ -42,5 +42,5 @@ public interface HomeService {
      * @param pageNum
      * @return
      */
-    List<PmsProductResult> recommendProduct(Integer pageSize, Integer pageNum) 
+    List<PmsProductResult> recommendProduct(Integer pageSize, Integer pageNum); 
 }

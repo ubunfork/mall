@@ -6,6 +6,8 @@ import com.macro.mall.service.UmsMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.macro.mall.dao.UmsMemberInfoDao;
+import com.macro.mall.dto.UmsMemberInfoResult;
 import com.macro.mall.mapper.UmsMemberMapper;
 import com.macro.mall.model.UmsMember;
 import com.macro.mall.model.UmsMemberExample;
@@ -23,6 +25,9 @@ public class UmsMemberServicempl implements UmsMemberService {
     @Autowired
     private UmsMemberMapper memberMapper;
 
+    @Autowired
+    private UmsMemberInfoDao memberInfoDao;
+
     @Override
     public List<UmsMember> list(String name, Integer pageSize, Integer pageNum) {
 
@@ -36,5 +41,13 @@ public class UmsMemberServicempl implements UmsMemberService {
         }
         return memberMapper.selectByExample(example);
     }
+
+    /**
+    * 根据用户id获取用户详细信息
+    */
+    @Override
+    public UmsMemberInfoResult userinfo(Long id){
+        return memberInfoDao.memberInfo(id);
+   }
     
 }

@@ -216,7 +216,7 @@ ALTER table oms_order modify column `status` int(1) DEFAULT NULL COMMENT '订单
 -- ----------------------------
 -- 服务器配置修改
 -- ----------------------------
-ALTER table cfg_service add `type` int(1) DEFAULT 0 COMMENT '值类型，0 用户输入 1:有可选值';
+ALTER table cfg_service add `valueType` int(1) DEFAULT 0 COMMENT '值类型，0 用户输入 1:有可选值';
 ALTER table cfg_service add `parentid` int(4) DEFAULT 0 COMMENT '配置父id';
 ALTER table cfg_service modify column `maybe` varchar(1000) DEFAULT NULL COMMENT '废弃（20200115） 可选json参数[{key:value}]，如果为空则为string';
 
@@ -238,7 +238,7 @@ ALTER table pms_product add `price` decimal(10,2) COMMENT '商品销售价格';
 -- ----------------------------
 -- 服务器配置修改 添加关键key，id不再作为关键key
 -- ----------------------------
-ALTER table cfg_service add `key` varchar(50) DEFAULT NULL COMMENT '关键key';
+ALTER table cfg_service add `cfgkey` varchar(50) DEFAULT NULL COMMENT '关键key';
 
 -- ----------------------------
 -- 用户信息添加最新登陆事件
