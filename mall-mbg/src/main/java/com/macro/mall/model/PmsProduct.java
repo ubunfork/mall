@@ -107,7 +107,7 @@ public class PmsProduct implements Serializable {
     @ApiModelProperty(value = "默认SKUID")
     private Long defualSku;
 
-    @ApiModelProperty(value = "商品销售价格区间")
+    @ApiModelProperty(value = "商品销售价格")
     private BigDecimal price;
 
     @ApiModelProperty(value = "商品描述")

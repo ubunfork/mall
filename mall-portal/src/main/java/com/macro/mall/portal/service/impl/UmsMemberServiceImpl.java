@@ -135,7 +135,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         if (!CollectionUtils.isEmpty(memberLevelList)) {
             umsMember.setMemberLevelId(memberLevelList.get(0).getId());
         }
-        memberMapper.insertSelective(umsMember);
+        memberMapper.insert(umsMember);
         umsMember.setReccode(ShareCodeUtil.toSerialCode(umsMember.getId()));
         //设置邀请用户
         if(reccode != null){
@@ -233,7 +233,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE+telephone,AUTH_CODE_EXPIRE_SECONDS);
 
         CfgServiceExample example = new CfgServiceExample();
-        example.createCriteria().andCfgKeyEqualTo("AUTHCODE");
+        example.createCriteria().andCfgkeyEqualTo("AUTHCODE");
         CfgService cfgService = cfgServiceMapper.selectByExample(example).get(0);
         
         if(cfgService.getValue().equals("0") ){
@@ -319,7 +319,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     private void inviteIntegration(UmsMember member, UmsMember inviteMember){
         
         CfgServiceExample example = new CfgServiceExample();
-        example.createCriteria().andCfgKeyEqualTo("INVITEMEMBER");
+        example.createCriteria().andCfgkeyEqualTo("INVITEMEMBER");
         CfgService config = cfgServiceMapper.selectByExample(example).get(0);
         Integer setcount = Integer.valueOf(config.getValue()).intValue(); 
         if(setcount<=0){
@@ -355,7 +355,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         private void registerIntegration(UmsMember member){
         
             CfgServiceExample example = new CfgServiceExample();
-            example.createCriteria().andCfgKeyEqualTo("REGISTER");
+            example.createCriteria().andCfgkeyEqualTo("REGISTER");
             CfgService config = cfgServiceMapper.selectByExample(example).get(0);
             Integer setcount = Integer.valueOf(config.getValue()).intValue(); 
             if(setcount<=0){

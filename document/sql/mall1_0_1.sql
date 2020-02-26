@@ -253,4 +253,5 @@ alter table `ums_member` ADD `login_ip` varchar(50) NULL COMMENT '登陆ip地址
 alter table `ums_member_login_log` ADD `uuid` varchar(200) NULL COMMENT '设备UUID';
 alter table `ums_member_login_log` ADD `remark` varchar(200) NULL COMMENT '备注';
 
+alter table `ums_integration_change_history` ADD  `balance` bigint(20)   DEFAULT NULL COMMENT '积分结余';
 
