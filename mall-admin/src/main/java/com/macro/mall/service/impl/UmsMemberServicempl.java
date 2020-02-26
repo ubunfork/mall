@@ -8,9 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.macro.mall.dao.UmsMemberInfoDao;
 import com.macro.mall.dto.UmsMemberInfoResult;
+import com.macro.mall.mapper.UmsAdminLoginLogMapper;
+import com.macro.mall.mapper.UmsMemberLoginLogMapper;
 import com.macro.mall.mapper.UmsMemberMapper;
+import com.macro.mall.model.UmsAdminLoginLog;
 import com.macro.mall.model.UmsMember;
 import com.macro.mall.model.UmsMemberExample;
+import com.macro.mall.model.UmsMemberLoginLog;
+import com.macro.mall.model.UmsMemberLoginLogExample;
+
 import org.springframework.util.StringUtils;
 // import org.slf4j.Logger;
 // import org.slf4j.LoggerFactory;
@@ -27,6 +33,9 @@ public class UmsMemberServicempl implements UmsMemberService {
 
     @Autowired
     private UmsMemberInfoDao memberInfoDao;
+
+    @Autowired
+    UmsMemberLoginLogMapper memberLoginLogMapper;
 
     @Override
     public List<UmsMember> list(String name, Integer pageSize, Integer pageNum) {
@@ -49,5 +58,18 @@ public class UmsMemberServicempl implements UmsMemberService {
     public UmsMemberInfoResult userinfo(Long id){
         return memberInfoDao.memberInfo(id);
    }
+     /**
+     * 登陆日志
+     */
+    @Override
+    public List<UmsMemberLoginLog> loginLog(Long id, Integer pageSize, Integer pageNum){
+
+        PageHelper.startPage(pageNum, pageSize);
+        UmsMemberLoginLogExample example = new UmsMemberLoginLogExample();
+        UmsMemberLoginLogExample.Criteria criteria = example.createCriteria();
+        criteria.andMemberIdEqualTo(id);
+        example.setOrderByClause("create_time desc");
+        return memberLoginLogMapper.selectByExample(example);
+    }
     
 }
