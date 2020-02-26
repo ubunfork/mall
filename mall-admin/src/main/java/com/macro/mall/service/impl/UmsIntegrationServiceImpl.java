@@ -25,7 +25,8 @@ public class UmsIntegrationServiceImpl implements UmsIntegrationService {
     public List<UmsIntegrationChangeHistory> histroy(Long id , Integer pageSize, Integer pageNum){
         PageHelper.startPage(pageNum, pageSize);
         UmsIntegrationChangeHistoryExample example = new UmsIntegrationChangeHistoryExample();
-        // UmsIntegrationChangeHistoryExample.Criteria criteria = example.createCriteria();
+        UmsIntegrationChangeHistoryExample.Criteria criteria = example.createCriteria();
+        criteria.andMemberIdEqualTo(id);
         example.setOrderByClause("create_time desc");
         return integrationChangeHistoryMapper.selectByExample(example);
 
