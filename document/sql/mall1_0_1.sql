@@ -255,3 +255,8 @@ alter table `ums_member_login_log` ADD `remark` varchar(200) NULL COMMENT '备�
 
 alter table `ums_integration_change_history` ADD  `balance` int(11)   DEFAULT NULL COMMENT '积分结余';
 
+-- ----------------------------
+-- 后台用户添加手机号 密码版本
+-- ----------------------------
+alter table `ums_admin` ADD `phone` varchar(64) DEFAULT NULL COMMENT '手机号码';
+alter table `ums_admin` ADD `password_verstion` int(1) DEFAULT NULL COMMENT '密码版本 0->未设置 1->系统默认 2->用户设置';
