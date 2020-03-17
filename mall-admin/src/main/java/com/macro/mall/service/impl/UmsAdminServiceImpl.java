@@ -7,11 +7,13 @@ import com.macro.mall.dao.UmsAdminPermissionRelationDao;
 import com.macro.mall.dao.UmsAdminRoleRelationDao;
 import com.macro.mall.dto.UmsAdminParam;
 import com.macro.mall.dto.UmsAdminRegisterParam;
+import com.macro.mall.mapper.CfgServiceMapper;
 import com.macro.mall.mapper.UmsAdminLoginLogMapper;
 import com.macro.mall.mapper.UmsAdminMapper;
 import com.macro.mall.mapper.UmsAdminPermissionRelationMapper;
 import com.macro.mall.mapper.UmsAdminRoleRelationMapper;
 import com.macro.mall.model.*;
+import com.macro.mall.service.RedisService;
 import com.macro.mall.service.UmsAdminService;
 import com.macro.mall.util.JwtTokenUtil;
 import org.slf4j.Logger;
@@ -75,6 +77,16 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     @Autowired
     private UmsAdminLoginLogMapper loginLogMapper;
 
+    @Autowired
+    private CfgServiceMapper cfgServiceMapper;
+
+    @Autowired
+    private RedisService redisService;
+
+    @Value("${redis.key.prefix.authCode}")
+    private String REDIS_KEY_PREFIX_AUTH_CODE;
+    @Value("${redis.key.expire.authCode}")
+    private Long AUTH_CODE_EXPIRE_SECONDS;
   
 
     @Override
@@ -90,6 +102,10 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
     @Override
     public UmsAdmin register(UmsAdminRegisterParam umsAdminParam) {
+        //验证验证码
+        if(!verifyAuthCode(umsAdminParam.getAuthCode(),umsAdminParam.getPhone())){
+            throw new RuntimeException("验证码错误");
+        }
         UmsAdmin umsAdmin = new UmsAdmin();
         BeanUtils.copyProperties(umsAdminParam, umsAdmin);
         umsAdmin.setCreateTime(new Date());
@@ -99,7 +115,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         example.createCriteria().andUsernameEqualTo(umsAdmin.getUsername());
         List<UmsAdmin> umsAdminList = adminMapper.selectByExample(example);
         if (umsAdminList.size() > 0) {
-            return null;
+            throw new RuntimeException("用户已存在");
         }
         //将密码进行加密操作
         String encodePassword = passwordEncoder.encode(umsAdmin.getPassword());
@@ -115,7 +131,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if(!passwordEncoder.matches(password,userDetails.getPassword())){
-                throw new BadCredentialsException("密码不正确");
+                throw new RuntimeException("密码不正确");
             }
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -134,28 +150,29 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     @Override
     public CommonResult generateAuthCode(String telephone) {
         String autocode = "123456";
-        return CommonResult.success(autocode,"获取验证码成功");
-        // StringBuilder sb = new StringBuilder();
-        // Random random = new Random();
-        // for(int i=0;i<6;i++){
-        //     sb.append(random.nextInt(10));
-        // }
-        // autocode = sb.toString();
-        // //验证码绑定手机号并存储到redis
-        // String keystr =  REDIS_KEY_PREFIX_AUTH_CODE+telephone;
-        // redisService.set(keystr,autocode);
-        // redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE+telephone,AUTH_CODE_EXPIRE_SECONDS);
-
-        // CfgServiceExample example = new CfgServiceExample();
-        // example.createCriteria().andCfgkeyEqualTo("AUTHCODE");
-        // CfgService cfgService = cfgServiceMapper.selectByExample(example).get(0);
         
-        // if(cfgService.getValue().equals("0") ){
-        //     sendAuthCode(sb.toString(),telephone);
-        //     return CommonResult.success(null,"获取验证码成功");
-        // }else{
-            
-        // }
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for(int i=0;i<6;i++){
+            sb.append(random.nextInt(10));
+        }
+       
+        autocode = sb.toString();
+        //验证码绑定手机号并存储到redis
+        String keystr =  REDIS_KEY_PREFIX_AUTH_CODE+telephone;
+        redisService.set(keystr,autocode);
+        redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE+telephone,AUTH_CODE_EXPIRE_SECONDS);
+
+        CfgServiceExample example = new CfgServiceExample();
+        example.createCriteria().andCfgkeyEqualTo("AUTHCODE");
+        CfgService cfgService = cfgServiceMapper.selectByExample(example).get(0);
+        
+        if(cfgService.getValue().equals("0") ){
+            sendAuthCode(sb.toString(),telephone);
+            return CommonResult.success(null,"获取验证码成功");
+        }else{
+            return CommonResult.success(autocode,"获取验证码成功");
+        }
         
     }
 
@@ -300,5 +317,41 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         Object object = auth.getPrincipal();
         AdminUserDetails memberDetails = (AdminUserDetails) object;
         return memberDetails;
+    }
+
+    //通过阿里云发送验证码
+    private void sendAuthCode(String authCode, String telephone){
+       
+        // DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAIJySUFKQ7gSkr", "BNlEqO5ej8ymx8CknWvQPPq3mNWbZI");
+        // IAcsClient client = new DefaultAcsClient(profile);
+
+        // CommonRequest request = new CommonRequest();
+        // request.setMethod(MethodType.POST);
+        // request.setDomain("dysmsapi.aliyuncs.com");
+        // request.setVersion("2017-05-25");
+        // request.setAction("SendSms");
+        // request.putQueryParameter("RegionId", "cn-hangzhou");
+        // request.putQueryParameter("PhoneNumbers", telephone);
+        // request.putQueryParameter("SignName", "瑞鑫科技");
+        // request.putQueryParameter("TemplateCode", "SMS_154589476");
+        // request.putQueryParameter("TemplateParam", "{\"code\":\""+authCode+"\"}");
+        // request.putQueryParameter("SmsUpExtendCode", authCode);
+        // try {
+        //     CommonResponse response = client.getCommonResponse(request);
+        //     System.out.println(response.getData());
+        // } catch (ServerException e) {
+        //     e.printStackTrace();
+        // } catch (ClientException e) {
+        //     e.printStackTrace();
+        // }
+    }
+
+    //对输入的验证码进行校验
+    private boolean verifyAuthCode(String authCode, String telephone){
+        if(StringUtils.isEmpty(authCode)){
+            return false;
+        }
+        String realAuthCode = redisService.get(REDIS_KEY_PREFIX_AUTH_CODE + telephone);
+        return authCode.equals(realAuthCode);
     }
 }

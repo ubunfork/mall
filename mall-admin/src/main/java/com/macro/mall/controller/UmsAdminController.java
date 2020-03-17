@@ -46,11 +46,15 @@ public class UmsAdminController {
     @ResponseBody
     public CommonResult<UmsAdmin> register(@RequestBody UmsAdminRegisterParam umsAdminRegisterParam, BindingResult result) {
         
-        UmsAdmin umsAdmin = adminService.register(umsAdminRegisterParam);
-        if (umsAdmin == null) {
-            CommonResult.failed();
+        try {
+            UmsAdmin umsAdmin = adminService.register(umsAdminRegisterParam);
+            if (umsAdmin == null) {
+                CommonResult.failed();
+            }
+            return CommonResult.success(umsAdmin);
+        } catch (Exception e) {
+            return CommonResult.failed(e.getMessage());
         }
-        return CommonResult.success(umsAdmin);
     }
 
     @ApiOperation(value = "登录以后返回token")
@@ -186,7 +190,7 @@ public class UmsAdminController {
     @ApiOperation("获取验证码")
     @RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult getAuthCode(@RequestParam String telephone) {
-        return adminService.generateAuthCode(telephone);
+    public CommonResult getAuthCode(@RequestParam String phone) {
+        return adminService.generateAuthCode(phone);
     }
 }

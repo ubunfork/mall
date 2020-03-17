@@ -397,9 +397,6 @@ public class PmsProductServiceImpl implements PmsProductService {
         if(pmsProduct.getVerifyStatus() != 1){
             throw new BadCredentialsException("商品尚未审核");
         }
-       
-     
-      
     }
 
 }
