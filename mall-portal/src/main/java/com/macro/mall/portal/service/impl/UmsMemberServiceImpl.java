@@ -217,7 +217,9 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         return CommonResult.success(dataMap, "登陆成功");
 
     }
-
+    /**
+     * 生成验证码
+     */
     @Override
     public CommonResult generateAuthCode(String telephone) {
         String autocode = "123456";

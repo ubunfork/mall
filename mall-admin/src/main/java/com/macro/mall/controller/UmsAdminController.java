@@ -5,6 +5,7 @@ import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.UmsAdminLoginParam;
 import com.macro.mall.dto.UmsAdminParam;
+import com.macro.mall.dto.UmsAdminRegisterParam;
 import com.macro.mall.model.UmsAdmin;
 import com.macro.mall.model.UmsPermission;
 import com.macro.mall.model.UmsRole;
@@ -18,6 +19,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.io.Console;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -41,8 +44,9 @@ public class UmsAdminController {
     @ApiOperation(value = "用户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<UmsAdmin> register(@RequestBody UmsAdminParam umsAdminParam, BindingResult result) {
-        UmsAdmin umsAdmin = adminService.register(umsAdminParam);
+    public CommonResult<UmsAdmin> register(@RequestBody UmsAdminRegisterParam umsAdminRegisterParam, BindingResult result) {
+        
+        UmsAdmin umsAdmin = adminService.register(umsAdminRegisterParam);
         if (umsAdmin == null) {
             CommonResult.failed();
         }
@@ -177,5 +181,12 @@ public class UmsAdminController {
     public CommonResult<List<UmsPermission>> getPermissionList(@PathVariable Long adminId) {
         List<UmsPermission> permissionList = adminService.getPermissionList(adminId);
         return CommonResult.success(permissionList);
+    }
+
+    @ApiOperation("获取验证码")
+    @RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getAuthCode(@RequestParam String telephone) {
+        return adminService.generateAuthCode(telephone);
     }
 }

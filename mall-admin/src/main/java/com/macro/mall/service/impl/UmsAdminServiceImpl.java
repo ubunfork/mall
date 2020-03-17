@@ -2,9 +2,11 @@ package com.macro.mall.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.macro.mall.bo.AdminUserDetails;
+import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dao.UmsAdminPermissionRelationDao;
 import com.macro.mall.dao.UmsAdminRoleRelationDao;
 import com.macro.mall.dto.UmsAdminParam;
+import com.macro.mall.dto.UmsAdminRegisterParam;
 import com.macro.mall.mapper.UmsAdminLoginLogMapper;
 import com.macro.mall.mapper.UmsAdminMapper;
 import com.macro.mall.mapper.UmsAdminPermissionRelationMapper;
@@ -38,7 +40,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
+
+
 
 /**
  * UmsAdminService实现类
@@ -70,6 +75,8 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     @Autowired
     private UmsAdminLoginLogMapper loginLogMapper;
 
+  
+
     @Override
     public UmsAdmin getAdminByUsername(String username) {
         UmsAdminExample example = new UmsAdminExample();
@@ -82,7 +89,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     }
 
     @Override
-    public UmsAdmin register(UmsAdminParam umsAdminParam) {
+    public UmsAdmin register(UmsAdminRegisterParam umsAdminParam) {
         UmsAdmin umsAdmin = new UmsAdmin();
         BeanUtils.copyProperties(umsAdminParam, umsAdmin);
         umsAdmin.setCreateTime(new Date());
@@ -120,6 +127,38 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         }
         return token;
     }
+
+    /**
+     * 生成验证码
+     */
+    @Override
+    public CommonResult generateAuthCode(String telephone) {
+        String autocode = "123456";
+        return CommonResult.success(autocode,"获取验证码成功");
+        // StringBuilder sb = new StringBuilder();
+        // Random random = new Random();
+        // for(int i=0;i<6;i++){
+        //     sb.append(random.nextInt(10));
+        // }
+        // autocode = sb.toString();
+        // //验证码绑定手机号并存储到redis
+        // String keystr =  REDIS_KEY_PREFIX_AUTH_CODE+telephone;
+        // redisService.set(keystr,autocode);
+        // redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE+telephone,AUTH_CODE_EXPIRE_SECONDS);
+
+        // CfgServiceExample example = new CfgServiceExample();
+        // example.createCriteria().andCfgkeyEqualTo("AUTHCODE");
+        // CfgService cfgService = cfgServiceMapper.selectByExample(example).get(0);
+        
+        // if(cfgService.getValue().equals("0") ){
+        //     sendAuthCode(sb.toString(),telephone);
+        //     return CommonResult.success(null,"获取验证码成功");
+        // }else{
+            
+        // }
+        
+    }
+
 
     /**
      * 添加登录记录
