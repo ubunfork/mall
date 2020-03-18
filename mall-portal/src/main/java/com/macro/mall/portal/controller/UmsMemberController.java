@@ -68,4 +68,11 @@ public class UmsMemberController {
     public CommonResult updatePassword(@RequestBody UmsUpPasswordInput upPasswordInput) {
         return memberService.updatePassword(upPasswordInput.getTelephone(),upPasswordInput.getPassword(),upPasswordInput.getAuthCode());
     }
+
+    @ApiOperation("获取已邀请会员列表")
+    @RequestMapping(value = "/inviteList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult inviteList() {
+        return memberService.inviteList();
+    }
 }

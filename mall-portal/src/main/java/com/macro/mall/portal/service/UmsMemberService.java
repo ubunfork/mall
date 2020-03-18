@@ -63,4 +63,11 @@ public interface UmsMemberService {
      * 根据会员id修改会员积分
      */
     void updateIntegration(Long id,Integer integration);
+
+    /**
+     * 获取已邀请的用户列表
+     * @param id
+     * @return
+     */
+    CommonResult inviteList();
 }

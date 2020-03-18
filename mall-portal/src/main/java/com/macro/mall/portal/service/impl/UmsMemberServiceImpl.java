@@ -280,6 +280,20 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         memberMapper.updateByPrimaryKeySelective(record);
     }
 
+    /**
+     * 获取已邀请的用户列表
+     * @param id
+     * @return
+     */
+    @Override
+    public CommonResult inviteList(){
+     
+        UmsMemberExample example = new UmsMemberExample();
+        example.createCriteria().andPidEqualTo(getCurrentMember().getId());
+        List<UmsMember> memberList = memberMapper.selectByExample(example);
+        return CommonResult.success(memberList);
+    }
+
     //对输入的验证码进行校验
     private boolean verifyAuthCode(String authCode, String telephone){
         if(StringUtils.isEmpty(authCode)){
