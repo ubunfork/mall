@@ -26,6 +26,15 @@ aliyun:
     dir:
       prefix: mall/images/ # 上传文件夹路径前缀
 
+# 自定义redis key
+redis:
+  key:
+    prefix:
+      authCode: "portal:authCode:"
+      orderId: "portal:orderId:"
+    expire:
+      authCode: 90 # 验证码超期时间
+
 logging:
   level:
     root: info #日志配置DEBUG,INFO,WARN,ERROR

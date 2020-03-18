@@ -1,7 +1,9 @@
 package com.macro.mall.service;
 
 import com.macro.mall.bo.AdminUserDetails;
+import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.UmsAdminParam;
+import com.macro.mall.dto.UmsAdminRegisterParam;
 import com.macro.mall.model.UmsAdmin;
 import com.macro.mall.model.UmsPermission;
 import com.macro.mall.model.UmsRole;
@@ -22,7 +24,7 @@ public interface UmsAdminService {
     /**
      * 注册功能
      */
-    UmsAdmin register(UmsAdminParam umsAdminParam);
+    UmsAdmin register(UmsAdminRegisterParam umsAdminParam);
 
     /**
      * 登录功能
@@ -84,4 +86,9 @@ public interface UmsAdminService {
      * 获取当前登陆用户
      */
     AdminUserDetails getCurrentMember() ;
+
+    /**
+     * 生成验证码
+     */
+    CommonResult generateAuthCode(String telephone);
 }

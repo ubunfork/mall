@@ -1,6 +1,8 @@
 package com.macro.mall.service;
 
+import com.macro.mall.dto.UmsMemberInfoResult;
 import com.macro.mall.model.UmsMember;
+import com.macro.mall.model.UmsMemberLoginLog;
 
 import java.util.List;
 /**
@@ -13,4 +15,14 @@ public interface UmsMemberService {
      * 根据用户名或昵称分页查询用户
      */
     List<UmsMember> list(String name, Integer pageSize, Integer pageNum);
+
+    /**
+     * 根据用户id获取用户详细信息
+     */
+    UmsMemberInfoResult userinfo(Long id);
+
+    /**
+     * 登陆日志
+     */
+    List<UmsMemberLoginLog> loginLog(Long id, Integer pageSize, Integer pageNum);
 }

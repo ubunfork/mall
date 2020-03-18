@@ -216,7 +216,7 @@ ALTER table oms_order modify column `status` int(1) DEFAULT NULL COMMENT '订单
 -- ----------------------------
 -- 服务器配置修改
 -- ----------------------------
-ALTER table cfg_service add `type` int(1) DEFAULT 0 COMMENT '值类型，0 用户输入 1:有可选值';
+ALTER table cfg_service add `valueType` int(1) DEFAULT 0 COMMENT '值类型，0 用户输入 1:有可选值';
 ALTER table cfg_service add `parentid` int(4) DEFAULT 0 COMMENT '配置父id';
 ALTER table cfg_service modify column `maybe` varchar(1000) DEFAULT NULL COMMENT '废弃（20200115） 可选json参数[{key:value}]，如果为空则为string';
 
@@ -238,7 +238,7 @@ ALTER table pms_product add `price` decimal(10,2) COMMENT '商品销售价格';
 -- ----------------------------
 -- 服务器配置修改 添加关键key，id不再作为关键key
 -- ----------------------------
-ALTER table cfg_service add `key` varchar(50) DEFAULT NULL COMMENT '关键key';
+ALTER table cfg_service add `cfgkey` varchar(50) DEFAULT NULL COMMENT '关键key';
 
 -- ----------------------------
 -- 用户信息添加最新登陆事件
@@ -253,4 +253,10 @@ alter table `ums_member` ADD `login_ip` varchar(50) NULL COMMENT '登陆ip地址
 alter table `ums_member_login_log` ADD `uuid` varchar(200) NULL COMMENT '设备UUID';
 alter table `ums_member_login_log` ADD `remark` varchar(200) NULL COMMENT '备注';
 
+alter table `ums_integration_change_history` ADD  `balance` int(11)   DEFAULT NULL COMMENT '积分结余';
 
+-- ----------------------------
+-- 后台用户添加手机号 密码版本
+-- ----------------------------
+alter table `ums_admin` ADD `phone` varchar(64) DEFAULT NULL COMMENT '手机号码';
+alter table `ums_admin` ADD `password_verstion` int(1) DEFAULT NULL COMMENT '密码版本 0->未设置 1->系统默认 2->用户设置';
