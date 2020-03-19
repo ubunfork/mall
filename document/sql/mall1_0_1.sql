@@ -260,3 +260,30 @@ alter table `ums_integration_change_history` ADD  `balance` int(11)   DEFAULT NU
 -- ----------------------------
 alter table `ums_admin` ADD `phone` varchar(64) DEFAULT NULL COMMENT '手机号码';
 alter table `ums_admin` ADD `password_verstion` int(1) DEFAULT NULL COMMENT '密码版本 0->未设置 1->系统默认 2->用户设置';
+
+
+-- ----------------------------
+-- 店铺信息表
+-- ----------------------------
+DROP TABLE IF EXISTS `sel_shop`;
+CREATE TABLE `sel_shop` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `status` int(1) DEFAULT '0' COMMENT '0->等待审核 1->审核通过 2->审核失败',
+  `member_id` bigint(20) DEFAULT NULL COMMENT '会员id',
+  `name` varchar(100) DEFAULT NULL COMMENT '店铺名',
+  `keyword` varchar(100) DEFAULT NULL COMMENT '关键字',
+  `person` varchar(32) DEFAULT NULL COMMENT '责任人（法人代表或真实姓名）',
+  `company` varchar(32) DEFAULT NULL COMMENT '公司名称',
+  `mobile` varchar(32) DEFAULT NULL COMMENT '联系方式',
+  `apply_time` datetime DEFAULT NULL COMMENT '申请时间',
+  `level` tinyint(1) unsigned NOT NULL COMMENT '店铺等级',
+  `type` varchar(200) DEFAULT NULL COMMENT '经营类型',
+  `province` varchar(32) DEFAULT NULL COMMENT '省份',
+  `city` varchar(32) DEFAULT NULL COMMENT '城市',
+  `district` varchar(32) DEFAULT NULL COMMENT '区域',
+  `address` varchar(64) DEFAULT NULL COMMENT '详细地址',
+  `identity_type` int(1) DEFAULT '0' COMMENT '证件类型 0->无 1->个人 2->企业',
+  `lng` decimal(10,6) NOT NULL DEFAULT '0.000000' COMMENT '经度',
+  `lat` decimal(10,6) NOT NULL DEFAULT '0.000000' COMMENT '纬度',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='店铺信息表';
