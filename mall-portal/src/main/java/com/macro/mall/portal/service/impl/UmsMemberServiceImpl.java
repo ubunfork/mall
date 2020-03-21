@@ -235,7 +235,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE+telephone,AUTH_CODE_EXPIRE_SECONDS);
 
         CfgServiceExample example = new CfgServiceExample();
-        example.createCriteria().andCfgkeyEqualTo("AUTHCODE");
+        example.createCriteria().andCfgKeyEqualTo("AUTHCODE");
         CfgService cfgService = cfgServiceMapper.selectByExample(example).get(0);
         
         if(cfgService.getValue().equals("0") ){
@@ -335,7 +335,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     private void inviteIntegration(UmsMember member, UmsMember inviteMember){
         
         CfgServiceExample example = new CfgServiceExample();
-        example.createCriteria().andCfgkeyEqualTo("INVITEMEMBER");
+        example.createCriteria().andCfgKeyEqualTo("INVITEMEMBER");
         CfgService config = cfgServiceMapper.selectByExample(example).get(0);
         Integer setcount = Integer.valueOf(config.getValue()).intValue(); 
         if(setcount<=0){
@@ -371,7 +371,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         private void registerIntegration(UmsMember member){
         
             CfgServiceExample example = new CfgServiceExample();
-            example.createCriteria().andCfgkeyEqualTo("REGISTER");
+            example.createCriteria().andCfgKeyEqualTo("REGISTER");
             CfgService config = cfgServiceMapper.selectByExample(example).get(0);
             Integer setcount = Integer.valueOf(config.getValue()).intValue(); 
             if(setcount<=0){

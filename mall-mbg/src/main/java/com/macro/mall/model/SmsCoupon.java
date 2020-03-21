@@ -53,7 +53,7 @@ public class SmsCoupon implements Serializable {
     @ApiModelProperty(value = "优惠码")
     private String code;
 
-    @ApiModelProperty(value = "可领取的会员类型：0->无限制")
+    @ApiModelProperty(value = "可领取的会员类型：0->无限时")
     private Integer memberLevel;
 
     private static final long serialVersionUID = 1L;

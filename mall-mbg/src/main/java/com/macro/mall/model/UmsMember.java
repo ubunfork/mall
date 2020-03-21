@@ -60,14 +60,14 @@ public class UmsMember implements Serializable {
     @ApiModelProperty(value = "历史积分数量")
     private Integer historyIntegration;
 
+    @ApiModelProperty(value = "深度")
+    private Integer depth;
+
     @ApiModelProperty(value = "邀请人id")
     private Long pid;
 
     @ApiModelProperty(value = "邀请码")
     private String reccode;
-
-    @ApiModelProperty(value = "深度")
-    private Integer depth;
 
     @ApiModelProperty(value = "最后登陆时间")
     private Date loginTime;
@@ -232,6 +232,14 @@ public class UmsMember implements Serializable {
         this.historyIntegration = historyIntegration;
     }
 
+    public Integer getDepth() {
+        return depth;
+    }
+
+    public void setDepth(Integer depth) {
+        this.depth = depth;
+    }
+
     public Long getPid() {
         return pid;
     }
@@ -246,14 +254,6 @@ public class UmsMember implements Serializable {
 
     public void setReccode(String reccode) {
         this.reccode = reccode;
-    }
-
-    public Integer getDepth() {
-        return depth;
-    }
-
-    public void setDepth(Integer depth) {
-        this.depth = depth;
     }
 
     public Date getLoginTime() {
@@ -305,9 +305,9 @@ public class UmsMember implements Serializable {
         sb.append(", growth=").append(growth);
         sb.append(", luckeyCount=").append(luckeyCount);
         sb.append(", historyIntegration=").append(historyIntegration);
+        sb.append(", depth=").append(depth);
         sb.append(", pid=").append(pid);
         sb.append(", reccode=").append(reccode);
-        sb.append(", depth=").append(depth);
         sb.append(", loginTime=").append(loginTime);
         sb.append(", loginUuid=").append(loginUuid);
         sb.append(", loginIp=").append(loginIp);

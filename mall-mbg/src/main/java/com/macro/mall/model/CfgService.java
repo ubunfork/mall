@@ -18,11 +18,11 @@ public class CfgService implements Serializable {
     @ApiModelProperty(value = "配置父id")
     private Integer parentid;
 
-    @ApiModelProperty(value = "关键key")
-    private String cfgkey;
-
     @ApiModelProperty(value = "值类型，0 用户输入 1:有可选值")
-    private Integer valuetype;
+    private Integer valueType;
+
+    @ApiModelProperty(value = "关键key")
+    private String cfgKey;
 
     private static final long serialVersionUID = 1L;
 
@@ -66,20 +66,20 @@ public class CfgService implements Serializable {
         this.parentid = parentid;
     }
 
-    public String getCfgkey() {
-        return cfgkey;
+    public Integer getValueType() {
+        return valueType;
     }
 
-    public void setCfgkey(String cfgkey) {
-        this.cfgkey = cfgkey;
+    public void setValueType(Integer valueType) {
+        this.valueType = valueType;
     }
 
-    public Integer getValuetype() {
-        return valuetype;
+    public String getCfgKey() {
+        return cfgKey;
     }
 
-    public void setValuetype(Integer valuetype) {
-        this.valuetype = valuetype;
+    public void setCfgKey(String cfgKey) {
+        this.cfgKey = cfgKey;
     }
 
     @Override
@@ -93,8 +93,8 @@ public class CfgService implements Serializable {
         sb.append(", value=").append(value);
         sb.append(", maybe=").append(maybe);
         sb.append(", parentid=").append(parentid);
-        sb.append(", cfgkey=").append(cfgkey);
-        sb.append(", valuetype=").append(valuetype);
+        sb.append(", valueType=").append(valueType);
+        sb.append(", cfgKey=").append(cfgKey);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

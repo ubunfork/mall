@@ -1352,6 +1352,66 @@ public class UmsMemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andDepthIsNull() {
+            addCriterion("depth is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepthIsNotNull() {
+            addCriterion("depth is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepthEqualTo(Integer value) {
+            addCriterion("depth =", value, "depth");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepthNotEqualTo(Integer value) {
+            addCriterion("depth <>", value, "depth");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepthGreaterThan(Integer value) {
+            addCriterion("depth >", value, "depth");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepthGreaterThanOrEqualTo(Integer value) {
+            addCriterion("depth >=", value, "depth");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepthLessThan(Integer value) {
+            addCriterion("depth <", value, "depth");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepthLessThanOrEqualTo(Integer value) {
+            addCriterion("depth <=", value, "depth");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepthIn(List<Integer> values) {
+            addCriterion("depth in", values, "depth");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepthNotIn(List<Integer> values) {
+            addCriterion("depth not in", values, "depth");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepthBetween(Integer value1, Integer value2) {
+            addCriterion("depth between", value1, value2, "depth");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepthNotBetween(Integer value1, Integer value2) {
+            addCriterion("depth not between", value1, value2, "depth");
+            return (Criteria) this;
+        }
+
         public Criteria andPidIsNull() {
             addCriterion("pid is null");
             return (Criteria) this;
@@ -1479,66 +1539,6 @@ public class UmsMemberExample {
 
         public Criteria andReccodeNotBetween(String value1, String value2) {
             addCriterion("reccode not between", value1, value2, "reccode");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepthIsNull() {
-            addCriterion("depth is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepthIsNotNull() {
-            addCriterion("depth is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepthEqualTo(Integer value) {
-            addCriterion("depth =", value, "depth");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepthNotEqualTo(Integer value) {
-            addCriterion("depth <>", value, "depth");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepthGreaterThan(Integer value) {
-            addCriterion("depth >", value, "depth");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepthGreaterThanOrEqualTo(Integer value) {
-            addCriterion("depth >=", value, "depth");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepthLessThan(Integer value) {
-            addCriterion("depth <", value, "depth");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepthLessThanOrEqualTo(Integer value) {
-            addCriterion("depth <=", value, "depth");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepthIn(List<Integer> values) {
-            addCriterion("depth in", values, "depth");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepthNotIn(List<Integer> values) {
-            addCriterion("depth not in", values, "depth");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepthBetween(Integer value1, Integer value2) {
-            addCriterion("depth between", value1, value2, "depth");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepthNotBetween(Integer value1, Integer value2) {
-            addCriterion("depth not between", value1, value2, "depth");
             return (Criteria) this;
         }
 

@@ -164,7 +164,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE+telephone,AUTH_CODE_EXPIRE_SECONDS);
 
         CfgServiceExample example = new CfgServiceExample();
-        example.createCriteria().andCfgkeyEqualTo("AUTHCODE");
+        example.createCriteria().andCfgKeyEqualTo("AUTHCODE");
         CfgService cfgService = cfgServiceMapper.selectByExample(example).get(0);
         
         if(cfgService.getValue().equals("0") ){

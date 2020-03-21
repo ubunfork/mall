@@ -403,6 +403,66 @@ public class UmsIntegrationConsumeSettingExample {
             addCriterion("coupon_status not between", value1, value2, "couponStatus");
             return (Criteria) this;
         }
+
+        public Criteria andInviteMemberIsNull() {
+            addCriterion("invite_member is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteMemberIsNotNull() {
+            addCriterion("invite_member is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteMemberEqualTo(Integer value) {
+            addCriterion("invite_member =", value, "inviteMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteMemberNotEqualTo(Integer value) {
+            addCriterion("invite_member <>", value, "inviteMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteMemberGreaterThan(Integer value) {
+            addCriterion("invite_member >", value, "inviteMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteMemberGreaterThanOrEqualTo(Integer value) {
+            addCriterion("invite_member >=", value, "inviteMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteMemberLessThan(Integer value) {
+            addCriterion("invite_member <", value, "inviteMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteMemberLessThanOrEqualTo(Integer value) {
+            addCriterion("invite_member <=", value, "inviteMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteMemberIn(List<Integer> values) {
+            addCriterion("invite_member in", values, "inviteMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteMemberNotIn(List<Integer> values) {
+            addCriterion("invite_member not in", values, "inviteMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteMemberBetween(Integer value1, Integer value2) {
+            addCriterion("invite_member between", value1, value2, "inviteMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteMemberNotBetween(Integer value1, Integer value2) {
+            addCriterion("invite_member not between", value1, value2, "inviteMember");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

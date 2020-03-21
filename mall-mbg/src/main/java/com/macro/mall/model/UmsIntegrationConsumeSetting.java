@@ -18,6 +18,9 @@ public class UmsIntegrationConsumeSetting implements Serializable {
     @ApiModelProperty(value = "是否可以和优惠券同用；0->不可以；1->可以")
     private Integer couponStatus;
 
+    @ApiModelProperty(value = "邀请好友注册成功所得积分")
+    private Integer inviteMember;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -60,6 +63,14 @@ public class UmsIntegrationConsumeSetting implements Serializable {
         this.couponStatus = couponStatus;
     }
 
+    public Integer getInviteMember() {
+        return inviteMember;
+    }
+
+    public void setInviteMember(Integer inviteMember) {
+        this.inviteMember = inviteMember;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -71,6 +82,7 @@ public class UmsIntegrationConsumeSetting implements Serializable {
         sb.append(", maxPercentPerOrder=").append(maxPercentPerOrder);
         sb.append(", useUnit=").append(useUnit);
         sb.append(", couponStatus=").append(couponStatus);
+        sb.append(", inviteMember=").append(inviteMember);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
