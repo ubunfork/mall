@@ -1,0 +1,40 @@
+-- ----------------------------
+-- 店铺信息表 2020.3.20
+-- ----------------------------
+DROP TABLE IF EXISTS `sel_shop`;
+CREATE TABLE `sel_shop` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `person_status` int(1) DEFAULT '0' COMMENT '个人认证状态 0->等待审核 1->审核通过 2->审核失败',
+  `company_status` int(1) DEFAULT '0' COMMENT '企业认证状态 0->等待审核 1->审核通过 2->审核失败',
+  `member_id` bigint(20) DEFAULT NULL COMMENT '会员id',
+  `name` varchar(100) DEFAULT NULL COMMENT '店铺名',
+  `keyword` varchar(100) DEFAULT NULL COMMENT '关键字',
+  `person` varchar(32) DEFAULT NULL COMMENT '责任人（法人代表或真实姓名）',
+  `company_info` varchar(32) DEFAULT NULL COMMENT '主体信息',
+  `company` varchar(32) DEFAULT NULL COMMENT '公司名称',
+  `mobile` varchar(32) DEFAULT NULL COMMENT '联系方式',
+  `level` tinyint(1) unsigned NOT NULL COMMENT '店铺等级',
+  `type` varchar(200) DEFAULT NULL COMMENT '经营类型',
+  `province` varchar(32) DEFAULT NULL COMMENT '省份',
+  `city` varchar(32) DEFAULT NULL COMMENT '城市',
+  `district` varchar(32) DEFAULT NULL COMMENT '区域',
+  `address` varchar(64) DEFAULT NULL COMMENT '详细地址',
+  `identity_type` int(1) DEFAULT '0' COMMENT '证件类型 0->无 1->个人 2->企业',
+  `identity_number` varchar(32) DEFAULT NULL COMMENT '证件号码',
+  `personhand_identity_pic` varchar(64) DEFAULT NULL COMMENT '手持证件拍照',
+  `identity_pic_front` varchar(64) DEFAULT NULL COMMENT '证件正面',
+  `identity_pic_back` varchar(64) DEFAULT NULL COMMENT '证件反面',
+  `business_licence` varchar(32) DEFAULT NULL COMMENT '营业执照注册号',
+  `business_licence_pic` varchar(64) DEFAULT NULL COMMENT '营业执照',
+  `bank_account_name` varchar(32) DEFAULT NULL COMMENT '帐户名称',
+  `bank_name` varchar(64) DEFAULT NULL COMMENT '收款银行',
+  `bank_branch_name` varchar(64) DEFAULT NULL COMMENT '开户银行支行名称',
+  `bank_account_number` varchar(64) DEFAULT NULL COMMENT '银行账号',
+  `remark` varchar(64) DEFAULT NULL COMMENT '备注',
+  `lng` decimal(10,6) NOT NULL DEFAULT '0.000000' COMMENT '经度',
+  `lat` decimal(10,6) NOT NULL DEFAULT '0.000000' COMMENT '纬度',
+  `apply_time` datetime DEFAULT NULL COMMENT '申请时间',
+  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='店铺信息表';

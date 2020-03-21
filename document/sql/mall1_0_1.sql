@@ -3,65 +3,8 @@ alter table `ums_member` ADD `pid` bigint(20) DEFAULT NULL COMMENT '邀请人id'
 alter table `ums_member` ADD `reccode` varchar(6) DEFAULT NULL COMMENT '邀请码';
 alter table `ums_member` ADD `depth` int(3) DEFAULT NULL COMMENT '深度';
 
--- ------------**----------------
--- Table structure for cfg_type
 -- ----------------------------
-DROP TABLE IF EXISTS `cfg_type`;
-CREATE TABLE `cfg_type` (
-  `id` int(4) NOT NULL,
-  `name` varchar(64) DEFAULT NULL COMMENT '标题',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='配置类型表';
-
--- ----------------------------
--- Table structure for cfg_source
--- ----------------------------
-DROP TABLE IF EXISTS `cfg_source`;
-CREATE TABLE `cfg_source` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) DEFAULT NULL COMMENT '标题',
-  `value` varchar(200) DEFAULT NULL COMMENT '值',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  `verstion` varchar(10) DEFAULT NULL COMMENT '版本',
-  `platform` varchar(10) DEFAULT NULL COMMENT '平台', 
-  `icon` varchar(200) DEFAULT NULL COMMENT '图标',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='配置资源表';
-
-
--- ----------------------------
--- Table structure for cfg_type_source
--- ----------------------------
-DROP TABLE IF EXISTS `cfg_type_source`;
-CREATE TABLE `cfg_type_source` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `sourceid` bigint(20) DEFAULT NULL COMMENT '资源id',
-  `typeid` bigint(20) DEFAULT NULL COMMENT '资源类型id',
-  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='配置资源关系表';
-
-
--- ------------未执行----------------
-
--- ----------------------------
--- Table structure for cfg_type_source
--- ----------------------------
-DROP TABLE IF EXISTS `cfg_verlog`;
-CREATE TABLE `cfg_verlog` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `verstion` varchar(10) DEFAULT NULL COMMENT '版本',
-  `platform` varchar(10) DEFAULT NULL COMMENT '平台', 
-  `remark` varchar(500) DEFAULT NULL COMMENT '描述',
-  `status` int(1) DEFAULT NULL COMMENT '状态 0->待上传 1->待上架 2->已上架 3->已下架', 
-  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='版本上架记录表';
-
--- ----------------------------
--- Table structure for cfg_type_source
+-- Table structure for oms_order_confim
 -- ----------------------------
 DROP TABLE IF EXISTS `oms_order_confim`;
 CREATE TABLE `oms_order_confim` (
@@ -101,20 +44,6 @@ ALTER TABLE oms_cart_item drop column `product_sku_code`;
 -- ----------------------------
 ALTER table oms_order_setting add `confim_overtime` int(11) COMMENT '确认订单取消时间';
 UPDATE oms_order_setting set `confim_overtime`=1 where id=1;
-
--- ----------------------------
--- 服务器配置表
--- ----------------------------
-DROP TABLE IF EXISTS `cfg_service`;
-CREATE TABLE `cfg_service` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `name` varchar(512) DEFAULT NULL COMMENT '标题',
-  `value` varchar(200) DEFAULT NULL COMMENT '设置值',
-  `maybe` varchar(1000) DEFAULT NULL COMMENT '可选json参数[{key:value}]，如果为空则为string',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务器设置';
-
-
 
 
 ALTER table pms_product add `ownerId` bigint(20) NOT NULL  COMMENT '商品拥有者(卖家id)';
@@ -184,23 +113,6 @@ ALTER table pms_product_attribute_value add `skuid` bigint(20) NOT NULL  COMMENT
 
 
 
-CREATE TABLE `cfg_cnarea` (
-  `id` mediumint(7) unsigned NOT NULL AUTO_INCREMENT,
-  `level` tinyint(1) unsigned NOT NULL COMMENT '层级',
-  `parent_code` bigint(14) unsigned NOT NULL DEFAULT '0' COMMENT '父级行政代码',
-  `area_code` bigint(14) unsigned NOT NULL DEFAULT '0' COMMENT '行政代码',
-  `zip_code` mediumint(6) unsigned zerofill NOT NULL DEFAULT '000000' COMMENT '邮政编码',
-  `city_code` char(6) NOT NULL DEFAULT '' COMMENT '区号',
-  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
-  `short_name` varchar(50) NOT NULL DEFAULT '' COMMENT '简称',
-  `merger_name` varchar(50) NOT NULL DEFAULT '' COMMENT '组合名',
-  `pinyin` varchar(30) NOT NULL DEFAULT '' COMMENT '拼音',
-  `lng` decimal(10,6) NOT NULL DEFAULT '0.000000' COMMENT '经度',
-  `lat` decimal(10,6) NOT NULL DEFAULT '0.000000' COMMENT '纬度',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_code` (`area_code`) USING BTREE,
-  KEY `idx_parent_code` (`parent_code`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='中国行政地区表';
 
 
 -- ----------------------------
@@ -213,32 +125,12 @@ ALTER table oms_order modify column `receiver_name` varchar(100) DEFAULT NULL CO
 ALTER table oms_order modify column `receiver_phone` varchar(32) DEFAULT NULL COMMENT '收货人电话';
 ALTER table oms_order modify column `status` int(1) DEFAULT NULL COMMENT '订单状态：0->待付款；1->待发货；2->已发货；3->待收货（待自提） 4->已完成；5->已关闭；6->无效订单'
 
--- ----------------------------
--- 服务器配置修改
--- ----------------------------
-ALTER table cfg_service add `valueType` int(1) DEFAULT 0 COMMENT '值类型，0 用户输入 1:有可选值';
-ALTER table cfg_service add `parentid` int(4) DEFAULT 0 COMMENT '配置父id';
-ALTER table cfg_service modify column `maybe` varchar(1000) DEFAULT NULL COMMENT '废弃（20200115） 可选json参数[{key:value}]，如果为空则为string';
 
--- ----------------------------
--- 服务器设置的值表
--- ----------------------------
-DROP TABLE IF EXISTS `cfg_service_value`;
-CREATE TABLE `cfg_service_value` (
-  `id` int(4) NOT NULL,
-  `serviceid` int(4) NOT NULL COMMENT '配置id',
-  `value` varchar(1024) NOT NULL COMMENT '配置值',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务器设置的值表';
 
 ALTER table pms_product add `defual_sku` bigint(20) DEFAULT NULL COMMENT '默认SKUID';
 ALTER TABLE pms_product drop column `price`;
 ALTER table pms_product add `price` decimal(10,2) COMMENT '商品销售价格';
--- ----------------------------
--- 服务器配置修改 添加关键key，id不再作为关键key
--- ----------------------------
-ALTER table cfg_service add `cfgkey` varchar(50) DEFAULT NULL COMMENT '关键key';
+
 
 -- ----------------------------
 -- 用户信息添加最新登陆事件
@@ -262,28 +154,3 @@ alter table `ums_admin` ADD `phone` varchar(64) DEFAULT NULL COMMENT '手机号�
 alter table `ums_admin` ADD `password_verstion` int(1) DEFAULT NULL COMMENT '密码版本 0->未设置 1->系统默认 2->用户设置';
 
 
--- ----------------------------
--- 店铺信息表
--- ----------------------------
-DROP TABLE IF EXISTS `sel_shop`;
-CREATE TABLE `sel_shop` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `status` int(1) DEFAULT '0' COMMENT '0->等待审核 1->审核通过 2->审核失败',
-  `member_id` bigint(20) DEFAULT NULL COMMENT '会员id',
-  `name` varchar(100) DEFAULT NULL COMMENT '店铺名',
-  `keyword` varchar(100) DEFAULT NULL COMMENT '关键字',
-  `person` varchar(32) DEFAULT NULL COMMENT '责任人（法人代表或真实姓名）',
-  `company` varchar(32) DEFAULT NULL COMMENT '公司名称',
-  `mobile` varchar(32) DEFAULT NULL COMMENT '联系方式',
-  `apply_time` datetime DEFAULT NULL COMMENT '申请时间',
-  `level` tinyint(1) unsigned NOT NULL COMMENT '店铺等级',
-  `type` varchar(200) DEFAULT NULL COMMENT '经营类型',
-  `province` varchar(32) DEFAULT NULL COMMENT '省份',
-  `city` varchar(32) DEFAULT NULL COMMENT '城市',
-  `district` varchar(32) DEFAULT NULL COMMENT '区域',
-  `address` varchar(64) DEFAULT NULL COMMENT '详细地址',
-  `identity_type` int(1) DEFAULT '0' COMMENT '证件类型 0->无 1->个人 2->企业',
-  `lng` decimal(10,6) NOT NULL DEFAULT '0.000000' COMMENT '经度',
-  `lat` decimal(10,6) NOT NULL DEFAULT '0.000000' COMMENT '纬度',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='店铺信息表';

@@ -59,7 +59,11 @@ public class UmsMemberController {
     @RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getAuthCode(@RequestParam String telephone) {
-        return memberService.generateAuthCode(telephone);
+        try {
+            return memberService.generateAuthCode(telephone);
+        } catch (Exception e) {
+            return CommonResult.failed(e.getMessage());
+        }
     }
 
     @ApiOperation("修改密码")
