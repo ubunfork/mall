@@ -1,14 +1,13 @@
 package com.macro.mall.portal.domain;
 
+import javax.validation.constraints.NotEmpty;
+
 import io.swagger.annotations.ApiModelProperty;
 
 public class UmsRegisterInput{
-    //@RequestParam String username,
-    // @RequestParam String password,
-    // @RequestParam String telephone,
-    // @RequestParam String authCode,
-    // @RequestParam (value = "reccode", required = false) String reccode
+
     @ApiModelProperty(value = "用户名")
+    @NotEmpty(message = "用户名不能为空")
     private String username;
 
     @ApiModelProperty(value = "密码")

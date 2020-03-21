@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 /**
- * 会员登录注册管理Controller
- * Created by macro on 2018/8/3.
+ * 会员登录注册管理Controller Created by macro on 2018/8/3.
  */
 @Controller
 @Api(tags = "UmsMemberController", description = "会员登录注册管理")
@@ -33,12 +31,10 @@ public class UmsMemberController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult register(@RequestBody UmsRegisterInput umsRegisterInput) {
-        return memberService.register(
-            umsRegisterInput.getUsername(), 
-            umsRegisterInput.getPassword() ,
-            umsRegisterInput.getTelephone(),
-            umsRegisterInput.getAuthCode(),
-            umsRegisterInput.getReccode());
+
+        return memberService.register(umsRegisterInput.getUsername(), umsRegisterInput.getPassword(),
+                umsRegisterInput.getTelephone(), umsRegisterInput.getAuthCode(), umsRegisterInput.getReccode());
+
     }
 
     @ApiOperation(value = "验证码登录以后返回token")
@@ -70,7 +66,8 @@ public class UmsMemberController {
     @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult updatePassword(@RequestBody UmsUpPasswordInput upPasswordInput) {
-        return memberService.updatePassword(upPasswordInput.getTelephone(),upPasswordInput.getPassword(),upPasswordInput.getAuthCode());
+        return memberService.updatePassword(upPasswordInput.getTelephone(), upPasswordInput.getPassword(),
+                upPasswordInput.getAuthCode());
     }
 
     @ApiOperation("获取已邀请会员列表")
