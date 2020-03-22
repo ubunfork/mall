@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @Controller
 @Api(tags = "PmsStationController", description = "自提点管理")
-@RequestMapping("station")
+@RequestMapping("/station")
 public class PmsStationController {
     @Autowired
     PmsStationMapper pmsStationMapper;

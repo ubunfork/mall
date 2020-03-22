@@ -13,7 +13,7 @@ CREATE TABLE `sel_shop` (
   `company_info` varchar(32) DEFAULT NULL COMMENT '主体信息',
   `company` varchar(32) DEFAULT NULL COMMENT '公司名称',
   `mobile` varchar(32) DEFAULT NULL COMMENT '联系方式',
-  `level` tinyint(1) unsigned NOT NULL COMMENT '店铺等级',
+  `level` int(1) DEFAULT '0' COMMENT '店铺等级',
   `type` varchar(200) DEFAULT NULL COMMENT '经营类型',
   `province` varchar(32) DEFAULT NULL COMMENT '省份',
   `city` varchar(32) DEFAULT NULL COMMENT '城市',

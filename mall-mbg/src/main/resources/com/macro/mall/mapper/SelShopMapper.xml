@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.mapper.SelShopMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.SelShop">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="person_status" jdbcType="INTEGER" property="personStatus" />
+    <result column="company_status" jdbcType="INTEGER" property="companyStatus" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="keyword" jdbcType="VARCHAR" property="keyword" />
+    <result column="person" jdbcType="VARCHAR" property="person" />
+    <result column="company_info" jdbcType="VARCHAR" property="companyInfo" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="district" jdbcType="VARCHAR" property="district" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="identity_type" jdbcType="INTEGER" property="identityType" />
+    <result column="identity_number" jdbcType="VARCHAR" property="identityNumber" />
+    <result column="personhand_identity_pic" jdbcType="VARCHAR" property="personhandIdentityPic" />
+    <result column="identity_pic_front" jdbcType="VARCHAR" property="identityPicFront" />
+    <result column="identity_pic_back" jdbcType="VARCHAR" property="identityPicBack" />
+    <result column="business_licence" jdbcType="VARCHAR" property="businessLicence" />
+    <result column="business_licence_pic" jdbcType="VARCHAR" property="businessLicencePic" />
+    <result column="bank_account_name" jdbcType="VARCHAR" property="bankAccountName" />
+    <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
+    <result column="bank_branch_name" jdbcType="VARCHAR" property="bankBranchName" />
+    <result column="bank_account_number" jdbcType="VARCHAR" property="bankAccountNumber" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="lng" jdbcType="DECIMAL" property="lng" />
+    <result column="lat" jdbcType="DECIMAL" property="lat" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, person_status, company_status, member_id, name, keyword, person, company_info, 
+    company, mobile, level, type, province, city, district, address, identity_type, identity_number, 
+    personhand_identity_pic, identity_pic_front, identity_pic_back, business_licence, 
+    business_licence_pic, bank_account_name, bank_name, bank_branch_name, bank_account_number, 
+    remark, lng, lat, apply_time, modify_time, create_time
+  </sql>
+  <select id="selectByExample" parameterType="com.macro.mall.model.SelShopExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sel_shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sel_shop
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sel_shop
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.SelShopExample">
+    delete from sel_shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.macro.mall.model.SelShop">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sel_shop (person_status, company_status, member_id, 
+      name, keyword, person, 
+      company_info, company, mobile, 
+      level, type, province, 
+      city, district, address, 
+      identity_type, identity_number, personhand_identity_pic, 
+      identity_pic_front, identity_pic_back, business_licence, 
+      business_licence_pic, bank_account_name, bank_name, 
+      bank_branch_name, bank_account_number, remark, 
+      lng, lat, apply_time, 
+      modify_time, create_time)
+    values (#{personStatus,jdbcType=INTEGER}, #{companyStatus,jdbcType=INTEGER}, #{memberId,jdbcType=BIGINT}, 
+      #{name,jdbcType=VARCHAR}, #{keyword,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, 
+      #{companyInfo,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{identityType,jdbcType=INTEGER}, #{identityNumber,jdbcType=VARCHAR}, #{personhandIdentityPic,jdbcType=VARCHAR}, 
+      #{identityPicFront,jdbcType=VARCHAR}, #{identityPicBack,jdbcType=VARCHAR}, #{businessLicence,jdbcType=VARCHAR}, 
+      #{businessLicencePic,jdbcType=VARCHAR}, #{bankAccountName,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, 
+      #{bankBranchName,jdbcType=VARCHAR}, #{bankAccountNumber,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{lng,jdbcType=DECIMAL}, #{lat,jdbcType=DECIMAL}, #{applyTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.macro.mall.model.SelShop">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sel_shop
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="personStatus != null">
+        person_status,
+      </if>
+      <if test="companyStatus != null">
+        company_status,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="keyword != null">
+        keyword,
+      </if>
+      <if test="person != null">
+        person,
+      </if>
+      <if test="companyInfo != null">
+        company_info,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="district != null">
+        district,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="identityType != null">
+        identity_type,
+      </if>
+      <if test="identityNumber != null">
+        identity_number,
+      </if>
+      <if test="personhandIdentityPic != null">
+        personhand_identity_pic,
+      </if>
+      <if test="identityPicFront != null">
+        identity_pic_front,
+      </if>
+      <if test="identityPicBack != null">
+        identity_pic_back,
+      </if>
+      <if test="businessLicence != null">
+        business_licence,
+      </if>
+      <if test="businessLicencePic != null">
+        business_licence_pic,
+      </if>
+      <if test="bankAccountName != null">
+        bank_account_name,
+      </if>
+      <if test="bankName != null">
+        bank_name,
+      </if>
+      <if test="bankBranchName != null">
+        bank_branch_name,
+      </if>
+      <if test="bankAccountNumber != null">
+        bank_account_number,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="lng != null">
+        lng,
+      </if>
+      <if test="lat != null">
+        lat,
+      </if>
+      <if test="applyTime != null">
+        apply_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="personStatus != null">
+        #{personStatus,jdbcType=INTEGER},
+      </if>
+      <if test="companyStatus != null">
+        #{companyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword != null">
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null">
+        #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="companyInfo != null">
+        #{companyInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="identityType != null">
+        #{identityType,jdbcType=INTEGER},
+      </if>
+      <if test="identityNumber != null">
+        #{identityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="personhandIdentityPic != null">
+        #{personhandIdentityPic,jdbcType=VARCHAR},
+      </if>
+      <if test="identityPicFront != null">
+        #{identityPicFront,jdbcType=VARCHAR},
+      </if>
+      <if test="identityPicBack != null">
+        #{identityPicBack,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicence != null">
+        #{businessLicence,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicencePic != null">
+        #{businessLicencePic,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountName != null">
+        #{bankAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankBranchName != null">
+        #{bankBranchName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountNumber != null">
+        #{bankAccountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null">
+        #{lng,jdbcType=DECIMAL},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=DECIMAL},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.macro.mall.model.SelShopExample" resultType="java.lang.Long">
+    select count(*) from sel_shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sel_shop
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.personStatus != null">
+        person_status = #{record.personStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyStatus != null">
+        company_status = #{record.companyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyword != null">
+        keyword = #{record.keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.person != null">
+        person = #{record.person,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyInfo != null">
+        company_info = #{record.companyInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.company != null">
+        company = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null">
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.district != null">
+        district = #{record.district,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identityType != null">
+        identity_type = #{record.identityType,jdbcType=INTEGER},
+      </if>
+      <if test="record.identityNumber != null">
+        identity_number = #{record.identityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personhandIdentityPic != null">
+        personhand_identity_pic = #{record.personhandIdentityPic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identityPicFront != null">
+        identity_pic_front = #{record.identityPicFront,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identityPicBack != null">
+        identity_pic_back = #{record.identityPicBack,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessLicence != null">
+        business_licence = #{record.businessLicence,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessLicencePic != null">
+        business_licence_pic = #{record.businessLicencePic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankAccountName != null">
+        bank_account_name = #{record.bankAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankName != null">
+        bank_name = #{record.bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankBranchName != null">
+        bank_branch_name = #{record.bankBranchName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankAccountNumber != null">
+        bank_account_number = #{record.bankAccountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lng != null">
+        lng = #{record.lng,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lat != null">
+        lat = #{record.lat,jdbcType=DECIMAL},
+      </if>
+      <if test="record.applyTime != null">
+        apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sel_shop
+    set id = #{record.id,jdbcType=BIGINT},
+      person_status = #{record.personStatus,jdbcType=INTEGER},
+      company_status = #{record.companyStatus,jdbcType=INTEGER},
+      member_id = #{record.memberId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      keyword = #{record.keyword,jdbcType=VARCHAR},
+      person = #{record.person,jdbcType=VARCHAR},
+      company_info = #{record.companyInfo,jdbcType=VARCHAR},
+      company = #{record.company,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      district = #{record.district,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      identity_type = #{record.identityType,jdbcType=INTEGER},
+      identity_number = #{record.identityNumber,jdbcType=VARCHAR},
+      personhand_identity_pic = #{record.personhandIdentityPic,jdbcType=VARCHAR},
+      identity_pic_front = #{record.identityPicFront,jdbcType=VARCHAR},
+      identity_pic_back = #{record.identityPicBack,jdbcType=VARCHAR},
+      business_licence = #{record.businessLicence,jdbcType=VARCHAR},
+      business_licence_pic = #{record.businessLicencePic,jdbcType=VARCHAR},
+      bank_account_name = #{record.bankAccountName,jdbcType=VARCHAR},
+      bank_name = #{record.bankName,jdbcType=VARCHAR},
+      bank_branch_name = #{record.bankBranchName,jdbcType=VARCHAR},
+      bank_account_number = #{record.bankAccountNumber,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      lng = #{record.lng,jdbcType=DECIMAL},
+      lat = #{record.lat,jdbcType=DECIMAL},
+      apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.SelShop">
+    update sel_shop
+    <set>
+      <if test="personStatus != null">
+        person_status = #{personStatus,jdbcType=INTEGER},
+      </if>
+      <if test="companyStatus != null">
+        company_status = #{companyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword != null">
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null">
+        person = #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="companyInfo != null">
+        company_info = #{companyInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="identityType != null">
+        identity_type = #{identityType,jdbcType=INTEGER},
+      </if>
+      <if test="identityNumber != null">
+        identity_number = #{identityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="personhandIdentityPic != null">
+        personhand_identity_pic = #{personhandIdentityPic,jdbcType=VARCHAR},
+      </if>
+      <if test="identityPicFront != null">
+        identity_pic_front = #{identityPicFront,jdbcType=VARCHAR},
+      </if>
+      <if test="identityPicBack != null">
+        identity_pic_back = #{identityPicBack,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicence != null">
+        business_licence = #{businessLicence,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicencePic != null">
+        business_licence_pic = #{businessLicencePic,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountName != null">
+        bank_account_name = #{bankAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankBranchName != null">
+        bank_branch_name = #{bankBranchName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountNumber != null">
+        bank_account_number = #{bankAccountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null">
+        lng = #{lng,jdbcType=DECIMAL},
+      </if>
+      <if test="lat != null">
+        lat = #{lat,jdbcType=DECIMAL},
+      </if>
+      <if test="applyTime != null">
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.SelShop">
+    update sel_shop
+    set person_status = #{personStatus,jdbcType=INTEGER},
+      company_status = #{companyStatus,jdbcType=INTEGER},
+      member_id = #{memberId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      keyword = #{keyword,jdbcType=VARCHAR},
+      person = #{person,jdbcType=VARCHAR},
+      company_info = #{companyInfo,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      identity_type = #{identityType,jdbcType=INTEGER},
+      identity_number = #{identityNumber,jdbcType=VARCHAR},
+      personhand_identity_pic = #{personhandIdentityPic,jdbcType=VARCHAR},
+      identity_pic_front = #{identityPicFront,jdbcType=VARCHAR},
+      identity_pic_back = #{identityPicBack,jdbcType=VARCHAR},
+      business_licence = #{businessLicence,jdbcType=VARCHAR},
+      business_licence_pic = #{businessLicencePic,jdbcType=VARCHAR},
+      bank_account_name = #{bankAccountName,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      bank_branch_name = #{bankBranchName,jdbcType=VARCHAR},
+      bank_account_number = #{bankAccountNumber,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      lng = #{lng,jdbcType=DECIMAL},
+      lat = #{lat,jdbcType=DECIMAL},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
